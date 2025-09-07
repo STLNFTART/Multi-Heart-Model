@@ -13,3 +13,16 @@ primal_overlay-test-*
 *.o
 *.obj
 *.lst
+results.csv
+z_disabled/
+.dub/
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.exe
+*.pdb
+*.dSYM/
+.dub/**
+
