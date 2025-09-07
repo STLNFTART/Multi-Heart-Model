@@ -5,6 +5,8 @@ import common, primal, logger;
 static import models.mm;
 static import models.sir;
 static import models.fhn;
+static import models.nernst;
+static import models.poiseuille;
 
 struct RunCfg { PLMode mode; double alpha, lambda; }
 
@@ -51,6 +53,31 @@ void main(){
         runMM(log, c);
         runSIR(log, c);
         runFHN(log, c);
+        runNernst(log, c);
+        runPoiseuille(log, c);
     }
     writeln("wrote results.csv");
+}
+
+void runNernst(ref Csv log, RunCfg c){
+    auto plc=PLConfig(c.mode,c.alpha,c.lambda);
+    auto f=models.nernst.nernstRHS(plc);
+    double dt=1e-2; size_t steps=20_000;
+    double[] x0=[-0.07];                 // initial E (V)
+    double[] th=[310.0,1.0,145.0,15.0];  // T[K], z, Co, Ci
+    auto xT=(plc.mode==PLMode.TimeWarp)? rk4Warp(f,0.0,x0,dt,steps,th,plc)
+                                       : rk4    (f,0.0,x0,dt,steps,th);
+    log.row("NERNST", plc.mode, plc.alpha, plc.lambda, xT[0]);
+}
+
+void runPoiseuille(ref Csv log, RunCfg c){
+    auto plc=PLConfig(c.mode,c.alpha,c.lambda);
+    auto f=models.poiseuille.poiseuilleRHS(plc);
+    double dt=1e-2; size_t steps=20_000;
+    double[] x0=[0.0];
+    // th=[ΔP, μ, L, r]  units arbitrary but consistent
+    double[] th=[100.0, 3.5, 10.0, 0.5];
+    auto xT=(plc.mode==PLMode.TimeWarp)? rk4Warp(f,0.0,x0,dt,steps,th,plc)
+                                       : rk4    (f,0.0,x0,dt,steps,th);
+    log.row("POISEUILLE", plc.mode, plc.alpha, plc.lambda, xT[0]);
 }
