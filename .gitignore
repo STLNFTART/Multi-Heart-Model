@@ -1,28 +1,35 @@
-.dub
-docs.json
-__dummy.html
-docs/
-/primal_overlay
-primal_overlay.so
-primal_overlay.dylib
-primal_overlay.dll
-primal_overlay.a
-primal_overlay.lib
-primal_overlay-test-*
-*.exe
-*.o
-*.obj
-*.lst
-results.csv
-z_disabled/
+# Dub / D build artifacts
 .dub/
-*.o
+__dummy.html
+docs.json
+*.exe
 *.obj
+*.o
 *.a
 *.so
 *.dll
-*.exe
+*.lib
 *.pdb
-*.dSYM/
-.dub/**
+*.dylib
 
+# Intermediate / cache
+*.lst
+*.dep
+*.map
+
+# Coverage and test output
+*.gcda
+*.gcno
+*.gcov
+
+# Editor / OS junk
+*.swp
+*~
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# Project-specific
+results.csv
+z_disabled/
