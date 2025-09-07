@@ -1,4 +1,4 @@
-# Multi-Heart-Model
+# APL (Primal Overlay, D)
 
 # Primal Overlay (D)
 Canonical physiology models with overlay operators (Residual, ParamMod, Control, TimeWarp).
