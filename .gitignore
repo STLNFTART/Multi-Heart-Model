@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/primal_overlay
+primal_overlay.so
+primal_overlay.dylib
+primal_overlay.dll
+primal_overlay.a
+primal_overlay.lib
+primal_overlay-test-*
+*.exe
+*.o
+*.obj
+*.lst
