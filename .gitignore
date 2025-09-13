@@ -1,35 +1,12 @@
-# Dub / D build artifacts
+
+.venv/
+__pycache__/
+*.pyc
+logs/
 .dub/
-__dummy.html
-docs.json
-*.exe
-*.obj
+build/
+dist/
 *.o
-*.a
 *.so
-*.dll
-*.lib
-*.pdb
-*.dylib
+*.a
 
-# Intermediate / cache
-*.lst
-*.dep
-*.map
-
-# Coverage and test output
-*.gcda
-*.gcno
-*.gcov
-
-# Editor / OS junk
-*.swp
-*~
-*.tmp
-*.log
-.DS_Store
-Thumbs.db
-
-# Project-specific
-results.csv
-z_disabled/
