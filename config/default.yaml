@@ -1,0 +1,24 @@
+# Default configuration for the Heart–Brain Coupling Model (HBCM)
+simulation:
+  duration: 120.0            # seconds
+  timestep: 0.001            # seconds
+  integrator: rk4            # numerical integrator for coupled ODEs
+
+neural:
+  natural_frequency: 0.15    # Hz
+  damping: 0.05              # decay rate λ_b
+  feedback_strength: 0.8
+  delay_to_heart: 0.120      # Δ_bh in seconds
+
+cardiac:
+  natural_frequency: 1.1     # Hz (approx. 66 bpm)
+  damping: 0.12              # decay rate λ_h
+  feedback_strength: 0.6
+  delay_to_brain: 0.150      # Δ_hb in seconds
+
+outputs:
+  signals:
+    - ecg
+    - neural_oscillation
+    - arterial_pressure
+  export_path: results/
