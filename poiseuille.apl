@@ -1,1 +1,55 @@
-⍝ Poiseuille flow placeholder. Replace with APL code.
+⍝ Poiseuille flow relaxation with primal overlay operators.
+⍝ Call as: Poiseuille (mode t x θ overlay)
+⍝ x – 1-element vector (flow Q).
+⍝ θ – 4-element vector (pressure drop ΔP, viscosity μ, length L, radius r).
+
+Lower←{
+    text←⍵
+    mask←text∊⎕A
+    text[mask]←⎕a[⎕A⍳mask/text]
+    text
+}
+
+GetOverlay←{
+    args←⍵
+    (4≥≢args):⍬
+    ⊃4↓args
+}
+
+R0←{0×⍺+0×⍵}
+M0←{1+0×⍺+0×⍵}
+U0←{0×⍵}
+
+Poiseuille←{
+    args←⍵
+    mode←Lower ⊃args
+    t←⊃1↓args
+    x←⊃2↓args
+    θ←⊃3↓args
+    overlay←GetOverlay args
+    Rfn←⊃(⊂R0),(≢overlay)≥1/overlay
+    Mfn←⊃(⊂M0),(≢overlay)≥2/1↓overlay
+    Ufn←⊃(⊂U0),(≢overlay)≥3/2↓overlay
+
+    Q←x[1]
+    dP←θ[1]
+    mu←θ[2]
+    L←θ[3]
+    r←θ[4]
+
+    isParam←mode≡'parammod'
+    r←r×(isParam×(Q Mfn t) + (1-isParam))
+
+    π←3.141592653589793
+    Qss←π×(r*4)×dP÷(8×mu×L)
+    k←5
+    dQ←k×(Qss - Q)
+
+    isResidual←mode≡'residual'
+    dQ←dQ + isResidual×(Q Rfn t)
+
+    isControl←mode≡'control'
+    dQ←dQ + isControl×(Ufn t)
+
+    dQ
+}
