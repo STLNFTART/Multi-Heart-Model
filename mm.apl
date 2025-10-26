@@ -32,9 +32,9 @@ MM←{
     x←⊃2↓args
     θ←⊃3↓args
     overlay←GetOverlay args
-    Rfn←⊃(⊂R0),(≢overlay)≥1/overlay
-    Mfn←⊃(⊂M0),(≢overlay)≥2/1↓overlay
-    Ufn←⊃(⊂U0),(≢overlay)≥3/2↓overlay
+    Rfn←⊃((≢overlay)≥1)/overlay,(⊂R0)
+    Mfn←⊃((≢overlay)≥2)/1↓overlay,(⊂M0)
+    Ufn←⊃((≢overlay)≥3)/2↓overlay,(⊂U0)
 
     S←x[1]
     Vmax←θ[1]
