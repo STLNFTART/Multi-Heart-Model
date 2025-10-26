@@ -1,8 +1,8 @@
-# Heart–Brain Coupling Model (HBCM)
+# Multi-Heart-Model – Heart–Brain Coupling Model (HBCM)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-The Heart–Brain Coupling Model (HBCM) is a mathematical and computational framework for representing how cardiac and neural systems influence each other through dynamic feedback. Each subsystem is modelled as an oscillatory process with its own natural frequency, damping, and feedback strength. Bidirectional coupling terms transmit information between them, allowing simulation of entrainment, resonance, and modulation observed in real physiological data.
+The Multi-Heart-Model repository houses the Heart–Brain Coupling Model (HBCM), a mathematical and computational framework for representing how cardiac and neural systems influence each other through dynamic feedback. The project consolidates exploratory APL models with a D-based “Primal Overlay” engine to compare classical physiology formulations and prototype neuromodulated control loops. Each subsystem is modelled as an oscillatory process with its own natural frequency, damping, and feedback strength. Bidirectional coupling terms transmit information between them, allowing simulation of entrainment, resonance, and modulation observed in real physiological data.
 
 ## Repository name and license
 
@@ -30,12 +30,18 @@ where:
 - Enables algorithm testing for control, prediction, or synchronization tasks across brain and heart domains.
 - Configurable for both continuous and event-driven dynamics, enabling real-time and offline analysis.
 
+### Goals
+
+1. Provide reference implementations for canonical physiology models (Michaelis–Menten, SIR, FitzHugh–Nagumo, Nernst, Poiseuille) in both APL and D.
+2. Prototype neural overlays that modulate cardiac dynamics for hybrid brain–cardiac simulations.
+3. Offer a reproducible workflow for running experiments and capturing CSV outputs for downstream analysis.
+
 ## Repository structure
 
 ```text
 .
 ├── config/             # YAML configurations for simulations and experiments
-├── data/               # Experimental inputs, parameter sweeps, and captured telemetry
+├── data/               # Placeholder for experimental inputs, parameter sweeps, and captured telemetry
 ├── docs/               # Project documentation, architecture notes, validation reports
 ├── src/                # Hybrid neural–cardiac pipeline sources (neural, cardiac, coupling modules)
 ├── source/             # Existing D implementation of the Primal Overlay engine
@@ -70,12 +76,14 @@ Run the `.apl` files (e.g., `fhn.apl`, `mm.apl`) with Dyalog APL or GNU APL to v
 1. Configure the neural, cardiac, and coupling parameters in `config/default.yaml` (or a scenario-specific copy).
 2. Implement subsystem logic in `src/neural/`, `src/cardiac/`, and `src/coupling/`.
 3. Integrate the modules with the Primal Overlay engine or a custom runner to produce coupled simulations.
+4. Store curated datasets, patient-specific parameters, or synthetic signals for experiments in `data/`, using `docs/` for guidance on expected formats.
 
 ## Contributing and next steps
 
-- Flesh out the neural and cardiac modules in `src/` following the scaffolded subdirectories.
-- Extend documentation in `docs/` (e.g., add validation protocols and control strategies).
-- Add automated tests and CI workflows as the codebase matures.
+1. Flesh out the neural and cardiac modules in `src/` following the scaffolded subdirectories.
+2. Document the neural–cardiac coupling strategy in `docs/` (e.g., `architecture.md`).
+3. Extend documentation with validation protocols and control strategies.
+4. Add automated tests and CI workflows as the codebase matures.
 
 ## Acknowledgements
 
