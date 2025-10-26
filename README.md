@@ -60,6 +60,30 @@ For a narrative overview, see [docs/hbcm_overview.md](docs/hbcm_overview.md).
 
 ## Usage overview
 
+### Prototype the Python Heart–Brain Coupling package
+
+The Python modules under `src/` expose a minimal hybrid simulation scaffold.
+The snippet below integrates the coupled FitzHugh–Nagumo/Van der Pol system
+for 10 seconds with modest bidirectional feedback:
+
+```python
+from src.cardiac import VanDerPolOscillator
+from src.coupling import CouplingParameters, HeartBrainCouplingModel
+from src.neural import FitzHughNagumo
+
+hbcm = HeartBrainCouplingModel(
+    neural_model=FitzHughNagumo(stimulus_amplitude=0.2),
+    cardiac_model=VanDerPolOscillator(mu=1.2, omega=1.0),
+    coupling=CouplingParameters(neural_to_cardiac_gain=0.5, cardiac_to_neural_gain=0.3),
+)
+
+trajectory = hbcm.simulate(initial_state=(0.0, 0.0, 1.0, 0.0), t_span=(0.0, 10.0), dt=0.01)
+times, neural, cardiac = hbcm.extract_series(trajectory)
+```
+
+The resulting `times`, `neural`, and `cardiac` lists can be plotted with
+Matplotlib or analysed numerically to explore entrainment behaviour.
+
 ### Build and run the D Primal Overlay engine
 
 ```bash

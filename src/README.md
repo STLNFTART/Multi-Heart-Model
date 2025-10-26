@@ -1,11 +1,16 @@
 # Source Layout
 
-The `src/` directory will host the hybrid modeling pipeline that links neural control modules with cardiac electrophysiology solvers.
+The `src/` directory now contains a lightweight Python package that links
+neural control modules with cardiac oscillators. Each subsystem can be used
+independently or orchestrated via the Heart–Brain Coupling Model (HBCM)
+wrapper in `coupling/`.
 
-Suggested subdirectories:
+Current layout:
 
-* `neural/` – controllers, reflex arcs, and neuromodulation layers.
-* `cardiac/` – cellular and tissue-level electrophysiology models.
-* `coupling/` – interfaces and data transforms between neural and cardiac domains.
+* `neural/` – FitzHugh–Nagumo oscillator implementation modelling neural activation.
+* `cardiac/` – Van der Pol-based relaxation oscillator representing rhythmic cardiac motion.
+* `coupling/` – Bidirectional feedback utilities stitching neural and cardiac dynamics together.
 
-Populate these folders as implementation work begins.
+The modules expose simple Euler integration helpers and a convenience
+`HeartBrainCouplingModel` class for end-to-end simulations. Extend these
+packages with richer physiology models as the project matures.
