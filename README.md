@@ -10,6 +10,21 @@ The Multi-Heart-Model repository develops the **Heart–Brain Coupling Model (HB
 * **Repository**: `Multi-Heart-Model`
 * **License**: [MIT License](LICENSE)
 
+## Related Projects
+
+This repository builds upon and extends the **[Quantro-Heart-Model](https://github.com/STLNFTART/Quantro-Heart-Model)**, which provides the foundational APL implementation of the Primal Overlay framework. The Quantro-Heart-Model is included as a git submodule in `external/quantro-heart-model/` and provides reference implementations for:
+
+* Warp-aware RK4 integrator
+* Overlay mechanisms (Residual, ParamMod, Control, TimeWarp)
+* APL-based physiological models (Michaelis–Menten, SIR, FitzHugh–Nagumo, Nernst, Poiseuille)
+* Python analysis tools for CSV output visualization
+
+The Multi-Heart-Model extends this foundation with:
+* Hybrid Python/D implementation for brain-heart coupling
+* Event-driven dynamics support
+* Enhanced coupling parameters for bidirectional feedback
+* Real-time control experiment capabilities
+
 ## Model formulation
 
 The coupled brain–heart dynamics are governed by delay-differential equations that exchange state information through bidirectional feedback terms:
@@ -83,10 +98,14 @@ where:
 ```text
 .
  codex/initialize-github-repository-scaffold-6u2hgd
+├── config/              # YAML configurations for simulations and experiments
 ├── data/                # Placeholder for experimental inputs, parameter sweeps, and captured telemetry
 ├── docs/                # Project documentation, architecture notes, validation reports
+├── external/            # External dependencies and linked projects
+│   └── quantro-heart-model/  # Quantro-Heart-Model submodule (APL reference implementation)
 ├── src/                 # Upcoming hybrid neural–cardiac pipeline sources (neural, cardiac, coupling modules)
 ├── source/              # Existing D implementation of the Primal Overlay engine
+├── tests/               # Test suite for Python and D modules
 ├── *.apl                # Standalone APL model files for physiology benchmarks
 ├── Makefile             # Convenience build targets for the D toolchain
 ├── dub.json             # dub configuration for building the D executable

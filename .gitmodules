@@ -1,0 +1,3 @@
+[submodule "external/quantro-heart-model"]
+	path = external/quantro-heart-model
+	url = https://github.com/STLNFTART/Quantro-Heart-Model.git
