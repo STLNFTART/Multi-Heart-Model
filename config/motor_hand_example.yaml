@@ -1,0 +1,40 @@
+# Example configuration with Motor Hand Pro enabled
+# Copy this to config/my_experiment.yaml and adjust as needed
+
+simulation:
+  duration: 60.0              # 1 minute demonstration
+  timestep: 0.01              # 10ms steps
+  integrator: rk4
+
+neural:
+  natural_frequency: 0.15     # Hz
+  damping: 0.05
+  feedback_strength: 0.8
+  delay_to_heart: 0.120       # seconds
+
+cardiac:
+  natural_frequency: 1.1      # Hz (66 bpm)
+  damping: 0.12
+  feedback_strength: 0.6
+  delay_to_brain: 0.150       # seconds
+
+outputs:
+  signals:
+    - ecg
+    - neural_oscillation
+    - arterial_pressure
+    - motor_hand_grip         # Add motor hand data to outputs
+  export_path: results/motor_hand/
+
+hardware:
+  motor_hand_pro:
+    enabled: true                    # ENABLE Motor Hand Pro
+    port: /dev/ttyUSB0              # Change to your port
+    baud_rate: 115200
+    timeout: 1.0
+    auto_reconnect: true
+    reconnect_delay: 2.0
+    simulation_mode: true           # Set to false when hardware connected
+    control_mode: coupled           # Options: neural, cardiac, coupled
+    control_blend: 0.5              # 50% neural, 50% cardiac
+    update_rate: 10.0               # 10 Hz updates

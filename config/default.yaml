@@ -22,3 +22,16 @@ outputs:
     - neural_oscillation
     - arterial_pressure
   export_path: results/
+
+hardware:
+  motor_hand_pro:
+    enabled: false                   # Enable Motor Hand Pro integration
+    port: /dev/ttyUSB0              # Serial port (Linux/Mac) or COM3 (Windows)
+    baud_rate: 115200               # Serial communication speed
+    timeout: 1.0                    # Read timeout in seconds
+    auto_reconnect: true            # Auto-reconnect on connection loss
+    reconnect_delay: 2.0            # Delay between reconnect attempts
+    simulation_mode: false          # Run without hardware for testing
+    control_mode: coupled           # neural, cardiac, or coupled
+    control_blend: 0.5              # Blend factor for coupled mode (0=neural, 1=cardiac)
+    update_rate: 10.0               # Hz - how often to update hand position

@@ -36,6 +36,7 @@ This structure supports continuous-time and event-driven formulations, making th
 * Generates multimodal synthetic signals, including ECG traces, neural oscillations, pressure–volume loops, and hemodynamic waveforms.
 * Provides a sandbox for testing control, prediction, and synchronization algorithms that span brain–heart interactions.
 * Offers configurable coupling functions for continuous or event-driven dynamics to support online and batch workflows.
+* **Hardware Integration**: Real-time control of Motor Hand Pro prosthetic via Arduino for physiologically-driven experiments.
 
 For a narrative overview, see [docs/hbcm_overview.md](docs/hbcm_overview.md).
 
@@ -118,6 +119,33 @@ times, neural, cardiac = hbcm.extract_series(trajectory)
 
 The resulting `times`, `neural`, and `cardiac` lists can be plotted with
 Matplotlib or analysed numerically to explore entrainment behaviour.
+
+### Motor Hand Pro Hardware Integration
+
+The HBCM can control physical hardware in real-time. The Motor Hand Pro integration
+demonstrates physiologically-driven prosthetic control:
+
+```python
+from src.hardware import MotorHandPro, HBCMMotorHandController
+
+# Initialize hardware (or simulation mode)
+motor_hand = MotorHandPro()
+controller = HBCMMotorHandController(motor_hand)
+
+# Run HBCM simulation and control hand
+trajectory = hbcm.simulate(initial_state=(0.0, 0.0, 1.0, 0.0), t_span=(0.0, 10.0), dt=0.01)
+
+for time, state in trajectory:
+    # Map physiological signals to grip strength
+    controller.update_from_coupled_state(state[0], state[2], blend=0.5)
+```
+
+Run the interactive demo:
+```bash
+python examples/motor_hand_demo.py --mode simulation --demo all
+```
+
+For complete setup and usage, see [docs/motor_hand_integration.md](docs/motor_hand_integration.md).
 
 ├── config/             # YAML configurations for simulations and experiments
 ├── data/               # Experimental inputs, parameter sweeps, and captured telemetry
