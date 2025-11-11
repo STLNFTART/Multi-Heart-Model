@@ -1,0 +1,189 @@
+# Data Exchange Configuration for Multi-Heart-Model
+# Configuration for bidirectional data flow with Quantro-Heart-Heart
+
+# Repository Configuration
+repositories:
+  origin:
+    name: "Multi-Heart-Model"
+    url: "http://local_proxy@127.0.0.1:35344/git/STLNFTART/Multi-Heart-Model"
+    role: "primary"
+    data_types:
+      - "simulated"
+      - "realworld"
+
+  quantro_heart:
+    name: "Quantro-Heart-Heart"
+    remote_name: "quantro-heart"
+    url: "http://local_proxy@127.0.0.1:35344/git/STLNFTART/Quantro-Heart-Heart"
+    role: "collaborator"
+    data_types:
+      - "realworld"
+      - "device_measurements"
+
+# Bidirectional Sync Configuration
+sync:
+  enabled: true
+  auto_sync: false  # Manual sync by default for safety
+  sync_interval_minutes: 60  # If auto_sync enabled
+  conflict_resolution: "manual"  # Options: manual, latest_wins, merge
+
+  # Sync directions
+  directions:
+    to_quantro:
+      enabled: true
+      auto_export: false
+      data_types:
+        - "simulated_results"
+        - "processed_simulations"
+
+    from_quantro:
+      enabled: true
+      auto_import: false
+      data_types:
+        - "realworld_measurements"
+        - "device_data"
+        - "clinical_data"
+
+    bidirectional:
+      enabled: true
+      data_types:
+        - "validated_datasets"
+        - "benchmark_results"
+
+# Data Type Mappings
+data_type_mappings:
+  simulated:
+    directory: "data/simulated/results"
+    export_to: "data/exchange/to_quantro"
+    identifier_flags:
+      source_type: "SIMULATED"
+      origin: "HBCM_SIMULATION"
+
+  realworld:
+    directory: "data/realworld/results"
+    import_from: "data/exchange/from_quantro"
+    identifier_flags:
+      source_type: "REALWORLD"
+      origin: "QUANTRO"
+
+# Export Rules
+export_rules:
+  # What data can be exported
+  allowed_data_types:
+    - "SIMULATED"
+    - "PROCESSED"
+    - "ANALYZED"
+
+  # What data should NOT be exported
+  blocked_data_types:
+    - "RAW_PERSONAL"  # Personal identifying information
+    - "SENSITIVE"     # Sensitive clinical data
+
+  # Quality requirements for export
+  minimum_quality: "PROCESSED"
+
+  # Metadata requirements
+  require_metadata: true
+  require_validation: true
+
+# Import Rules
+import_rules:
+  # What data can be imported
+  allowed_origins:
+    - "QUANTRO"
+    - "CLINICAL"
+    - "DEVICE_MEASUREMENT"
+
+  # Validation requirements
+  require_metadata: true
+  validate_checksums: true
+  quarantine_on_validation_failure: true
+
+  # Automatic processing
+  auto_process: false
+  auto_categorize: true
+
+# File Naming Conventions
+file_naming:
+  simulated:
+    pattern: "sim_{category}_{model}_{data_id}_{timestamp}.{ext}"
+    example: "sim_cardiac_hbcm_run001_20251111_143025.csv"
+
+  realworld:
+    pattern: "real_{origin}_{category}_{data_id}_{timestamp}.{ext}"
+    example: "real_quantro_ecg_patient001_20251111_143025.csv"
+
+  exchange:
+    pattern: "exchange_{direction}_{timestamp}_{identifier}.{ext}"
+    example: "exchange_to_quantro_20251111_143025_dataset001.json"
+
+# Data Validation
+validation:
+  # File size limits (in MB)
+  max_file_size_mb: 1000
+
+  # Required metadata fields
+  required_metadata_fields:
+    - "data_id"
+    - "source_type"
+    - "timestamp"
+    - "data_file"
+
+  # Data quality checks
+  quality_checks:
+    - "check_missing_values"
+    - "check_data_ranges"
+    - "check_temporal_consistency"
+
+  # Validation on import
+  import_validation:
+    strict: true
+    quarantine_failed: true
+
+# Logging and Monitoring
+logging:
+  enabled: true
+  log_file: "logs/data_exchange.log"
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+
+  # What to log
+  log_events:
+    - "export_prepared"
+    - "import_completed"
+    - "sync_started"
+    - "sync_completed"
+    - "validation_failed"
+    - "conflict_detected"
+
+# Archive and Cleanup
+archive:
+  enabled: true
+  archive_directory: "data/archive"
+
+  # When to archive
+  archive_after_days: 90
+
+  # What to archive
+  archive_types:
+    - "imported_files"
+    - "exported_files"
+    - "old_results"
+
+  # Compression
+  compress_archives: true
+  compression_format: "gzip"
+
+# Notification Settings
+notifications:
+  enabled: false  # Disable by default
+
+  # When to notify
+  notify_on:
+    - "sync_conflict"
+    - "import_validation_failure"
+    - "export_error"
+
+  # Notification methods (when implemented)
+  methods:
+    - "log_file"
+    # Future: email, webhook, etc.

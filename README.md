@@ -167,6 +167,43 @@ Use the `data/` directory to store curated datasets, patient-specific parameters
 2. Implement subsystem logic in `src/neural/`, `src/cardiac/`, and `src/coupling/`.
 3. Integrate the modules with the Primal Overlay engine or a custom runner to produce coupled simulations.
 
+## Cross-Repository Collaboration
+
+This repository is configured for **bidirectional data exchange** with **Quantro-Heart-Heart**, enabling:
+
+- **Git remote integration**: Quantro-Heart-Heart is available as the `quantro-heart` remote
+- **Data separation**: Clear distinction between simulated and real-world data with identifier flags
+- **Bidirectional sync**: Tools for exchanging datasets between repositories
+- **Metadata tracking**: Comprehensive metadata schema for all datasets
+
+### Quick Start
+
+```bash
+# Check exchange status
+python scripts/data_exchange_cli.py status
+
+# Create metadata for your data
+python scripts/data_exchange_cli.py create-metadata \
+    data/simulated/results/my_simulation.csv \
+    --type simulated --model-type HBCM --category COUPLED
+
+# Export to Quantro-Heart-Heart
+python scripts/data_exchange_cli.py export \
+    data/simulated/results/my_simulation.csv \
+    --description "Simulation results for validation"
+
+# Import from Quantro-Heart-Heart
+python scripts/data_exchange_cli.py import
+
+# Bidirectional sync
+python scripts/data_exchange_cli.py sync --dry-run
+```
+
+For complete documentation, see:
+- [Cross-Repository Collaboration Guide](docs/cross_repo_collaboration.md)
+- [Data Structure Documentation](data/DATA_STRUCTURE.md)
+- [Data Management API](src/data_management/README.md)
+
 ## Contributing and next steps
 
 - Flesh out the neural and cardiac modules in `src/` following the scaffolded subdirectories.
