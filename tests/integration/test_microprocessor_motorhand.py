@@ -8,20 +8,15 @@ Author: Donte Lightfoot - Lightfoot Technology
 
 import pytest
 import numpy as np
-import sys
-import os
 
-# Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
-
-from src.microprocessor import PrimalLogicProcessor, ProcessorConfig
-from src.microprocessor.control_system import (
+from microprocessor import PrimalLogicProcessor, ProcessorConfig
+from microprocessor.control_system import (
     ExponentialMemoryWeighting,
     IntegralControlSystem,
     compute_jerk_reduction,
     compute_comfort_metrics
 )
-from src.integration import MotorHandBridge, QuantInterface, QuantParameters
+from integration import MotorHandBridge, QuantInterface, QuantParameters
 
 
 class TestPrimalLogicProcessor:

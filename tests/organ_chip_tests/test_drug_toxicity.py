@@ -16,11 +16,6 @@ The tests verify that models correctly predict:
 
 import pytest
 import numpy as np
-import sys
-import os
-
-# Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../src'))
 
 from organ_chip.orchestrator import OrganChipSuite
 from organ_chip.liver import create_acetaminophen_model, create_doxorubicin_model
