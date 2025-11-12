@@ -16,6 +16,55 @@ cardiac:
   feedback_strength: 0.6
   delay_to_brain: 0.150      # Δ_hb in seconds
 
+hepatic:
+  # Initial conditions
+  initial_cells: 1000.0      # total number of hepatocytes
+  initial_drug: 0.0          # initial drug concentration (μM)
+  initial_CYP450: 1.0        # initial CYP450 activity (0-1)
+  initial_ATP: 5.0           # initial ATP level (mM)
+  initial_GSH: 10.0          # initial glutathione level (mM)
+
+  # Drug metabolism parameters
+  Vmax: 100.0                # maximum CYP450 metabolic rate (μM/hr)
+  Km: 50.0                   # Michaelis-Menten half-saturation (μM)
+  k_drug_clearance: 0.1      # drug elimination rate (1/hr)
+  k_met_clearance: 0.2       # metabolite clearance rate (1/hr)
+
+  # Cellular dynamics parameters
+  k_damage: 0.05             # damage accumulation rate (1/hr)
+  k_repair: 0.02             # cellular repair rate (1/hr)
+  k_death: 0.01              # cell death rate (1/hr)
+  damage_threshold: 0.5      # damage threshold for cell state transition
+  death_threshold: 2.0       # damage threshold for cell death
+
+  # Energy metabolism
+  ATP_baseline: 5.0          # baseline ATP production (mM/hr)
+  ATP_consumption: 3.0       # basal ATP consumption (mM/hr)
+  ATP_repair_cost: 1.0       # ATP cost for repair
+
+  # Antioxidant defense
+  GSH_baseline: 2.0          # baseline GSH synthesis (mM/hr)
+  GSH_consumption: 0.1       # GSH consumption rate (mM/hr/μM metabolite)
+  GSH_recovery: 0.5          # GSH regeneration rate (1/hr)
+
+  # Toxicity parameters
+  drug_toxicity: 0.01        # parent drug toxicity coefficient
+  metabolite_toxicity: 0.05  # metabolite toxicity coefficient
+  ROS_generation: 0.02       # reactive oxygen species generation rate
+
+  # CYP450 dynamics
+  CYP450_synthesis: 0.1      # enzyme synthesis rate (1/hr)
+  CYP450_degradation: 0.05   # enzyme degradation rate (1/hr)
+  CYP450_inhibition: 0.02    # metabolite-mediated inhibition constant
+
+  # Dosing schedule (optional)
+  dosing:
+    enabled: false
+    regimen: bolus           # bolus or infusion
+    dose_amount: 100.0       # dose amount (μM)
+    dose_time: 0.0           # time of dose (hours)
+    infusion_rate: 0.0       # continuous infusion rate (μM/hr)
+
 outputs:
   signals:
     - ecg

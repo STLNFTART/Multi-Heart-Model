@@ -10,3 +10,10 @@ dist/
 *.so
 *.a
 
+# Output files
+*.csv
+*.png
+*.jpg
+*.pdf
+results/
+
