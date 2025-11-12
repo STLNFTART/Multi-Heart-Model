@@ -174,6 +174,103 @@ Use the `data/` directory to store curated datasets, patient-specific parameters
 - Add automated tests and CI workflows as the codebase matures.
 - main
 
+## Primal Logic Organ-on-Chip Digital Twin
+
+### Overview
+
+The repository now includes a comprehensive **Heart-Liver Organ-on-Chip Digital Twin** framework for drug screening and toxicity prediction. This extends the HBCM with multiscale integration from molecular drug-receptor binding to systemic circulation.
+
+### Key Features
+
+**Multiscale Architecture:**
+- **Molecular**: Ligand-receptor binding dynamics with drug-specific kinetics
+- **Cellular**: Immune signaling, hepatocyte and cardiomyocyte populations
+- **Organ**: Liver metabolism (CYP450 enzymes) and cardiac electrophysiology
+- **Systemic**: Blood circulation and pharmacokinetics (ADME)
+- **Bidirectional Coupling**: Feedback across all scales
+
+**Recursive Planck Operator (RPO) Framework:**
+
+Unified mathematical kernel for memory-dependent biological processes:
+
+```
+ż = -λz + βm + S(t)
+ṁ = α(z - m)
+```
+
+Where `z` is the current state, `m` is the exponentially weighted memory, and parameters control decay (λ), feedback (β), and memory formation (α).
+
+**Drug Toxicity Assessment:**
+- **Hepatotoxicity**: 5 mechanisms (mitochondrial, oxidative, cholestatic, immune, direct)
+- **Cardiotoxicity**: hERG channel blockade, QT prolongation, arrhythmia risk
+- **Biomarkers**: ALT, AST, troponin, BNP, ATP, GSH
+- **PK Metrics**: Cmax, Tmax, AUC, T1/2, clearance
+
+### Quick Start
+
+```python
+from primal_logic.integration import OrganChipSuite
+
+# Initialize digital twin
+suite = OrganChipSuite()
+
+# Screen a drug
+times, results = suite.run_drug_screen(
+    drug_name="doxorubicin",
+    dose=50.0,  # mg
+    duration=48.0,  # hours
+    dosing_schedule="bolus"
+)
+
+# Get toxicity report
+report = suite.assess_toxicity(times, results)
+print(suite.generate_report(report))
+```
+
+### Package Structure
+
+```
+primal_logic/
+├── core/               # RPO mathematical framework
+├── molecular/          # Ligand-receptor binding
+├── cellular/           # Immune signaling
+├── organ/
+│   ├── liver/          # Hepatocyte, metabolism, toxicity
+│   └── cardiac/        # Cardiomyocyte, electrophysiology
+├── systemic/           # Circulation and PK
+└── integration/        # Multiscale coupling, organ chip suite
+```
+
+### Pre-configured Validation Drugs
+
+- **Acetaminophen**: Hepatotoxic (dose-dependent GSH depletion)
+- **Doxorubicin**: Dual toxicity (cardio + hepato)
+- **Dofetilide**: Cardiotoxic (potent hERG blocker)
+- **Amiodarone**: Dual toxicity (long-term effects)
+- **Aspirin**: Reference safe drug
+
+### Demo
+
+```bash
+python demos/demo_heart_liver_organ_chip.py
+```
+
+### Documentation
+
+See [docs/heart_liver_organ_chip.md](docs/heart_liver_organ_chip.md) for comprehensive documentation including:
+- Mathematical formulations for each component
+- Parameter guidelines and typical ranges
+- Validation against known toxic drugs
+- Applications in drug discovery and personalized medicine
+
+### Applications
+
+1. **Pre-clinical Drug Screening**: Toxicity prediction before animal studies
+2. **Drug-Drug Interactions**: CYP450 inhibition/induction effects
+3. **Dose Optimization**: Safety margin determination
+4. **Personalized Medicine**: Patient-specific parameter adjustments
+5. **Clinical Trial Design**: Biomarker selection and monitoring strategies
+
 ## Acknowledgements
 
-The HBCM scaffold builds upon the original Primal Overlay physiology suite and extends it toward hybrid neural–cardiac experimentation.
+The HBCM scaffold builds upon the original Primal Overlay physiology suite and extends it toward hybrid neural–cardiac experimentation. The Primal Logic Organ-on-Chip framework was developed by Donte Lightfoot (Lightfoot Technology) and integrates the Recursive Planck Operator mathematical formalism across biological scales.
