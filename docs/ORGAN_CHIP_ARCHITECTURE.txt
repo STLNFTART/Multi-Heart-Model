@@ -1,0 +1,431 @@
+================================================================================
+          ORGAN-ON-CHIP MULTISCALE MODELING SUITE ARCHITECTURE
+================================================================================
+
+TABLE OF CONTENTS:
+1. System Overview
+2. Multiscale Architecture
+3. Model Hierarchy
+4. Signal Flow Diagrams
+5. Coupling Mechanisms
+6. Time Scale Management
+7. Data Flow
+
+================================================================================
+1. SYSTEM OVERVIEW
+================================================================================
+
+The Organ-On-Chip suite integrates models across five spatial/temporal scales:
+
+    Molecular (μs-ms) → Cellular (ms-s) → Tissue (s-min)
+                                                    ↓
+    Systemic (h-days) ← Organ (min-h) ←────────────┘
+
+Key Components:
+- Molecular: Ligand-receptor binding
+- Cellular: Immune signaling, ion channels
+- Tissue: Hepatocyte populations
+- Organ: Liver function, cardiac electrophysiology
+- Systemic: Pharmacokinetics (PBPK)
+
+================================================================================
+2. MULTISCALE ARCHITECTURE
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      ORGAN CHIP SUITE ORCHESTRATOR                      │
+│                                                                         │
+│  ┌───────────────────────────────────────────────────────────────────┐ │
+│  │                    MULTISCALE COUPLING LAYER                      │ │
+│  │  • Signal Routing      • Time Synchronization                     │ │
+│  │  • Adaptive Stepping   • Feedback Loops                           │ │
+│  └───────────────────────────────────────────────────────────────────┘ │
+│         ↑                    ↑                    ↑                     │
+│  ┌──────────────┐  ┌─────────────────┐  ┌──────────────────┐          │
+│  │  MOLECULAR   │  │    CELLULAR     │  │      ORGAN       │          │
+│  │   SCALE      │→ │     SCALE       │→ │      SCALE       │          │
+│  │              │  │                 │  │                  │          │
+│  │ Ligand-      │  │ • Immune        │  │ • Liver          │          │
+│  │ Receptor     │  │   Signaling     │  │ • Heart          │          │
+│  │ Binding      │  │ • Ion Channels  │  │                  │          │
+│  └──────────────┘  └─────────────────┘  └──────────────────┘          │
+│         ↑                    ↑                    ↑                     │
+│         └────────────────────┴────────────────────┘                     │
+│                              ↓                                          │
+│  ┌───────────────────────────────────────────────────────────────────┐ │
+│  │                    SYSTEMIC SCALE (PBPK)                          │ │
+│  │  ┌────────┐  ┌────────┐  ┌────────┐  ┌────────────┐              │ │
+│  │  │ Blood  │→ │ Liver  │  │ Heart  │  │ Peripheral │              │ │
+│  │  │Compart.│  │Compart.│  │Compart.│  │ Compart.   │              │ │
+│  │  └────────┘  └────────┘  └────────┘  └────────────┘              │ │
+│  │       ↓          ↓          ↓            ↓                         │ │
+│  │  Hepatic Clearance    Cardiac Output     Tissue Distribution      │ │
+│  └───────────────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+3. MODEL HIERARCHY
+================================================================================
+
+MOLECULAR SCALE (Ligand-Receptor Model)
+┌─────────────────────────────────────────┐
+│  State: [L, R, LR, R_int]               │
+│  • L: Free ligand (nM)                  │
+│  • R: Surface receptors (#/cell)        │
+│  • LR: Bound complexes (#/cell)         │
+│  • R_int: Internalized receptors        │
+│                                         │
+│  Dynamics:                              │
+│  dL/dt = -kon*L*R + koff*LR + ...      │
+│  dR/dt = -kon*L*R + koff*LR + synth    │
+│  dLR/dt = kon*L*R - koff*LR - k_int*LR │
+│  dR_int/dt = k_int*LR - k_rec*R_int    │
+│                                         │
+│  Outputs: occupancy, total_receptors   │
+└─────────────────────────────────────────┘
+              ↓ Cytokine binding
+┌─────────────────────────────────────────┐
+CELLULAR SCALE (Immune Signaling)        │
+┌─────────────────────────────────────────┐
+│  State: [IL6, TNFa, IL10, M0, M1, M2]  │
+│  • IL6, TNFa: Pro-inflammatory (pg/mL)  │
+│  • IL10: Anti-inflammatory (pg/mL)      │
+│  • M0: Resting macrophages (cells/mL)   │
+│  • M1: Pro-inflammatory macrophages     │
+│  • M2: Anti-inflammatory macrophages    │
+│                                         │
+│  Dynamics:                              │
+│  dIL6/dt = k_prod * M1 - k_deg * IL6    │
+│  dM1/dt = k_act*(TNFa+IL6)*M0 - ...     │
+│                                         │
+│  Outputs: inflammatory_index, M1/M2     │
+└─────────────────────────────────────────┘
+              ↓ Inflammatory mediators
+┌─────────────────────────────────────────┐
+ORGAN SCALE (Liver Model)                 │
+┌─────────────────────────────────────────┐
+│  State: [D, M, M_conj, GSH, GSSG,       │
+│          ROS, ATP, Damage]              │
+│  • D: Drug (μM)                         │
+│  • M: Metabolite (μM)                   │
+│  • M_conj: Conjugated metabolite (μM)   │
+│  • GSH: Reduced glutathione (mM)        │
+│  • GSSG: Oxidized glutathione (mM)      │
+│  • ROS: Reactive oxygen species (AU)    │
+│  • ATP: Energy status (mM)              │
+│  • Damage: Cell damage (0-1)            │
+│                                         │
+│  Dynamics:                              │
+│  Phase I:  D → M (CYP450)               │
+│  Phase II: M → M_conj (GSH conjugation) │
+│  ROS: Production from M, scavenged by GSH│
+│  ATP: Production - consumption          │
+│  Damage: (ROS+M) - Repair*ATP           │
+│                                         │
+│  Outputs: viability, GSH/GSSG ratio     │
+└─────────────────────────────────────────┘
+
+ORGAN SCALE (Cardiac Model)
+┌─────────────────────────────────────────┐
+│  State: [V, m, h, d, f, n, Ca_i, Ca_SR] │
+│  • V: Membrane potential (mV)           │
+│  • m, h: Na+ channel gates              │
+│  • d, f: Ca2+ channel gates             │
+│  • n: K+ channel gate                   │
+│  • Ca_i: Intracellular Ca2+ (μM)        │
+│  • Ca_SR: SR Ca2+ (μM)                  │
+│                                         │
+│  Dynamics:                              │
+│  dV/dt = -(I_Na + I_Ca + I_K + I_leak)  │
+│  I_X = g_X * gates * (V-E_X) * (1-block)│
+│  block_X = [Drug]/(IC50_X + [Drug])     │
+│  dCa_i/dt = -I_Ca + J_SR - uptake       │
+│  Force = Ca_i^n/(K^n + Ca_i^n)          │
+│                                         │
+│  Outputs: force, hERG_block, APD        │
+└─────────────────────────────────────────┘
+              ↓ Organ concentrations
+┌─────────────────────────────────────────┐
+SYSTEMIC SCALE (Pharmacokinetics)         │
+┌─────────────────────────────────────────┐
+│  State: [C_blood, C_liver, C_heart,     │
+│          C_periph]                      │
+│                                         │
+│  Blood Compartment:                     │
+│    ┌────────────────────────┐           │
+│    │      C_blood           │           │
+│    │   (5 L, central)       │           │
+│    └────────────────────────┘           │
+│       ↓       ↓        ↓                │
+│  ┌────────┐ ┌──────┐ ┌─────────┐       │
+│  │ Liver  │ │Heart │ │Peripheral│       │
+│  │(1.8 L) │ │(0.3L)│ │  (40 L)  │       │
+│  │K=2.0   │ │K=1.5 │ │  K=1.0   │       │
+│  └────────┘ └──────┘ └─────────┘       │
+│       ↓                                 │
+│  Hepatic CL    Renal CL                 │
+│  (10 L/h)      (1 L/h)                  │
+│                                         │
+│  Outputs: C_max, AUC, t_1/2, Vd         │
+└─────────────────────────────────────────┘
+
+================================================================================
+4. SIGNAL FLOW DIAGRAMS
+================================================================================
+
+DRUG ADMINISTRATION → ORGAN TOXICITY PATHWAY
+────────────────────────────────────────────
+
+Step 1: DOSE INPUT
+  ┌──────────────┐
+  │ Bolus Dose   │ → Added to C_blood
+  │ or Infusion  │
+  └──────────────┘
+
+Step 2: DISTRIBUTION (PBPK)
+  C_blood ─┬→ C_liver  (Q_liver = 90 L/h)
+           ├→ C_heart  (Q_heart = 15 L/h)
+           └→ C_periph (Q_periph = 150 L/h)
+
+Step 3: HEPATIC METABOLISM
+  C_liver → Liver Model
+    ↓
+  D (drug) ──CYP450──→ M (metabolite) ──Conjugation──→ M_conj
+                         ↓
+                     ROS production
+                         ↓
+                     GSH depletion
+                         ↓
+                     Cell Damage
+
+Step 4: IMMUNE ACTIVATION
+  Liver Damage → Damage Signal
+    ↓
+  Immune Model
+    ↓
+  TNFa, IL6 ↑ (pro-inflammatory)
+  M1 macrophages ↑
+    ↓
+  Amplify liver damage (feedback)
+
+Step 5: CARDIAC EFFECTS
+  C_heart → Cardiac Model
+    ↓
+  Ion channel block:
+  • hERG (IKr) → QT prolongation
+  • Nav1.5 (INa) → Conduction slowing
+  • Cav1.2 (ICa) → Contractility reduction
+    ↓
+  Ca2+ dysregulation
+    ↓
+  Force ↓, Arrhythmia risk ↑
+
+Step 6: CLEARANCE
+  Hepatic CL: C_liver → Eliminated
+  Renal CL: C_blood → Eliminated
+
+
+FEEDBACK LOOPS
+──────────────
+
+Positive Feedback (Amplification):
+  Damage → TNFa ↑ → M1 ↑ → TNFa ↑↑ → More Damage
+
+Negative Feedback (Resolution):
+  Damage → IL10 ↑ → M2 ↑ → TNFa ↓ → Damage ↓
+
+Metabolic Feedback:
+  Damage → Viability ↓ → CL ↓ → C_liver ↑ → Damage ↑
+
+================================================================================
+5. COUPLING MECHANISMS
+================================================================================
+
+COUPLING TYPES:
+
+1. DIRECT COUPLING (Unidirectional)
+   ┌───────┐        ┌───────┐
+   │ PK    │──data─→│ Liver │
+   │ Model │        │ Model │
+   └───────┘        └───────┘
+
+   Example: C_liver from PK → drug_input to Liver
+
+2. MEDIATED COUPLING (Via Circulation)
+   ┌───────┐        ┌────────────┐        ┌───────┐
+   │ Liver │──M_conj─→│ Circulation │──C_X──→│ Heart │
+   └───────┘        └────────────┘        └───────┘
+
+   Example: Liver metabolite → Blood → Heart exposure
+
+3. FEEDBACK COUPLING (Bidirectional)
+   ┌───────┐ damage  ┌────────┐
+   │ Liver │────────→│ Immune │
+   │       │←TNFa────│        │
+   └───────┘         └────────┘
+
+   Example: Damage activates immune, inflammation worsens damage
+
+4. HIERARCHICAL COUPLING (Scale bridging)
+   ┌──────────┐ occupancy  ┌──────────┐
+   │Molecular │───────────→│ Cellular │
+   │(receptor)│            │ (immune) │
+   └──────────┘            └──────────┘
+
+   Example: Receptor occupancy triggers immune cascade
+
+
+COUPLING IMPLEMENTATION:
+
+def pk_to_liver(pk_model, liver_model, dt):
+    """PK → Liver coupling function."""
+    state = pk_model.get_state()
+    return {'drug_input': state['C_liver']}
+
+def liver_to_immune(liver_model, immune_model, dt):
+    """Liver → Immune coupling function."""
+    state = liver_model.get_state()
+    if state['Damage'] > threshold:
+        signal = (state['Damage'] - threshold) * amplification
+        return {'external_stimulus': {'damage': signal}}
+    return {}
+
+================================================================================
+6. TIME SCALE MANAGEMENT
+================================================================================
+
+ADAPTIVE TIME-STEPPING STRATEGY:
+
+Model           | Native Δt  | Sub-steps | Effective Δt
+─────────────────────────────────────────────────────────
+Cardiac         | 0.001 h    | 100       | 0.001 h (1 ms)
+Molecular       | 0.1 h      | 1         | 0.1 h
+Immune          | 0.1 h      | 1         | 0.1 h
+Liver           | 0.1 h      | 1         | 0.1 h
+PK              | 0.1 h      | 1         | 0.1 h
+
+Global time step: 0.1 h
+Fast models (cardiac, molecular) use sub-stepping
+
+
+OPERATOR SPLITTING:
+
+For each global time step Δt:
+  1. Update slow processes (PK, liver, immune) at Δt
+  2. For fast processes (cardiac):
+     - Subdivide Δt into n sub-steps: δt = Δt/n
+     - Update n times with δt
+  3. Exchange coupling signals
+  4. Synchronize time
+
+
+TIME SCALE ANALYSIS:
+
+Scale       | Process              | Characteristic Time
+────────────────────────────────────────────────────────
+Molecular   | Ligand binding       | kon^-1 ~ 100 ms
+Cellular    | Action potential     | 100-500 ms
+Cellular    | Enzyme kinetics      | Km/Vmax ~ 1 s
+Tissue      | Diffusion (100 μm)   | L²/D ~ 10 s
+Organ       | Cardiac cycle        | 1 s (60 bpm)
+Organ       | Liver metabolism     | 1-10 min
+Systemic    | Distribution t_1/2   | 1-10 h
+Systemic    | Elimination t_1/2    | 2-20 h
+
+Stiffness ratio: t_max/t_min ~ 10^6 → Requires adaptive methods
+
+================================================================================
+7. DATA FLOW
+================================================================================
+
+INPUT DATA FLOW:
+────────────────
+
+User Input
+    ↓
+┌─────────────────────┐
+│ OrganChipSuite      │
+│ .run(duration, dt,  │
+│      dose, ...)     │
+└─────────────────────┘
+    ↓
+┌─────────────────────┐
+│ MultiscaleCoupler   │
+│ • Manages models    │
+│ • Routes signals    │
+│ • Adaptive stepping │
+└─────────────────────┘
+    ↓
+Individual Models
+• PK.step(dt, dose)
+• Liver.step(dt, drug_input)
+• Heart.step(dt, drug_conc)
+• Immune.step(dt, stimulus)
+• Molecular.step(dt, ligand)
+
+
+OUTPUT DATA FLOW:
+─────────────────
+
+Individual Models
+    ↓ get_state()
+┌──────────────────────┐
+│ Model States         │
+│ • PK: C_blood, AUC   │
+│ • Liver: Damage, GSH │
+│ • Heart: Force, block│
+│ • Immune: cytokines  │
+└──────────────────────┘
+    ↓
+┌──────────────────────┐
+│ Results Storage      │
+│ • Time series data   │
+│ • All model states   │
+└──────────────────────┘
+    ↓
+┌──────────────────────┐
+│ Analysis & Export    │
+│ • get_summary()      │
+│ • export_results()   │
+│ • CSV/JSON output    │
+└──────────────────────┘
+    ↓
+User Analysis/Visualization
+
+
+EXAMPLE EXECUTION TRACE:
+─────────────────────────
+
+t=0.0h:
+  [INPUT] Dose = 1000 μM·L added to C_blood
+  [PK] C_blood = 200 μM (dose/V_blood)
+  [PK→Liver] drug_input = 400 μM (C_liver)
+  [Liver] D = 400 μM, M = 0, Damage = 0
+  [PK→Heart] drug_conc = 300 μM
+  [Heart] hERG_block = 85%, Force = 0.15
+
+t=1.0h:
+  [PK] C_blood = 150 μM (clearance)
+  [Liver] M = 150 μM (metabolism), ROS ↑
+  [Liver] GSH = 8.5 mM (depletion)
+  [Liver] Damage = 0.15
+  [Liver→Immune] damage_signal = 5.0
+  [Immune] TNFa = 50 pg/mL, M1 = 100 cells/mL
+
+t=12h:
+  [PK] C_blood = 50 μM
+  [Liver] Damage = 0.45 (peak)
+  [Liver] GSH = 4.2 mM (severe depletion)
+  [Immune] TNFa = 200 pg/mL (peak inflammation)
+  [Immune] inflammatory_index = 8.5
+
+t=24h:
+  [PK] C_blood = 15 μM (elimination)
+  [Liver] Damage = 0.40 (slight recovery)
+  [Liver] GSH = 6.0 mM (regeneration)
+  [Immune] IL10 = 80 pg/mL (resolution)
+  [Immune] M2 = 150 cells/mL (repair response)
+
+================================================================================
+END OF ARCHITECTURE DOCUMENT
+================================================================================
