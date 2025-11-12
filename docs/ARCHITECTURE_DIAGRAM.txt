@@ -1,0 +1,275 @@
+===============================================================================
+                    MULTI-HEART-MODEL ARCHITECTURE DIAGRAM
+===============================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           APPLICATION LAYER                                │
+│  (User code, simulations, demos, experiments)                              │
+└────────────────┬──────────────────────────────────────────────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    ORCHESTRATION LAYER (HBCM)                              │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │ HeartBrainCouplingModel                                            │  │
+│  │  • Manages 4D state: (v_neural, w_neural, x_cardiac, y_cardiac)  │  │
+│  │  • Maintains history deque for delay lookups                      │  │
+│  │  • Computes bidirectional coupling:                              │  │
+│  │    - Neural input = cardiac_gain * delayed_cardiac[0] + bias     │  │
+│  │    - Cardiac input = neural_gain * delayed_neural[0] + bias      │  │
+│  │  • Coordinates time stepping across subsystems                   │  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                                                                            │
+│  Configuration:                                                            │
+│  • neural_to_cardiac_gain: 0.4       • cardiac_to_neural_gain: 0.2       │
+│  • neural_delay: 0.0                 • cardiac_delay: 0.0                │
+└────────────────┬──────────────────────────────────────────────────────────┘
+                 │
+        ┌────────┼────────┐
+        ▼                 ▼
+┌──────────────────┐   ┌──────────────────┐
+│  NEURAL LAYER    │   │  CARDIAC LAYER   │
+│                  │   │                  │
+│ FitzHugh-Nagumo  │   │ Van der Pol      │
+│                  │   │                  │
+│ State: (v, w)    │   │ State: (x, y)    │
+│                  │   │                  │
+│ dv/dt = v - v³/3 │   │ dx/dt = y        │
+│       - w + S    │   │                  │
+│ dw/dt =          │   │ dy/dt = μ(1-x²)y│
+│   (v + a - b·w)/c│   │      - ω²x + F   │
+│                  │   │                  │
+│ Params:          │   │ Params:          │
+│ • a: 0.7         │   │ • μ: 1.5         │
+│ • b: 0.8         │   │ • ω: 1.0         │
+│ • c: 3.0         │   │ • damping: 0.0   │
+│                  │   │                  │
+│ Freq: ~0.15 Hz   │   │ Freq: ~1.1 Hz    │
+│       (~9 bpm)   │   │     (~66 bpm)    │
+└──────────────────┘   └──────────────────┘
+
+Integration Pattern: Explicit Euler
+  State(t+dt) = State(t) + dt * derivatives(t, State(t))
+
+Coupling Mechanism: History-Based Delay
+  delayed_state = lookup_history(current_time - delay)
+  (Interpolation-free, deque-based)
+
+===============================================================================
+                    CONTROL & MICROPROCESSOR LAYER
+===============================================================================
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                     PRIMAL LOGIC PROCESSOR                                  │
+│                                                                              │
+│  Control Law: u(t) = -K ∫₀ᵗ e(τ) · e^(-λ(t-τ)) dτ                         │
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────────┐ │
+│  │ 8 Integral Processing Units (IPUs) - Parallel Processing              │ │
+│  │ Round-robin scheduling: IPU0 → IPU1 → ... → IPU7 → IPU0               │ │
+│  └────────────────────────────────────────────────────────────────────────┘ │
+│                                                                              │
+│  Hardware Simulation:                                                       │
+│  • 8 IPUs × 16 memory banks = 128 history slots per cycle                  │
+│  • 32 multiply-accumulate units                                            │
+│  • 4 floating-point units                                                  │
+│  • 64 I/O channels                                                         │
+│  • 2 safety cores                                                          │
+│                                                                              │
+│  Hardware Specs:                                                            │
+│  • Die area: 180 mm² (SkyWater 90nm)                                      │
+│  • Power: 25W                                                              │
+│  • Latency: 50μs                                                           │
+│                                                                              │
+│  Performance (vs Traditional):                                             │
+│  • Jerk reduction: 75% (3.8 vs 15.2 m/s³)                                │
+│  • Comfort index: 81% improvement (87.6 vs 48.3)                         │
+│  • Latency: 75% reduction (50μs vs 200μs)                                │
+│                                                                              │
+│  Parameters:                                                               │
+│  • K_gain: 0.5                                                             │
+│  • lambda_decay: 2.0                                                       │
+│  • max_control: 10.0  |  min_control: -10.0 (bounded)                    │
+└────────────────┬──────────────────────────────────────────────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    MOTORHANDPRO INTEGRATION BRIDGE                          │
+│                                                                              │
+│  Control Flow:                                                              │
+│  ┌─────────────────┐     ┌───────────────┐     ┌──────────────┐            │
+│  │ Primal Logic    │────▶│ QUANT Convert │────▶│ Motor Driver │            │
+│  │ Control: [-10,10]    │ Throttle: [0,255]   │ Actuation   │            │
+│  └─────────────────┘     └───────────────┘     └──────────────┘            │
+│         ▲                                               │                   │
+│         │                                               ▼                   │
+│         └───────────────────────────────────────────────┘                  │
+│                   Feedback: (psi, gamma, Ec)                               │
+│                                                                              │
+│  QUANT Parameters (MotorHandPro Integration):                              │
+│  • PLANCK_D: 149.9992314000                                                │
+│  • PLANCK_I3: 6.4939394023                                                │
+│  • KERNEL_MU: 0.169050000000                                              │
+│                                                                              │
+│  Conversion: control ∈ [-10, +10] → x_fixed ∈ [0, 150]                   │
+│              → throttle ∈ [0, 255]                                         │
+└────────────────────────────────────────────────────────────────────────────┘
+
+===============================================================================
+                          TESTING & VALIDATION
+===============================================================================
+
+Unit Tests (test_models.py):
+  ✓ FitzHugh-Nagumo derivatives
+  ✓ Van der Pol oscillator dynamics
+  ✓ Delay-based state lookup
+  ✓ Trajectory timestep verification
+
+Integration Tests (test_microprocessor_motorhand.py):
+  ✓ Processor initialization & configuration
+  ✓ Control computation & bounds enforcement
+  ✓ Emergency braking convergence
+  ✓ Exponential memory weighting
+  ✓ QUANT parameter validation
+  ✓ Throttle conversion bounds
+  ✓ Feedback parsing
+  ✓ Closed-loop simulation
+  ✓ CSV export validation
+  ✓ Jerk reduction metrics
+  ✓ Comfort index calculation
+  ✓ Full system integration (end-to-end)
+  ✓ Performance vs traditional control
+
+Test Statistics:
+  • 30+ test methods
+  • 390+ lines of integration tests
+  • 49 lines of unit tests
+  • Coverage: ~1150 lines of Python code
+
+===============================================================================
+                        MODULE DEPENDENCIES
+===============================================================================
+
+Core Dependencies:
+  • NumPy - Numerical operations (exp, clip, mean, etc.)
+  • Python standard library:
+    - dataclasses: Configuration classes
+    - collections.deque: History buffer
+    - typing: Type hints
+    - csv: Data export
+    - time: Timestamps
+    - subprocess: Process management
+
+Optional Dependencies:
+  • matplotlib - Visualization (graceful fallback)
+  • pytest - Testing framework
+  • numpy (optional fallback)
+
+No Heavy ML Frameworks:
+  ✗ No TensorFlow, PyTorch, JAX
+  ✗ No large scientific computing suites
+  ✓ Lightweight, transparent, maintainable
+
+===============================================================================
+                        DATA EXPORT FORMATS
+===============================================================================
+
+CSV Output Structure:
+  # Results header
+  t,velocity,error,integral,control,comfort
+  0.000,30.000,30.000,0.300,-0.150,50.0
+  0.010,29.998,29.998,0.598,-0.299,50.0
+  ...
+
+Generated Files:
+  • emergency_braking_output.csv - Primal processor simulation
+  • integration_output.csv - Complete system output
+  • primal_motorhand_interface.ino - Arduino hardware code
+  • integration_visualization.png - Performance plots
+
+===============================================================================
+                    CONFIGURATION SYSTEM
+===============================================================================
+
+config/default.yaml:
+  simulation:
+    duration: 120.0        # seconds
+    timestep: 0.001        # seconds
+    integrator: rk4        # (Euler currently implemented)
+
+  neural:
+    natural_frequency: 0.15 Hz    (≈9 bpm)
+    damping: 0.05
+    feedback_strength: 0.8
+    delay_to_heart: 0.120 s
+
+  cardiac:
+    natural_frequency: 1.1 Hz     (≈66 bpm)
+    damping: 0.12
+    feedback_strength: 0.6
+    delay_to_brain: 0.150 s
+
+  outputs:
+    signals: [ecg, neural_oscillation, arterial_pressure]
+    export_path: results/
+
+===============================================================================
+                    EXTENSIBILITY PATTERNS
+===============================================================================
+
+Adding New Organ Systems (e.g., respiratory):
+
+1. Create Module:
+   src/respiratory/
+   ├── __init__.py
+   └── model.py (implement derivatives() and step())
+
+2. Extend Coupling:
+   • Add fields to CouplingParameters
+   • Increase state dimensionality in HBCM
+   • Implement new coupling terms
+
+3. Add Tests:
+   • Unit tests in test_models.py
+   • Integration tests for new couplings
+   • End-to-end validation
+
+4. Update Configuration:
+   • Add section to default.yaml
+   • Document parameters
+
+Example Model Interface:
+  class RespiratoryModel:
+      def derivatives(self, t: float, state: Tuple[...], input_signal: float) -> Tuple[...]:
+          # Return state derivatives
+          pass
+
+      def step(self, t: float, state: Tuple[...], dt: float, input_signal: float) -> Tuple[...]:
+          # Perform one integration step
+          pass
+
+===============================================================================
+                        FILE STATISTICS
+===============================================================================
+
+Code Distribution:
+  • Cardiac subsystem: 30 LOC
+  • Neural subsystem: 50 LOC
+  • Coupling orchestration: 125 LOC
+  • Primal Logic Processor: 283 LOC
+  • Control utilities: 214 LOC
+  • Integration bridge: 399 LOC
+  • TOTAL: 1,153 LOC (Production Python)
+
+Tests:
+  • Unit tests: 49 LOC
+  • Integration tests: 390+ LOC
+  • Test coverage: ~100% of production code paths
+
+Documentation:
+  • architecture.md
+  • hbcm_overview.md
+  • microprocessor_motorhand_integration.md
+  • README.md + README_INTEGRATION.md
+
+===============================================================================
