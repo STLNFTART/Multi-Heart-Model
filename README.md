@@ -1,14 +1,13 @@
-  codex/initialize-github-repository-scaffold-6u2hgd
-# Multi-Heart-Model (HBCM)
+# Heart–Brain Coupling Model (HBCM)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-The Multi-Heart-Model repository develops the **Heart–Brain Coupling Model (HBCM)**—a mathematical and computational framework that captures how cardiac and neural systems influence one another through dynamic feedback. Each subsystem is treated as an oscillatory process with a characteristic frequency, damping, and coupling strength, enabling simulations of entrainment, resonance, and modulation observed in physiological data.
+The Heart–Brain Coupling Model (HBCM) is a mathematical and computational framework for representing how cardiac and neural systems influence each other through dynamic feedback. Each subsystem is modelled as an oscillatory process with its own natural frequency, damping, and feedback strength. Bidirectional coupling terms transmit information between them, allowing simulation of entrainment, resonance, and modulation observed in real physiological data.
 
 ## Repository name and license
 
-* **Repository**: `Multi-Heart-Model`
-* **License**: [MIT License](LICENSE)
+- **Repository**: `Multi-Heart-Model`
+- **License**: [MIT License](LICENSE)
 
 ## Model formulation
 
@@ -36,6 +35,8 @@ This structure supports continuous-time and event-driven formulations, making th
 * Generates multimodal synthetic signals, including ECG traces, neural oscillations, pressure–volume loops, and hemodynamic waveforms.
 * Provides a sandbox for testing control, prediction, and synchronization algorithms that span brain–heart interactions.
 * Offers configurable coupling functions for continuous or event-driven dynamics to support online and batch workflows.
+* Integrates Primal Logic Processor for bounded integral control with exponential memory weighting.
+* Bridges with MotorHandPro QUANT control system for robotic motor control applications.
 
 For a narrative overview, see [docs/hbcm_overview.md](docs/hbcm_overview.md).
 
@@ -44,62 +45,51 @@ For a narrative overview, see [docs/hbcm_overview.md](docs/hbcm_overview.md).
 1. Provide reference implementations for canonical physiology models (Michaelis–Menten, SIR, FitzHugh–Nagumo, Nernst, Poiseuille) in both APL and D.
 2. Prototype neural overlays that modulate cardiac dynamics for hybrid brain–cardiac simulations.
 3. Offer a reproducible workflow for running experiments and capturing CSV outputs for downstream analysis.
-
-# Heart–Brain Coupling Model (HBCM)
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-The Heart–Brain Coupling Model (HBCM) is a mathematical and computational framework for representing how cardiac and neural systems influence each other through dynamic feedback. Each subsystem is modelled as an oscillatory process with its own natural frequency, damping, and feedback strength. Bidirectional coupling terms transmit information between them, allowing simulation of entrainment, resonance, and modulation observed in real physiological data.
-
-## Repository name and license
-
-- **Repository**: `Multi-Heart-Model`
-- **License**: [MIT License](LICENSE)
-
-## Model overview
-
-The coupled system is described by
-
-$$\dot{n}_b(t) = -\lambda_b n_b(t) + f_b\big(n_h(t - \Delta_{bh}), S_b(t)\big)$$
-$$\dot{n}_h(t) = -\lambda_h n_h(t) + f_h\big(n_b(t - \Delta_{hb}), S_h(t)\big)$$
-
-where:
-
-- $n_b(t)$ and $n_h(t)$ represent neural and cardiac activation variables.
-- $\lambda_b$ and $\lambda_h$ are decay rates.
-- $\Delta_{bh}$ and $\Delta_{hb}$ are communication delays.
-- $f_b$ and $f_h$ encode electrical, mechanical, or biochemical feedback along with external stimuli $S_b(t)$ and $S_h(t)$.
-
-### Capabilities
-
-- Simulates autonomic regulation, including heart-rate variability, baroreflex, and vagal–sympathetic balance.
-- Supports multimodal signal generation: ECG, neural oscillations, pressure–volume loops, and hemodynamic waveforms.
-- Enables algorithm testing for control, prediction, or synchronization tasks across brain and heart domains.
-- Configurable for both continuous and event-driven dynamics, enabling real-time and offline analysis.
-- main
+4. Enable hardware integration through the Primal Logic Processor and MotorHandPro bridge.
 
 ## Repository structure
 
 ```text
 .
- codex/initialize-github-repository-scaffold-6u2hgd
-├── data/                # Placeholder for experimental inputs, parameter sweeps, and captured telemetry
-├── docs/                # Project documentation, architecture notes, validation reports
-├── src/                 # Upcoming hybrid neural–cardiac pipeline sources (neural, cardiac, coupling modules)
-├── source/              # Existing D implementation of the Primal Overlay engine
-├── *.apl                # Standalone APL model files for physiology benchmarks
-├── Makefile             # Convenience build targets for the D toolchain
-├── dub.json             # dub configuration for building the D executable
-└── results.csv          # Example output generated by the Primal Overlay runner
+├── config/             # YAML configurations for simulations and experiments
+├── data/               # Experimental inputs, parameter sweeps, and captured telemetry
+├── docs/               # Project documentation, architecture notes, validation reports
+├── examples/           # Demonstration scripts (microprocessor_motorhand_demo.py)
+├── src/                # Python package (neural, cardiac, coupling, microprocessor, integration modules)
+├── source/             # D implementation of the Primal Overlay engine
+├── tests/              # Pytest test suite
+├── *.apl               # Standalone APL model files for physiology benchmarks
+├── Makefile            # Convenience build targets for the D toolchain
+├── dub.json            # dub configuration for building the D executable
+├── requirements.txt    # Python dependencies
+└── results.csv         # Example output generated by the Primal Overlay runner
+```
+
+## Installation
+
+### Python dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### D compiler (for Primal Overlay engine)
+
+Install the LDC2 compiler for D language support:
+
+```bash
+# On Ubuntu/Debian
+curl -fsS https://dlang.org/install.sh | bash -s ldc
+
+# On macOS
+brew install ldc
 ```
 
 ## Usage overview
 
-### Prototype the Python Heart–Brain Coupling package
+### Python Heart–Brain Coupling package
 
-The Python modules under `src/` expose a minimal hybrid simulation scaffold.
-The snippet below integrates the coupled FitzHugh–Nagumo/Van der Pol system
-for 10 seconds with modest bidirectional feedback:
+The Python modules under `src/` expose a hybrid simulation scaffold. The snippet below integrates the coupled FitzHugh–Nagumo/Van der Pol system for 10 seconds with bidirectional feedback:
 
 ```python
 from src.cardiac import VanDerPolOscillator
@@ -116,33 +106,39 @@ trajectory = hbcm.simulate(initial_state=(0.0, 0.0, 1.0, 0.0), t_span=(0.0, 10.0
 times, neural, cardiac = hbcm.extract_series(trajectory)
 ```
 
-The resulting `times`, `neural`, and `cardiac` lists can be plotted with
-Matplotlib or analysed numerically to explore entrainment behaviour.
+The resulting `times`, `neural`, and `cardiac` lists can be plotted with Matplotlib or analysed numerically to explore entrainment behaviour.
 
-├── config/             # YAML configurations for simulations and experiments
-├── data/               # Experimental inputs, parameter sweeps, and captured telemetry
-├── docs/               # Project documentation, architecture notes, validation reports
-├── src/                # Hybrid neural–cardiac pipeline sources (neural, cardiac, coupling modules)
-├── source/             # Existing D implementation of the Primal Overlay engine
-├── *.apl               # Standalone APL model files for physiology benchmarks
-├── Makefile            # Convenience build targets for the D toolchain
-├── dub.json            # dub configuration for building the D executable
-└── results.csv         # Example output generated by the Primal Overlay runner
+### Primal Logic Processor + MotorHandPro Integration
 
+The Primal Logic Processor implements bounded integral control with exponential memory weighting:
 
-## Configuration
+```python
+from src.microprocessor import PrimalLogicProcessor, ProcessorConfig
+from src.integration import MotorHandBridge, QuantInterface
 
-Simulation parameters are stored in YAML under `config/`. The provided [`config/default.yaml`](config/default.yaml) file captures representative frequencies, damping coefficients, coupling strengths, and signal export options. Update or extend these configurations to match experimental needs.
+# Configure processor with 8 IPUs
+config = ProcessorConfig(num_ipus=8, memory_decay=0.1, control_gain=0.5)
+processor = PrimalLogicProcessor(config)
 
-## Usage overview
- main
+# Bridge to MotorHandPro QUANT system
+bridge = MotorHandBridge(quant_params=QuantInterface.default_params())
+
+# Run closed-loop control simulation
+results = bridge.simulate_closed_loop(
+    control_signal=lambda t: processor.compute_control(error_signal(t)),
+    duration=10.0,
+    dt=0.01
+)
+```
+
+See `examples/microprocessor_motorhand_demo.py` for a complete demonstration.
 
 ### Build and run the D Primal Overlay engine
 
 ```bash
 dub build --compiler=ldc2 --build=release
 ./primal_overlay
-
+```
 
 The executable writes simulation metrics to `results.csv`. Adjust the models or overlays under `source/models/` to explore alternative physiology dynamics.
 
@@ -150,16 +146,26 @@ The executable writes simulation metrics to `results.csv`. Adjust the models or 
 
 Run the `.apl` files (e.g., `fhn.apl`, `mm.apl`) with Dyalog APL or GNU APL to validate model behaviour independently of the overlay engine.
 
-  codex/initialize-github-repository-scaffold-6u2hgd
-### Prepare data assets
+## Configuration
 
-Use the `data/` directory to store curated datasets, patient-specific parameters, or synthetic signals used in hybrid experiments. Check `docs/` for guidance on expected file formats as documentation evolves.
+Simulation parameters are stored in YAML under `config/`. The provided [`config/default.yaml`](config/default.yaml) file captures representative frequencies, damping coefficients, coupling strengths, and signal export options. Update or extend these configurations to match experimental needs.
 
-## Contributing and next steps
+## Testing
 
-1. Flesh out the neural and cardiac modules in `src/` following the suggested subdirectory layout.
-2. Document the neural–cardiac coupling strategy in `docs/` (e.g., `architecture.md`).
-3. Add automated tests and CI badges as the codebase matures.
+Run the test suite with pytest:
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ --cov=src --cov-report=html
+
+# Run integration tests only
+pytest tests/integration/ -v
+```
+
+## Development workflow
 
 ### Develop hybrid simulations
 
@@ -167,13 +173,17 @@ Use the `data/` directory to store curated datasets, patient-specific parameters
 2. Implement subsystem logic in `src/neural/`, `src/cardiac/`, and `src/coupling/`.
 3. Integrate the modules with the Primal Overlay engine or a custom runner to produce coupled simulations.
 
+### Prepare data assets
+
+Use the `data/` directory to store curated datasets, patient-specific parameters, or synthetic signals used in hybrid experiments. Check `docs/` for guidance on expected file formats as documentation evolves.
+
 ## Contributing and next steps
 
 - Flesh out the neural and cardiac modules in `src/` following the scaffolded subdirectories.
 - Extend documentation in `docs/` (e.g., add validation protocols and control strategies).
 - Add automated tests and CI workflows as the codebase matures.
-- main
+- Explore integration with additional hardware platforms and control systems.
 
 ## Acknowledgements
 
-The HBCM scaffold builds upon the original Primal Overlay physiology suite and extends it toward hybrid neural–cardiac experimentation.
+The HBCM scaffold builds upon the original Primal Overlay physiology suite and extends it toward hybrid neural–cardiac experimentation. The Primal Logic Processor and MotorHandPro integration components were developed by Donte Lightfoot at Lightfoot Technology.
