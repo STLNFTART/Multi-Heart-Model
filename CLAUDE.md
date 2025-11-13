@@ -280,7 +280,7 @@ times, neural, cardiac = hbcm.extract_series(trajectory)
 
 **Organ-On-Chip Drug Screening:**
 ```python
-from src.organchip.suite import OrganChipSuite
+from src.organchip.orchestrator import OrganChipSuite
 
 # Create platform
 suite = OrganChipSuite()
