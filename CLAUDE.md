@@ -375,8 +375,7 @@ model = FitzHughNagumo(
     a=0.7,
     b=0.8,
     c=3.0,
-    stimulus_amplitude=0.5,
-    stimulus_frequency=0.2
+    stimulus_amplitude=0.5
 )
 ```
 
