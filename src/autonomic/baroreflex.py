@@ -118,9 +118,9 @@ class Baroreceptor:
 
         # Include adaptation mechanism
         # Baroreceptors adapt to sustained pressure changes
-        pressure_error = pressure - self._previous_pressure
+        pressure_deviation = pressure - p.pressure_setpoint
         self._adaptation_level += dt / p.adaptation_time * (
-            pressure_error - self._adaptation_level
+            pressure_deviation - self._adaptation_level
         )
 
         # Reduce firing rate proportional to adaptation
