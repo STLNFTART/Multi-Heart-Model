@@ -1,0 +1,311 @@
+name: Validation & Benchmarking
+
+on:
+  push:
+    branches: [ main, develop, 'claude/**' ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      quick_mode:
+        description: 'Run in quick mode (skip slow tests)'
+        required: false
+        default: 'false'
+
+jobs:
+  validation:
+    name: BCI Validation Suite
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+      fail-fast: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            git \
+            libopenblas-dev \
+            liblapack-dev \
+            gfortran
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+          pip install -r requirements_web_panel.txt
+
+      - name: Install validation dependencies
+        run: |
+          pip install pytest pytest-cov pytest-timeout pytest-xdist
+          pip install numpy scipy matplotlib scikit-learn
+          # BCI frameworks (install what's available)
+          pip install mne || true
+          pip install brainflow || true
+          pip install pyriemann || true
+          pip install neurodsp || true
+          pip install neurokit2 || true
+          pip install tensorflow || true  # For EEGNet
+
+      - name: Run core unit tests
+        run: |
+          pytest tests/ -v --cov=src --cov-report=xml --cov-report=term
+
+      - name: Run validation suite
+        id: validation
+        run: |
+          python validation/run_all_tests.py \
+            ${{ github.event.inputs.quick_mode == 'true' && '--quick' || '' }} \
+            --output validation/reports
+        continue-on-error: true
+
+      - name: Upload validation reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: validation-reports-py${{ matrix.python-version }}
+          path: validation/reports/
+          retention-days: 30
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+      - name: Comment PR with validation results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'validation/reports/latest_summary.md';
+
+            if (fs.existsSync(path)) {
+              const summary = fs.readFileSync(path, 'utf8');
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🧪 Validation Results\n\n${summary}`
+              });
+            }
+
+      - name: Check validation status
+        if: steps.validation.outcome == 'failure'
+        run: |
+          echo "::error::Validation tests failed"
+          exit 1
+
+  performance-benchmark:
+    name: Performance Benchmarking
+    runs-on: ubuntu-latest
+    needs: validation
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest-benchmark
+
+      - name: Run performance benchmarks
+        run: |
+          python -c "
+          from validation.framework import PerformanceBenchmark
+          from src.coupling import HeartBrainCouplingModel
+          from src.neural import FitzHughNagumo
+          from src.cardiac import VanDerPolOscillator
+          from src.coupling import CouplingParameters
+          import json
+
+          hbcm = HeartBrainCouplingModel(
+              neural_model=FitzHughNagumo(),
+              cardiac_model=VanDerPolOscillator(),
+              coupling=CouplingParameters()
+          )
+
+          def run_sim():
+              hbcm.simulate((0.0, 0.0, 1.0, 0.0), (0.0, 1.0), 0.001)
+
+          latency = PerformanceBenchmark.measure_latency(run_sim, iterations=10)
+          throughput = PerformanceBenchmark.measure_throughput(run_sim, duration=5.0)
+
+          results = {
+              'latency_ms': latency['mean_ms'],
+              'throughput_ops_sec': throughput['ops_per_sec']
+          }
+
+          print(json.dumps(results))
+
+          with open('benchmark_results.json', 'w') as f:
+              json.dump(results, f)
+          "
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v3
+        with:
+          name: benchmark-results
+          path: benchmark_results.json
+
+  regression-check:
+    name: Regression Testing
+    runs-on: ubuntu-latest
+    needs: validation
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Full history for comparison
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Download baseline
+        id: download-baseline
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: validation.yml
+          name: validation-reports-py3.10
+          path: validation/reports/baseline
+          if_no_artifact_found: warn
+        continue-on-error: true
+
+      - name: Run regression tests
+        run: |
+          python validation/run_all_tests.py --output validation/reports/current
+
+      - name: Compare with baseline
+        if: steps.download-baseline.outcome == 'success'
+        run: |
+          python -c "
+          from validation.framework import RegressionTester
+          import json
+
+          tester = RegressionTester('validation/reports/baseline/latest_report.json')
+
+          with open('validation/reports/current/latest_report.json') as f:
+              current = json.load(f)
+
+          # Extract metrics
+          current_metrics = {}
+          for repo, data in current.get('repositories', {}).items():
+              if 'summary' in data:
+                  current_metrics[f'{repo}_success_rate'] = data['summary'].get('success_rate', 0)
+
+          comparison = tester.compare_with_baseline(current_metrics)
+
+          if comparison['status'] == 'regression_detected':
+              print('::error::Regression detected!')
+              for reg in comparison['regressions']:
+                  print(f\"::warning::{reg['metric']}: {reg['baseline']:.2f} → {reg['current']:.2f} ({reg['change_pct']:+.1f}%)\")
+              exit(1)
+          else:
+              print('✓ No regressions detected')
+          "
+
+  compatibility-matrix:
+    name: Generate Compatibility Matrix
+    runs-on: ubuntu-latest
+    needs: validation
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install all optional dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements_web_panel.txt
+          # Install all BCI frameworks
+          pip install mne brainflow pyriemann neurodsp neurokit2 || true
+          pip install moabb || true
+          pip install tensorflow || true
+          pip install pylsl || true
+
+      - name: Generate compatibility matrix
+        run: |
+          python -c "
+          from validation.framework import CompatibilityMatrix
+
+          matrix = CompatibilityMatrix()
+
+          repositories = [
+              'OpenBCI', 'MNE-Python', 'MOABB', 'PyRiemann',
+              'NeuroDSP', 'NeuroKit2', 'EEGNet', 'Bcipy', 'LSL', 'OpenSim'
+          ]
+
+          components = [
+              'HBCM Core', 'BCI Adapters', 'Web Control Panel',
+              'Node.js API', 'OpenSim Integration'
+          ]
+
+          for component in components:
+              for repo in repositories:
+                  matrix.check_component(component, repo)
+
+          print(matrix.to_markdown())
+
+          with open('compatibility_matrix.md', 'w') as f:
+              f.write('# Compatibility Matrix\n\n')
+              f.write(matrix.to_markdown())
+          "
+
+      - name: Upload compatibility matrix
+        uses: actions/upload-artifact@v3
+        with:
+          name: compatibility-matrix
+          path: compatibility_matrix.md
+
+  notify:
+    name: Notify Results
+    runs-on: ubuntu-latest
+    needs: [validation, performance-benchmark, regression-check, compatibility-matrix]
+    if: always()
+
+    steps:
+      - name: Send notification
+        run: |
+          echo "Validation pipeline completed"
+          echo "Validation: ${{ needs.validation.result }}"
+          echo "Performance: ${{ needs.performance-benchmark.result }}"
+          echo "Regression: ${{ needs.regression-check.result }}"
+          echo "Compatibility: ${{ needs.compatibility-matrix.result }}"
