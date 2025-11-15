@@ -1,0 +1,31 @@
+{
+  "name": "multi-heart-model-nodered",
+  "version": "1.0.0",
+  "description": "Node-RED flows for Multi-Heart-Model HBCM monitoring and control",
+  "main": "flows.json",
+  "scripts": {
+    "start": "node-red --userDir .",
+    "install-nodered": "npm install -g --unsafe-perm node-red",
+    "install-nodes": "npm install node-red-dashboard node-red-contrib-ui-led node-red-node-email node-red-contrib-influxdb"
+  },
+  "keywords": [
+    "node-red",
+    "hbcm",
+    "heart-brain-coupling",
+    "real-time-monitoring",
+    "iot"
+  ],
+  "author": "Multi-Heart-Model Team",
+  "license": "MIT",
+  "dependencies": {
+    "node-red-dashboard": "^3.5.0",
+    "node-red-contrib-ui-led": "^0.4.11",
+    "node-red-node-email": "^2.0.0",
+    "node-red-contrib-influxdb": "^0.6.1"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

@@ -1,0 +1,40 @@
+# Node-RED Runtime Files
+.config.json
+.config.nodes.json
+.sessions.json
+flows_cred.json
+.flows.json.backup
+
+# Node modules
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Settings (auto-generated)
+settings.js
+
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary Files
+*.tmp
+*.temp
+
+# Keep these files
+!flows.json
+!package.json
+!setup.sh
+!validate_integration.py
+!README.md
+!PHASE1_COMPLETE.md
