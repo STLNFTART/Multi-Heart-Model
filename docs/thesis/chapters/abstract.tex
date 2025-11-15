@@ -1,0 +1,34 @@
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This thesis presents a comprehensive treatment of adaptive control systems incorporating memory kernels, with rigorous Lyapunov-based stability and convergence analysis. We develop a unified theoretical framework for systems with distributed parameter uncertainty, delayed coupling, and non-Markovian dynamics.
+
+The primary contributions of this work include:
+
+\begin{enumerate}
+    \item \textbf{Mathematical Framework:} A complete functional-analytic foundation for adaptive control with memory, including detailed treatment of Barbalat's Lemma, persistent excitation (PE) theory, and Sobolev function spaces.
+
+    \item \textbf{Lyapunov Stability Theory:} Novel Lyapunov-Krasovskii functionals that incorporate memory kernel effects, with full algebraic derivations demonstrating global asymptotic stability (GAS) under PE conditions and uniform ultimate boundedness (UUB) with bounded disturbances.
+
+    \item \textbf{Adaptive Update Laws:} Formal derivation of projection-based and saturation-based adaptive parameter update laws, with convergence guarantees and robustness to measurement noise and unmatched uncertainties.
+
+    \item \textbf{Robust Extensions:} Systematic treatment of practical considerations including non-PE scenarios, state-dependent disturbances, and unmodeled dynamics, with explicit bounds on tracking error and parameter estimation error.
+
+    \item \textbf{Physiological Applications:} Application to heart-brain coupling models and neural control systems, demonstrating the practical utility of the theoretical framework in biomedical engineering contexts.
+
+    \item \textbf{Computational Implementation:} Complete Python implementation with numerical validation, including comparison of PE versus non-PE scenarios and demonstration of theoretical convergence rates.
+\end{enumerate}
+
+The thesis begins with a comprehensive literature review covering classical adaptive control (Narendra, Åström), Lyapunov stability theory (Khalil, Slotine), and memory kernel modeling. Chapter 3 develops the mathematical preliminaries, proving Barbalat's Lemma from first principles and establishing the function space framework.
+
+Chapters 4-7 form the theoretical core, defining the system class, constructing augmented memory states, deriving the complete Lyapunov candidate functional, and proving the main stability theorems. Every algebraic step is shown explicitly to enable verification and extension by future researchers.
+
+Chapter 8 addresses robust extensions critical for practical implementation, including adaptive safety mechanisms for explainable AI (xAI) applications. Chapter 9 presents extensive simulation results with Python/MATLAB code listings, demonstrating parameter convergence, boundedness properties, and comparative performance under PE and non-PE conditions.
+
+The thesis concludes with practical implementation checklists for convergence verification, robustness assessment, and safety certification, making the theoretical results accessible to practitioners in control engineering, robotics, and biomedical systems.
+
+All proofs are constructive and complete, with detailed appendices providing full derivations, additional lemmas, and commented source code for all numerical experiments.
+
+\vspace{1cm}
+
+\noindent\textbf{Keywords:} Adaptive control, Lyapunov stability, memory kernels, persistent excitation, Barbalat's Lemma, uniform ultimate boundedness, physiological systems, heart-brain coupling

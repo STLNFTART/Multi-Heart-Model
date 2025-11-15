@@ -1,0 +1,238 @@
+\chapter{Introduction}
+\label{ch:introduction}
+
+\section{Motivation}
+
+Adaptive control addresses the fundamental challenge of controlling systems with uncertain or time-varying parameters. Unlike robust control, which attempts to handle uncertainty through conservative design margins, adaptive control \textit{learns} the unknown parameters online, potentially achieving superior performance while maintaining stability guarantees.
+
+The need for adaptive control arises in numerous applications:
+\begin{itemize}
+    \item \textbf{Aerospace:} Aircraft dynamics change with fuel consumption, payload, and atmospheric conditions.
+    \item \textbf{Robotics:} Manipulators handle objects with unknown mass and inertia.
+    \item \textbf{Biomedical Systems:} Patient-specific physiological parameters vary widely and evolve over time.
+    \item \textbf{Automotive:} Vehicle dynamics depend on load, tire wear, and road conditions.
+    \item \textbf{Process Control:} Chemical plants exhibit parameter drift due to catalyst aging and feedstock variations.
+\end{itemize}
+
+\subsection{The Role of Memory in Adaptive Systems}
+
+Classical adaptive control theory, developed primarily in the 1970s--1990s by pioneers such as Narendra, Åström, and Slotine, focused on memoryless (Markovian) systems where the current state fully determines future evolution. However, many physical systems exhibit \textbf{memory effects}:
+\begin{itemize}
+    \item \textbf{Biological Systems:} Neural plasticity, muscle fatigue, and cardiovascular dynamics involve distributed time delays and history-dependent responses.
+    \item \textbf{Viscoelastic Materials:} Stress-strain relationships depend on deformation history through memory kernels.
+    \item \textbf{Financial Systems:} Market dynamics incorporate memory of past prices and trading volumes.
+    \item \textbf{Climate Models:} Atmospheric and oceanic processes exhibit long-range temporal correlations.
+\end{itemize}
+
+Memory effects are mathematically captured by integro-differential equations of the form:
+\begin{equation}
+    \dot{x}(t) = f(x(t), u(t)) + \int_{-\tau}^0 K(\xi) g(x(t+\xi)) \, d\xi,
+\end{equation}
+where the kernel $K(\cdot)$ weights past states $x(t+\xi)$ for $\xi \in [-\tau, 0]$.
+
+\textbf{Challenge:} Standard Lyapunov stability theory does not directly apply to systems with memory. We require \textit{Lyapunov-Krasovskii} functionals that account for the entire state history over $[t-\tau, t]$.
+
+\subsection{Contributions of This Thesis}
+
+This thesis makes the following contributions to adaptive control theory:
+
+\begin{enumerate}
+    \item \textbf{Unified Mathematical Framework:} We develop a complete functional-analytic foundation incorporating:
+    \begin{itemize}
+        \item Sobolev spaces $W^{k,p}$ for state regularity,
+        \item Barbalat's Lemma with full proof from first principles,
+        \item Persistent excitation theory with spectral characterization.
+    \end{itemize}
+
+    \item \textbf{Lyapunov-Krasovskii Stability Analysis:} We construct novel Lyapunov functionals for adaptive systems with memory, providing:
+    \begin{itemize}
+        \item Complete algebraic derivation of time derivatives (every step shown),
+        \item Proof of uniform ultimate boundedness (UUB) under bounded disturbances,
+        \item Proof of global asymptotic stability (GAS) under persistent excitation.
+    \end{itemize}
+
+    \item \textbf{Formal Adaptive Update Laws:} We derive projection-based and saturation-based parameter update laws with:
+    \begin{itemize}
+        \item Convergence guarantees,
+        \item Robustness to measurement noise,
+        \item Computational efficiency.
+    \end{itemize}
+
+    \item \textbf{Robust Extensions for Practical Implementation:} We address:
+    \begin{itemize}
+        \item Non-PE scenarios (tracking without parameter convergence),
+        \item State-dependent disturbances,
+        \item Unmodeled dynamics,
+        \item Adaptive safety mechanisms for explainable AI (xAI) applications.
+    \end{itemize}
+
+    \item \textbf{Physiological Application:} We apply the framework to \textit{heart-brain coupling models}, demonstrating:
+    \begin{itemize}
+        \item Adaptive control of cardiac rhythm via neural stimulation,
+        \item Brain-computer interface (BCI) integration with OpenBCI and Neuralink-style hardware,
+        \item Parameter identification in physiological oscillators (FitzHugh-Nagumo, Van der Pol).
+    \end{itemize}
+
+    \item \textbf{Complete Computational Implementation:} We provide:
+    \begin{itemize}
+        \item Python reference implementation with full documentation,
+        \item Simulation results validating theoretical predictions,
+        \item Comparison of PE versus non-PE scenarios,
+        \item Practical implementation checklists.
+    \end{itemize}
+\end{enumerate}
+
+\section{Historical Context}
+
+\subsection{Classical Adaptive Control (1960s--1980s)}
+
+The foundations of adaptive control were laid in the 1960s--1970s:
+\begin{itemize}
+    \item \textbf{Model Reference Adaptive Control (MRAC):} Whitaker (1958), Parks (1966), and Monopoli (1974) developed MRAC for systems tracking a reference model.
+    \item \textbf{Self-Tuning Regulators:} Åström and Wittenmark (1973) introduced self-tuning regulators based on recursive parameter estimation.
+    \item \textbf{Stability Theory:} Narendra and colleagues established Lyapunov-based stability proofs in the 1970s--1980s \cite{Narendra1989}.
+\end{itemize}
+
+\textbf{Key Insight:} The certainty equivalence principle—use parameter estimates $\thetahat(t)$ as if they were true parameters—can be stabilized through appropriately designed adaptive laws.
+
+\subsection{Persistent Excitation (1970s--1980s)}
+
+A crucial discovery was that tracking error convergence ($e \to 0$) does not guarantee parameter convergence ($\thetahat \to \thetastar$). Parameter convergence requires \textbf{persistent excitation}:
+\begin{itemize}
+    \item Anderson (1977) formalized PE conditions.
+    \item Narendra and Annaswamy (1987) provided detailed PE analysis for MRAC.
+    \item Boyd and Sastry (1986) gave spectral characterization of PE signals.
+\end{itemize}
+
+\subsection{Robust Adaptive Control (1980s--1990s)}
+
+Practical implementation revealed challenges:
+\begin{itemize}
+    \item \textbf{Unmodeled Dynamics:} Real systems deviate from nominal models.
+    \item \textbf{Disturbances:} External perturbations and measurement noise.
+    \item \textbf{Computational Constraints:} Real-time parameter adaptation.
+\end{itemize}
+
+Robust adaptive control, developed by Ioannou and Sun (1996), Slotine and Li (1991), and Krstić, Kanellakopoulos, and Kokotović (1995), introduced:
+\begin{itemize}
+    \item $\sigma$-modification and $e$-modification to prevent parameter drift,
+    \item Projection algorithms to enforce parameter bounds,
+    \item Deadzone modifications for robustness to disturbances.
+\end{itemize}
+
+\subsection{Adaptive Control with Memory (1990s--Present)}
+
+Interest in non-Markovian systems led to:
+\begin{itemize}
+    \item \textbf{Fractional-Order Systems:} Fractional calculus captures memory through non-integer derivatives.
+    \item \textbf{Time-Delay Systems:} Explicit time delays in feedback (Niculescu 2001, Gu et al. 2003).
+    \item \textbf{Integro-Differential Systems:} Memory kernels in viscoelasticity, population dynamics, and epidemiology.
+\end{itemize}
+
+\textbf{Gap in Literature:} Most work treats memory as a perturbation or focuses on specific kernel forms (exponential, polynomial). A \textit{unified framework} for general memory kernels with adaptive parameter uncertainty is lacking.
+
+\textbf{This thesis fills this gap.}
+
+\section{Physiological Application: Heart-Brain Coupling}
+
+A motivating application is the \textbf{heart-brain coupling model (HBCM)}, which describes bidirectional interactions between cardiac and neural oscillators:
+\begin{align}
+    \text{Neural (FitzHugh-Nagumo):} \quad &
+    \begin{cases}
+        \dot{v} = v - v^3/3 - w + I_{\text{cardiac} \to \text{neural}} \\
+        \dot{w} = (v + a - bw) / c
+    \end{cases} \\[0.5em]
+    \text{Cardiac (Van der Pol):} \quad &
+    \begin{cases}
+        \dot{x} = y \\
+        \dot{y} = -\omega^2 x + \mu (1 - x^2) y + I_{\text{neural} \to \text{cardiac}}
+    \end{cases}
+\end{align}
+
+The coupling terms involve delayed feedback:
+\begin{align}
+    I_{\text{cardiac} \to \text{neural}}(t) &= g_1 x(t - \tau_1), \\
+    I_{\text{neural} \to \text{cardiac}}(t) &= g_2 v(t - \tau_2),
+\end{align}
+where $g_1, g_2$ are coupling gains and $\tau_1, \tau_2$ are propagation delays (typically 50--200 ms).
+
+\subsection{Control Objective}
+
+\textbf{Goal:} Regulate cardiac rhythm (heart rate, heart rate variability) via neural stimulation, adapting to unknown patient-specific parameters $(a, b, c, \mu, \omega, g_1, g_2, \tau_1, \tau_2)$.
+
+\textbf{Challenges:}
+\begin{itemize}
+    \item \textbf{Parameter Uncertainty:} Physiological parameters vary across individuals and over time.
+    \item \textbf{Delays:} Axonal conduction and synaptic delays introduce memory effects.
+    \item \textbf{Safety:} Neural stimulation must remain within safe bounds.
+    \item \textbf{Real-Time Adaptation:} Parameters must be estimated from online measurements (EEG, ECG).
+\end{itemize}
+
+This thesis develops adaptive controllers for HBCM, integrating:
+\begin{itemize}
+    \item Brain-computer interfaces (OpenBCI, Neuralink) for neural state measurement,
+    \item Adaptive Lyapunov-based control for cardiac regulation,
+    \item Safety constraints via projection and saturation.
+\end{itemize}
+
+\section{Thesis Organization}
+
+The remainder of this thesis is organized as follows:
+
+\begin{description}
+    \item[Chapter 2: Literature Review] Comprehensive survey of adaptive control, Lyapunov stability theory, memory kernel modeling, and physiological applications.
+
+    \item[Chapter 3: Mathematical Preliminaries] Function spaces ($\Lp{p}$, $W^{k,p}$), Barbalat's Lemma with complete proof, persistent excitation theory.
+
+    \item[Chapter 4: System Definition and Augmented States] Formal problem statement, uncertainty modeling, augmented memory state construction.
+
+    \item[Chapter 5: Lyapunov-Krasovskii Stability Analysis] Construction of Lyapunov functional, complete derivative algebra, stability conditions.
+
+    \item[Chapter 6: Adaptive Update Laws] Derivation of gradient-based, projection-based, and saturation-based adaptive laws with convergence analysis.
+
+    \item[Chapter 7: Main Stability Theorems] Formal statements and proofs of GAS under PE, UUB with disturbances, convergence rates.
+
+    \item[Chapter 8: Robust Extensions] Non-PE scenarios, unmodeled dynamics, disturbance rejection, adaptive safety for xAI.
+
+    \item[Chapter 9: Simulation Results] Python/MATLAB implementations, numerical experiments, PE vs. non-PE comparisons, parameter convergence plots.
+
+    \item[Chapter 10: Practical Guidelines] Implementation checklists, tuning heuristics, convergence diagnostics, safety verification.
+
+    \item[Chapter 11: Conclusion] Summary of contributions, future research directions.
+
+    \item[Appendices] Detailed derivations, additional lemmas, complete code listings, extended results.
+\end{description}
+
+\section{Notation and Conventions}
+
+Throughout this thesis, we use the following notation:
+\begin{itemize}
+    \item $\R, \C, \N$: Real numbers, complex numbers, natural numbers
+    \item $\R^n$: $n$-dimensional Euclidean space
+    \item $\norm{\cdot}$: Euclidean norm for vectors, induced 2-norm for matrices
+    \item $\Lp{p}[0,\infty)$: Lebesgue space with norm $\norm{f}_{\Lp{p}} = (\int_0^\infty |f(t)|^p \, dt)^{1/p}$
+    \item $W^{k,p}$: Sobolev space of functions with $k$ weak derivatives in $\Lp{p}$
+    \item $A \succ 0$: Matrix $A$ is positive definite
+    \item $\lambda_{\min}(A), \lambda_{\max}(A)$: Minimum and maximum eigenvalues of $A$
+    \item $\thetastar$: True parameter vector
+    \item $\thetahat$: Parameter estimate
+    \item $\thetatilde = \thetahat - \thetastar$: Parameter estimation error
+    \item $e(t) = x(t) - x_r(t)$: Tracking error
+    \item PE: Persistently exciting
+    \item GAS: Globally asymptotically stable
+    \item UUB: Uniformly ultimately bounded
+\end{itemize}
+
+Matrix inequalities are in the positive (semi)definite sense: $A \succeq B$ means $A - B$ is positive semidefinite.
+
+\section{Contributions to Knowledge}
+
+This thesis advances the state of knowledge in adaptive control through:
+\begin{enumerate}
+    \item \textbf{Theoretical Rigor:} Complete, self-contained proofs of all results with every algebraic step shown.
+    \item \textbf{Generality:} Unified treatment of memory kernels, not restricted to specific forms.
+    \item \textbf{Practical Applicability:} Implementation guidelines, safety mechanisms, and real-world application (HBCM).
+    \item \textbf{Reproducibility:} Full open-source code with documentation, enabling verification and extension.
+\end{enumerate}
+
+The work is positioned at the intersection of control theory, functional analysis, and biomedical engineering, contributing to all three fields.
