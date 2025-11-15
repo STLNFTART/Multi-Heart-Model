@@ -50,6 +50,37 @@ try:
 except ImportError:
     EEGNetValidationTests = None
 
+try:
+    from validation.benchmarks.test_bci_stack import BrainFlowTests, MNEPythonTests
+except ImportError:
+    BrainFlowTests = None
+    MNEPythonTests = None
+
+try:
+    from validation.benchmarks.test_pyriemann import PyRiemannValidationTests
+except ImportError:
+    PyRiemannValidationTests = None
+
+try:
+    from validation.benchmarks.test_neurodsp import NeuroDSPValidationTests
+except ImportError:
+    NeuroDSPValidationTests = None
+
+try:
+    from validation.benchmarks.test_neurokit2 import NeuroKit2ValidationTests
+except ImportError:
+    NeuroKit2ValidationTests = None
+
+try:
+    from validation.benchmarks.test_bcipy import BcipyValidationTests
+except ImportError:
+    BcipyValidationTests = None
+
+try:
+    from validation.benchmarks.test_lsl import LSLValidationTests
+except ImportError:
+    LSLValidationTests = None
+
 
 class ComprehensiveValidation:
     """
@@ -87,11 +118,18 @@ class ComprehensiveValidation:
         print(f"Quick mode: {quick_mode}")
         print("="*80 + "\n")
 
-        # List of all test suites
+        # List of all test suites (10 BCI repositories)
         test_suites = [
+            ('BrainFlow', BrainFlowTests),
+            ('MNE-Python', MNEPythonTests),
             ('MOABB', MOABBValidationTests),
+            ('PyRiemann', PyRiemannValidationTests),
+            ('NeuroDSP', NeuroDSPValidationTests),
+            ('NeuroKit2', NeuroKit2ValidationTests),
             ('EEGNet', EEGNetValidationTests),
-            # Add more as implemented
+            ('Bcipy', BcipyValidationTests),
+            ('LSL', LSLValidationTests),
+            # Note: OpenSim tests are in separate file (integrations/opensim/)
         ]
 
         repository_results = {}
