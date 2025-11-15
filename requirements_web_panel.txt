@@ -1,0 +1,74 @@
+# Multi-Heart-Model Web Control Panel Requirements
+# ==================================================
+
+# Core framework (already in main requirements.txt)
+numpy>=1.21.0
+
+# Web Backend
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+websockets>=12.0
+pydantic>=2.0.0
+python-multipart>=0.0.6
+
+# BCI Integration
+brainflow>=5.11.0  # Universal BCI interface
+pylsl>=1.16.0  # Lab Streaming Layer
+mne>=1.5.0  # Neurophysiological data processing
+pyriemann>=0.5.0  # Riemannian geometry for BCI
+neurodsp>=2.2.0  # Neural signal processing
+neurokit2>=0.2.0  # Physiological signal analysis
+
+# Alternative OpenBCI interface (optional)
+# pyOpenBCI>=0.13  # Direct OpenBCI Python interface
+
+# Visualization
+matplotlib>=3.6.0
+plotly>=5.17.0
+kaleido>=0.2.1  # Static image export for Plotly
+
+# 3D Visualization
+pyvista>=0.42.0  # Modern VTK wrapper
+# vtk>=9.2.0  # (installed with pyvista)
+# mayavi>=4.8.0  # Optional: conda install -c conda-forge mayavi
+
+# Scientific Computing
+scipy>=1.10.0  # Signal processing, spectrograms
+
+# Documentation Generation
+# LaTeX tools (system dependencies)
+# - texlive-latex-base
+# - texlive-latex-extra
+# - texlive-fonts-recommended
+# Install on Ubuntu/Debian: sudo apt install texlive-latex-base texlive-latex-extra
+
+# Data Export
+pandas>=2.0.0  # DataFrame for data manipulation
+openpyxl>=3.1.0  # Excel export
+h5py>=3.9.0  # HDF5 for large datasets
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+
+# Development
+black>=23.0.0  # Code formatting
+flake8>=6.0.0  # Linting
+mypy>=1.5.0  # Type checking
+
+# Optional: Advanced BCI frameworks
+# moabb>=0.5.0  # BCI benchmarking (requires sklearn)
+# scikit-learn>=1.3.0
+
+# Optional: Deep Learning for BCI
+# tensorflow>=2.13.0
+# torch>=2.0.0
+
+# Security (production deployment)
+python-jose[cryptography]>=3.3.0  # JWT tokens
+passlib[bcrypt]>=1.7.4  # Password hashing
+python-dotenv>=1.0.0  # Environment variables
+
+# CORS and middleware
+aiofiles>=23.0.0  # Async file operations
