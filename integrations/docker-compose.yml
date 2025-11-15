@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  # MQTT Broker
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: multi-heart-mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    restart: unless-stopped
+
+  # Node.js API Server
+  nodejs-api:
+    build:
+      context: ../
+      dockerfile: integrations/nodejs/Dockerfile
+    container_name: multi-heart-api
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      ENABLE_MQTT: "true"
+      MQTT_BROKER: "mqtt://mosquitto:1883"
+      PYTHON_PATH: "/usr/bin/python3"
+      NODE_ENV: "production"
+    depends_on:
+      - mosquitto
+      - postgres
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Node-RED
+  nodered:
+    image: nodered/node-red:latest
+    container_name: multi-heart-nodered
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./nodered:/data
+    environment:
+      TZ: "UTC"
+    depends_on:
+      - mosquitto
+      - nodejs-api
+    restart: unless-stopped
+
+  # PostgreSQL + TimescaleDB
+  postgres:
+    image: timescale/timescaledb:latest-pg14
+    container_name: multi-heart-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: heart_data
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  # Redis (for job queue and caching)
+  redis:
+    image: redis:7-alpine
+    container_name: multi-heart-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  # Grafana for dashboards
+  grafana:
+    image: grafana/grafana:latest
+    container_name: multi-heart-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Optional: Prometheus for metrics
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: multi-heart-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  grafana_data:
+  prometheus_data:
+
+networks:
+  default:
+    name: multi-heart-network

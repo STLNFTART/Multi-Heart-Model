@@ -1,0 +1,438 @@
+[
+  {
+    "id": "flow_main",
+    "label": "Multi-Heart-Model Orchestration",
+    "nodes": [
+      {
+        "id": "http_webhook",
+        "type": "http in",
+        "z": "flow_main",
+        "name": "TAK/Sensor Webhook",
+        "url": "/trigger/simulation",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 100
+      },
+      {
+        "id": "extract_payload",
+        "type": "function",
+        "z": "flow_main",
+        "name": "Extract Simulation Config",
+        "func": "// Extract configuration from webhook\nconst config = {\n  duration: msg.payload.duration || 10.0,\n  dt: msg.payload.dt || 0.001,\n  neural_params: msg.payload.neural || {},\n  cardiac_params: msg.payload.cardiac || {},\n  source: msg.payload.source || 'unknown'\n};\n\nmsg.payload = config;\nmsg.simulation_id = msg.req.headers['x-simulation-id'] || Date.now();\n\nreturn msg;",
+        "outputs": 1,
+        "x": 400,
+        "y": 100
+      },
+      {
+        "id": "call_node_api",
+        "type": "http request",
+        "z": "flow_main",
+        "name": "POST /heart/run",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:3000/api/heart/run",
+        "tls": "",
+        "x": 650,
+        "y": 100
+      },
+      {
+        "id": "check_status",
+        "type": "function",
+        "z": "flow_main",
+        "name": "Check Result Status",
+        "func": "if (msg.payload.success) {\n  msg.status = 'success';\n  msg.metrics = msg.payload.metrics;\n} else {\n  msg.status = 'failed';\n  msg.error = msg.payload.error;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "x": 900,
+        "y": 100
+      },
+      {
+        "id": "decision_node",
+        "type": "switch",
+        "z": "flow_main",
+        "name": "Check Thresholds",
+        "property": "metrics.cardiac.max",
+        "propertyType": "msg",
+        "rules": [
+          {
+            "t": "gt",
+            "v": "2.0",
+            "vt": "num"
+          },
+          {
+            "t": "else"
+          }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1120,
+        "y": 100
+      },
+      {
+        "id": "send_alert",
+        "type": "function",
+        "z": "flow_main",
+        "name": "Send Alert",
+        "func": "msg.payload = {\n  alert_type: 'cardiac_threshold_exceeded',\n  simulation_id: msg.simulation_id,\n  value: msg.metrics.cardiac.max,\n  threshold: 2.0,\n  timestamp: new Date().toISOString()\n};\n\nreturn msg;",
+        "outputs": 1,
+        "x": 1350,
+        "y": 80
+      },
+      {
+        "id": "mqtt_alert",
+        "type": "mqtt out",
+        "z": "flow_main",
+        "name": "Publish Alert to MQTT",
+        "topic": "heart/alerts",
+        "qos": "1",
+        "retain": "false",
+        "broker": "mqtt_broker",
+        "x": 1600,
+        "y": 80
+      },
+      {
+        "id": "store_result",
+        "type": "function",
+        "z": "flow_main",
+        "name": "Store to DB",
+        "func": "// Format for database storage\nmsg.payload = {\n  simulation_id: msg.simulation_id,\n  timestamp: new Date().toISOString(),\n  status: msg.status,\n  metrics: msg.metrics,\n  source: msg.payload.source\n};\n\nreturn msg;",
+        "outputs": 1,
+        "x": 1350,
+        "y": 140
+      },
+      {
+        "id": "http_response",
+        "type": "http response",
+        "z": "flow_main",
+        "name": "Return Response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1600,
+        "y": 140
+      }
+    ],
+    "configs": [
+      {
+        "id": "mqtt_broker",
+        "type": "mqtt-broker",
+        "name": "Local MQTT",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+      }
+    ],
+    "wires": [
+      ["http_webhook", "extract_payload"],
+      ["extract_payload", "call_node_api"],
+      ["call_node_api", "check_status"],
+      ["check_status", "decision_node"],
+      ["decision_node", "send_alert", 0],
+      ["decision_node", "store_result", 1],
+      ["send_alert", "mqtt_alert"],
+      ["store_result", "http_response"]
+    ]
+  },
+  {
+    "id": "flow_cron",
+    "label": "Scheduled Sweeps",
+    "nodes": [
+      {
+        "id": "cron_trigger",
+        "type": "inject",
+        "z": "flow_cron",
+        "name": "Hourly Sweep",
+        "props": [
+          {
+            "p": "payload"
+          }
+        ],
+        "repeat": "3600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 300
+      },
+      {
+        "id": "create_configs",
+        "type": "function",
+        "z": "flow_cron",
+        "name": "Create 5 Configs",
+        "func": "// Create array of 5 different configurations\nconst configs = [\n  { name: 'baseline', neural_params: { a: 0.7, b: 0.8 } },\n  { name: 'high_coupling', coupling_params: { neural_to_cardiac_gain: 0.8 } },\n  { name: 'low_coupling', coupling_params: { neural_to_cardiac_gain: 0.2 } },\n  { name: 'fast_cardiac', cardiac_params: { omega: 1.5 } },\n  { name: 'slow_cardiac', cardiac_params: { omega: 0.5 } }\n];\n\nmsg.configs = configs;\nmsg.sweep_id = Date.now();\n\nreturn msg;",
+        "outputs": 1,
+        "x": 400,
+        "y": 300
+      },
+      {
+        "id": "split_configs",
+        "type": "split",
+        "z": "flow_cron",
+        "name": "Split to Individual",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 650,
+        "y": 300
+      },
+      {
+        "id": "run_each_sim",
+        "type": "http request",
+        "z": "flow_cron",
+        "name": "POST /heart/run",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:3000/api/heart/run",
+        "tls": "",
+        "x": 900,
+        "y": 300
+      },
+      {
+        "id": "join_results",
+        "type": "join",
+        "z": "flow_cron",
+        "name": "Combine All Results",
+        "mode": "auto",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "5",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1150,
+        "y": 300
+      },
+      {
+        "id": "aggregate_summary",
+        "type": "function",
+        "z": "flow_cron",
+        "name": "Aggregate Summary",
+        "func": "const summary = {\n  sweep_id: msg.sweep_id,\n  timestamp: new Date().toISOString(),\n  total_configs: msg.payload.length,\n  results: msg.payload.map((r, i) => ({\n    config_name: msg.configs[i].name,\n    cardiac_max: r.metrics.cardiac.max,\n    neural_max: r.metrics.neural.max,\n    duration: r.raw_result.duration\n  }))\n};\n\nmsg.payload = summary;\n\nreturn msg;",
+        "outputs": 1,
+        "x": 1400,
+        "y": 300
+      },
+      {
+        "id": "publish_summary",
+        "type": "mqtt out",
+        "z": "flow_cron",
+        "name": "Publish Summary",
+        "topic": "heart/sweep/summary",
+        "qos": "1",
+        "retain": "false",
+        "broker": "mqtt_broker",
+        "x": 1650,
+        "y": 300
+      }
+    ],
+    "wires": [
+      ["cron_trigger", "create_configs"],
+      ["create_configs", "split_configs"],
+      ["split_configs", "run_each_sim"],
+      ["run_each_sim", "join_results"],
+      ["join_results", "aggregate_summary"],
+      ["aggregate_summary", "publish_summary"]
+    ]
+  },
+  {
+    "id": "flow_serial_hardware",
+    "label": "Serial Hardware Integration",
+    "nodes": [
+      {
+        "id": "serial_in",
+        "type": "serial in",
+        "z": "flow_serial_hardware",
+        "name": "BCI Hardware Serial",
+        "serial": "serial_port",
+        "x": 150,
+        "y": 500
+      },
+      {
+        "id": "parse_sensor_data",
+        "type": "function",
+        "z": "flow_serial_hardware",
+        "name": "Parse Sensor Data",
+        "func": "try {\n  const data = JSON.parse(msg.payload);\n  \n  msg.payload = {\n    ecg: data.ecg_value,\n    eeg: data.eeg_value,\n    timestamp: data.timestamp || Date.now()\n  };\n  \n  return msg;\n} catch (e) {\n  node.error('Failed to parse sensor data', msg);\n  return null;\n}",
+        "outputs": 1,
+        "x": 400,
+        "y": 500
+      },
+      {
+        "id": "normalize_signal",
+        "type": "function",
+        "z": "flow_serial_hardware",
+        "name": "Normalize Signal",
+        "func": "// Normalize to [-1, 1] range\nmsg.payload.ecg_normalized = msg.payload.ecg / 1000.0;\nmsg.payload.eeg_normalized = msg.payload.eeg / 100.0;\n\nreturn msg;",
+        "outputs": 1,
+        "x": 650,
+        "y": 500
+      },
+      {
+        "id": "store_timeseries",
+        "type": "function",
+        "z": "flow_serial_hardware",
+        "name": "Store in TimescaleDB",
+        "func": "// Format for TimescaleDB\nmsg.topic = \"INSERT INTO sensor_data (time, ecg, eeg) VALUES (to_timestamp($1), $2, $3)\";\nmsg.params = [\n  msg.payload.timestamp / 1000,\n  msg.payload.ecg_normalized,\n  msg.payload.eeg_normalized\n];\n\nreturn msg;",
+        "outputs": 1,
+        "x": 900,
+        "y": 500
+      },
+      {
+        "id": "publish_to_mqtt",
+        "type": "mqtt out",
+        "z": "flow_serial_hardware",
+        "name": "Publish to BCI Topic",
+        "topic": "bci/sensor/data",
+        "qos": "0",
+        "retain": "false",
+        "broker": "mqtt_broker",
+        "x": 900,
+        "y": 560
+      }
+    ],
+    "configs": [
+      {
+        "id": "serial_port",
+        "type": "serial-port",
+        "serialport": "/dev/ttyUSB0",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+      }
+    ],
+    "wires": [
+      ["serial_in", "parse_sensor_data"],
+      ["parse_sensor_data", "normalize_signal"],
+      ["normalize_signal", "store_timeseries"],
+      ["normalize_signal", "publish_to_mqtt"]
+    ]
+  },
+  {
+    "id": "flow_tak_integration",
+    "label": "TAK Integration",
+    "nodes": [
+      {
+        "id": "mqtt_tak_in",
+        "type": "mqtt in",
+        "z": "flow_tak_integration",
+        "name": "Subscribe TAK Events",
+        "topic": "tak/+/event",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "mqtt_broker",
+        "x": 150,
+        "y": 700
+      },
+      {
+        "id": "filter_tak_medical",
+        "type": "switch",
+        "z": "flow_tak_integration",
+        "name": "Filter Medical Events",
+        "property": "payload.event_type",
+        "propertyType": "msg",
+        "rules": [
+          {
+            "t": "eq",
+            "v": "medical",
+            "vt": "str"
+          }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 400,
+        "y": 700
+      },
+      {
+        "id": "trigger_simulation",
+        "type": "function",
+        "z": "flow_tak_integration",
+        "name": "Create Sim Config",
+        "func": "// Use TAK medical event to configure simulation\nmsg.payload = {\n  duration: 30.0,\n  dt: 0.001,\n  cardiac_params: {\n    mu: msg.payload.heart_rate / 60.0,  // Scale HR to param\n    omega: 1.0\n  },\n  tak_event_id: msg.payload.event_id,\n  patient_id: msg.payload.patient_id\n};\n\nreturn msg;",
+        "outputs": 1,
+        "x": 650,
+        "y": 700
+      },
+      {
+        "id": "run_tak_sim",
+        "type": "http request",
+        "z": "flow_tak_integration",
+        "name": "POST /heart/run",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:3000/api/heart/run",
+        "tls": "",
+        "x": 900,
+        "y": 700
+      },
+      {
+        "id": "format_tak_response",
+        "type": "function",
+        "z": "flow_tak_integration",
+        "name": "Format for TAK",
+        "func": "// Convert simulation result to TAK CoT message\nmsg.payload = {\n  event: {\n    version: \"2.0\",\n    uid: msg.payload.tak_event_id + \"_sim\",\n    type: \"a-f-G-E-S\",  // Generic medical simulation\n    time: new Date().toISOString(),\n    start: new Date().toISOString(),\n    stale: new Date(Date.now() + 60000).toISOString(),\n    how: \"m-g\",\n    detail: {\n      simulation_result: {\n        cardiac_max: msg.payload.metrics.cardiac.max,\n        neural_max: msg.payload.metrics.neural.max,\n        assessment: msg.payload.metrics.cardiac.max > 2.0 ? \"abnormal\" : \"normal\"\n      }\n    }\n  }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "x": 1150,
+        "y": 700
+      },
+      {
+        "id": "send_to_tak",
+        "type": "http request",
+        "z": "flow_tak_integration",
+        "name": "POST to TAK Server",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://tak-server:8080/Marti/api/cot",
+        "tls": "",
+        "x": 1400,
+        "y": 700
+      }
+    ],
+    "wires": [
+      ["mqtt_tak_in", "filter_tak_medical"],
+      ["filter_tak_medical", "trigger_simulation"],
+      ["trigger_simulation", "run_tak_sim"],
+      ["run_tak_sim", "format_tak_response"],
+      ["format_tak_response", "send_to_tak"]
+    ]
+  }
+]
