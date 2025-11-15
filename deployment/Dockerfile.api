@@ -1,0 +1,86 @@
+# Multi-Stage Dockerfile for Production FastAPI Deployment
+# Multi-Heart-Model System
+
+# =============================================================================
+# Stage 1: Build Dependencies
+# =============================================================================
+
+FROM python:3.11-slim as builder
+
+# Set working directory
+WORKDIR /build
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    make \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+# =============================================================================
+# Stage 2: Runtime
+# =============================================================================
+
+FROM python:3.11-slim
+
+# Metadata
+LABEL maintainer="Multi-Heart-Model Team"
+LABEL description="Production FastAPI backend for Multi-Heart-Model"
+LABEL version="1.0"
+
+# Create non-root user
+RUN groupadd -r multiheart && useradd -r -g multiheart multiheart
+
+# Set working directory
+WORKDIR /app
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Python packages from builder
+COPY --from=builder /root/.local /home/multiheart/.local
+
+# Copy application code
+COPY src/ ./src/
+COPY config/ ./config/
+COPY web_control_panel/ ./web_control_panel/
+
+# Copy monitoring module
+COPY deployment/security /app/deployment/security
+
+# Create necessary directories
+RUN mkdir -p /app/logs /app/data && \
+    chown -R multiheart:multiheart /app
+
+# Switch to non-root user
+USER multiheart
+
+# Add local Python packages to PATH
+ENV PATH=/home/multiheart/.local/bin:$PATH
+ENV PYTHONPATH=/app:$PYTHONPATH
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Run application
+CMD ["uvicorn", "web_control_panel.backend.main:app", \
+     "--host", "0.0.0.0", \
+     "--port", "8000", \
+     "--workers", "4", \
+     "--log-level", "info", \
+     "--access-log", \
+     "--use-colors"]
