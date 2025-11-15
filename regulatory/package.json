@@ -1,0 +1,53 @@
+{
+  "name": "@multi-heart-model/regulatory-evidence",
+  "version": "1.0.0",
+  "description": "Production-grade regulatory evidence layer for FDA/NHTSA/FAA integration",
+  "main": "dist/service/RegulatoryEvidenceService.js",
+  "types": "dist/service/RegulatoryEvidenceService.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch service/RegulatoryEvidenceService.ts",
+    "start": "node dist/service/RegulatoryEvidenceService.js",
+    "mcp:serve": "tsx mcp/server.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:fda": "vitest run tests/fda.test.ts",
+    "test:nhtsa": "vitest run tests/nhtsa.test.ts",
+    "test:faa": "vitest run tests/faa.test.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,json,md}\"",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "regulatory",
+    "fda",
+    "nhtsa",
+    "faa",
+    "medical-devices",
+    "autonomous-vehicles",
+    "drones",
+    "compliance",
+    "evidence"
+  ],
+  "author": "Multi-Heart-Model Project",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

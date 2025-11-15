@@ -1,0 +1,172 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/tools.json",
+  "version": "1.0",
+  "description": "Safe, constrained MCP tools for regulatory evidence access. These tools provide structured access to regulatory data WITHOUT exposing raw FDA/NHTSA/FAA APIs to LLMs.",
+  "tools": [
+    {
+      "name": "reg.getEvidenceForRun",
+      "description": "Get complete regulatory evidence package for a simulation run. Returns structured evidence from FDA/NHTSA/FAA databases.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "Simulation run ID (e.g., 'hbcm_20250115_001', 'av_city_scenario_42')"
+          },
+          "domain": {
+            "type": "string",
+            "enum": ["medical", "av", "uav", "space"],
+            "description": "Regulatory domain for the simulation"
+          }
+        },
+        "required": ["run_id", "domain"]
+      },
+      "returns": {
+        "type": "object",
+        "description": "Complete RegulatoryEvidence object with queries, findings, and summary"
+      }
+    },
+    {
+      "name": "reg.summarizeEvidence",
+      "description": "Get a concise natural-language summary of regulatory evidence for a run. Useful for quick status checks and report generation.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "Simulation run ID"
+          }
+        },
+        "required": ["run_id"]
+      },
+      "returns": {
+        "type": "string",
+        "description": "Natural language summary of evidence (2-3 sentences)"
+      }
+    },
+    {
+      "name": "reg.compareEvidence",
+      "description": "Compare regulatory evidence across multiple simulation runs. Identifies common findings and differences.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2,
+            "maxItems": 5,
+            "description": "List of run IDs to compare (2-5 runs)"
+          }
+        },
+        "required": ["run_ids"]
+      },
+      "returns": {
+        "type": "object",
+        "description": "EvidenceComparison object with differences and commonalities"
+      }
+    },
+    {
+      "name": "reg.getCriticalFindings",
+      "description": "Get ONLY critical severity findings for a run. Use this to quickly check for blocking regulatory issues.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "description": "Simulation run ID"
+          }
+        },
+        "required": ["run_id"]
+      },
+      "returns": {
+        "type": "array",
+        "description": "Array of critical findings (empty if none)"
+      }
+    },
+    {
+      "name": "reg.getMetrics",
+      "description": "Get health metrics for regulatory data sources (FDA/NHTSA/FAA). Shows request counts, success rates, and latencies.",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object",
+        "description": "Metrics summary from all regulatory clients"
+      }
+    }
+  ],
+  "forbidden_tools": [
+    {
+      "name": "reg.callFdaRaw",
+      "reason": "Direct FDA API access is NOT exposed to LLMs. Use reg.getEvidenceForRun instead."
+    },
+    {
+      "name": "reg.callNhtsaEndpoint",
+      "reason": "Direct NHTSA API access is NOT exposed to LLMs. Use reg.getEvidenceForRun instead."
+    },
+    {
+      "name": "reg.queryArbitraryEndpoint",
+      "reason": "Arbitrary endpoint queries are NOT allowed. All queries go through the evidence service."
+    }
+  ],
+  "usage_notes": [
+    "All tools return structured, sanitized data - never raw API responses",
+    "Tools have built-in rate limiting and caching to respect provider ToS",
+    "For medical domain, evidence includes FDA device recalls and adverse events",
+    "For AV domain, evidence includes NHTSA vehicle recalls and complaints",
+    "For UAV domain, evidence includes FAA airworthiness directives and UAS regulations",
+    "All findings include severity levels: 'info', 'warn', 'critical'",
+    "Tools automatically handle timeouts, retries, and errors",
+    "Results are cached for 1 hour to minimize redundant API calls"
+  ],
+  "examples": [
+    {
+      "description": "Get evidence for an HBCM cardiac simulation",
+      "tool": "reg.getEvidenceForRun",
+      "input": {
+        "run_id": "hbcm_cardiac_stress_001",
+        "domain": "medical"
+      },
+      "output": {
+        "runId": "hbcm_cardiac_stress_001",
+        "domain": "medical",
+        "summary": {
+          "totalFindings": 3,
+          "criticalCount": 0,
+          "warningCount": 1,
+          "infoCount": 2,
+          "hasBlockingIssues": false
+        }
+      }
+    },
+    {
+      "description": "Check for critical issues in an AV simulation",
+      "tool": "reg.getCriticalFindings",
+      "input": {
+        "run_id": "av_city_scenario_42"
+      },
+      "output": []
+    },
+    {
+      "description": "Compare evidence across two HBCM runs",
+      "tool": "reg.compareEvidence",
+      "input": {
+        "run_ids": ["hbcm_run_001", "hbcm_run_002"]
+      },
+      "output": {
+        "differences": [],
+        "commonFindings": [
+          {
+            "system": "fda",
+            "category": "device_recall",
+            "severity": "info"
+          }
+        ]
+      }
+    }
+  ]
+}
