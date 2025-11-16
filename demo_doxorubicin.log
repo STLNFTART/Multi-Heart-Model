@@ -1,0 +1,79 @@
+======================================================================
+Doxorubicin Cardiotoxicity Simulation
+======================================================================
+
+Setting up organ-on-chip system...
+✓ Molecular models initialized
+✓ Immune signaling model initialized
+✓ Liver model configured for doxorubicin
+✓ Cardiac model configured for cardiotoxicity
+✓ Pharmacokinetics model initialized
+✓ Multiscale coupling established
+
+Simulation Parameters:
+  Dose: 500.0 μM·L (therapeutic chemotherapy dose)
+  Duration: 72.0 hours
+  Time step: 0.1 hours
+
+Running simulation...
+Time (h)  | C_heart (μM) | hERG Block | Force  | Liver Viability
+----------------------------------------------------------------------
+/home/user/Multi-Heart-Model/examples/organ_chip/../../src/organ_chip/molecular/ligand_receptor.py:152: RuntimeWarning: overflow encountered in scalar multiply
+  binding_flux = self.kon * L * R
+/home/user/Multi-Heart-Model/examples/organ_chip/../../src/organ_chip/molecular/ligand_receptor.py:194: RuntimeWarning: invalid value encountered in add
+  self.state = self.state + dt * derivs
+/home/user/Multi-Heart-Model/examples/organ_chip/../../src/organ_chip/molecular/ligand_receptor.py:165: RuntimeWarning: invalid value encountered in scalar add
+  dL_dt = -binding_flux + unbinding_flux + recycling_flux - ligand_deg
+/home/user/Multi-Heart-Model/examples/organ_chip/../../src/organ_chip/molecular/ligand_receptor.py:166: RuntimeWarning: invalid value encountered in scalar add
+  dR_dt = -binding_flux + unbinding_flux + self.k_synth - receptor_deg + recycling_flux
+     0.0  |       500.00 |       0.0% |  0.009 |           99.8%
+    10.0  | 95670956305128336245205344624167454645420032.00 |       0.0% |  0.000 |           25.4%
+    20.0  | 18508286250664895564795802638130224833441666353676590877679948435158119630269306634240.00 |       0.0% |  0.000 |           25.4%
+    30.0  | 3580571086213645999995677689198724196125721746581577010555167830560866297590000141119572645675147807354109813002633798018400256.00 |       0.0% |  0.000 |           25.4%
+    40.0  | 692689162561908531374997358828351615595930209432513604640321227127021610801358177464208749086511432512614658280978938899703400239508094455406920080449370170636512526336.00 |       0.0% |  0.000 |           25.4%
+    50.0  | 134006074555585090548131913357979513449227529234249101542581558040503721335691246031210788114131159359678474705281774524249855343675369717932648260288679027018783019175465632550635831284788072084395811875586048.00 |       0.0% |  0.000 |           25.4%
+    60.0  | 25924511293609415827960647413988473701336438362173722869826074394092880201598608789479944595768632059820413635808831380894249020066733997326955389509988027444124942644713526984448189146736035515629192719875312501400841024481735552867449312020384448512.00 |       0.0% |  0.000 |           25.4%
+    70.0  | 5015297165008036699053379038815129854169095656755075195753498823274658219067923242465339198499358763191619741327282273573241599413066407965858019452716006071284508357872469903876367704833018795417556232511681547187188799677117609235146130408978243090712960496976264620645335220395563341053952.00 |       0.0% |  0.000 |           25.4%
+
+======================================================================
+Summary Statistics
+======================================================================
+
+Pharmacokinetics:
+  Cmax (blood): 0.00 μM
+  AUC: 1585789143695926718762467651989260472355413935709719968139295596809833644362659781908393667959273309378085506507753578147007999905186148463015994119351678219994879327999886455756435072878375427997467465709784461979361916374615117252061493157236756242364730979211187602534621429068977317804507136.00 μM·h
+  Half-life: 3.09 h
+
+Cardiac Toxicity:
+  Maximum hERG block: 0.0%
+  Final contractile force: 0.000
+
+Liver Effects:
+  Maximum damage: 74.6%
+  Minimum viability: 25.4%
+
+======================================================================
+Interpretation
+======================================================================
+
+✓  Low QT prolongation risk
+
+⚠️  SIGNIFICANT CONTRACTILITY REDUCTION
+   Contractile force reduced by 100.0%.
+   This indicates impaired cardiac function.
+
+Results exported to: doxorubicin_cardiotoxicity_results.csv
+
+======================================================================
+Clinical Recommendations
+======================================================================
+
+For doxorubicin cardiotoxicity prevention/management:
+  1. Monitor cardiac function (LVEF) regularly
+  2. Consider dexrazoxane as cardioprotectant
+  3. Limit cumulative dose (<450-550 mg/m²)
+  4. ECG monitoring for QT prolongation
+  5. Monitor troponin and BNP biomarkers
+  6. Consider liposomal formulations to reduce toxicity
+
+Simulation complete!

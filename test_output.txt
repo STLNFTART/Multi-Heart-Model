@@ -1,0 +1,43 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.14, pytest-9.0.1, pluggy-1.6.0 -- /root/.local/share/uv/tools/pytest/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/Multi-Heart-Model
+collecting ... collected 13 items / 3 errors
+
+==================================== ERRORS ====================================
+_____ ERROR collecting tests/integration/test_microprocessor_motorhand.py ______
+ImportError while importing test module '/home/user/Multi-Heart-Model/tests/integration/test_microprocessor_motorhand.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/integration/test_microprocessor_motorhand.py:10: in <module>
+    import numpy as np
+E   ModuleNotFoundError: No module named 'numpy'
+___________ ERROR collecting tests/organ_chip/test_drug_toxicity.py ____________
+ImportError while importing test module '/home/user/Multi-Heart-Model/tests/organ_chip/test_drug_toxicity.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/organ_chip/test_drug_toxicity.py:18: in <module>
+    import numpy as np
+E   ModuleNotFoundError: No module named 'numpy'
+____________ ERROR collecting tests/organchip/test_drug_toxicity.py ____________
+ImportError while importing test module '/home/user/Multi-Heart-Model/tests/organchip/test_drug_toxicity.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/organchip/test_drug_toxicity.py:17: in <module>
+    from organchip.orchestrator import OrganChipSuite, create_default_organ_chip_suite
+E   ModuleNotFoundError: No module named 'organchip.orchestrator'
+=========================== short test summary info ============================
+ERROR tests/integration/test_microprocessor_motorhand.py
+ERROR tests/organ_chip/test_drug_toxicity.py
+ERROR tests/organchip/test_drug_toxicity.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!!
+============================== 3 errors in 0.37s ===============================

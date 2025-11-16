@@ -1,0 +1,135 @@
+
+======================================================================
+ORGAN CHIP SUITE - COMPLETE DEMONSTRATION
+======================================================================
+
+----------------------------------------------------------------------
+SCENARIO 1: Therapeutic Dose (100 mg)
+----------------------------------------------------------------------
+============================================================
+ORGAN CHIP SUITE - DRUG TOXICITY STUDY
+============================================================
+Simulating bolus dose of 100.0 mg for 48.0 hours
+Simulation complete: 481 time points
+
+============================================================
+TOXICITY ASSESSMENT
+============================================================
+Overall Score: 0.137
+Severity: None - Safe
+
+Liver: None
+  - ALT elevation: 0.5x
+  - Cell viability: 100.0%
+
+Cardiac: Mild
+  - QTc change: 0.0 ms
+  - Arrhythmia risk: Low-Moderate
+
+Inflammatory Index: 0.43
+============================================================
+Results exported to therapeutic_dose_results.json
+
+----------------------------------------------------------------------
+SCENARIO 2: High Dose (500 mg)
+----------------------------------------------------------------------
+============================================================
+ORGAN CHIP SUITE - DRUG TOXICITY STUDY
+============================================================
+Simulating bolus dose of 500.0 mg for 48.0 hours
+Simulation complete: 481 time points
+
+============================================================
+TOXICITY ASSESSMENT
+============================================================
+Overall Score: 0.137
+Severity: None - Safe
+
+Liver: None
+  - ALT elevation: 0.5x
+  - Cell viability: 100.0%
+
+Cardiac: Mild
+  - QTc change: 0.0 ms
+  - Arrhythmia risk: Low-Moderate
+
+Inflammatory Index: 0.43
+============================================================
+Results exported to high_dose_results.json
+
+----------------------------------------------------------------------
+SCENARIO 3: Cardiotoxic Drug (hERG IC50 = 1.0 μM)
+----------------------------------------------------------------------
+============================================================
+ORGAN CHIP SUITE - DRUG TOXICITY STUDY
+============================================================
+Simulating bolus dose of 200.0 mg for 48.0 hours
+Simulation complete: 481 time points
+
+============================================================
+TOXICITY ASSESSMENT
+============================================================
+Overall Score: 0.137
+Severity: None - Safe
+
+Liver: None
+  - ALT elevation: 0.5x
+  - Cell viability: 100.0%
+
+Cardiac: Mild
+  - QTc change: 0.0 ms
+  - Arrhythmia risk: Low-Moderate
+
+Inflammatory Index: 0.43
+============================================================
+Results exported to cardiotoxic_drug_results.json
+
+----------------------------------------------------------------------
+SCENARIO 4: Hepatotoxic Drug (High Reactive Metabolite)
+----------------------------------------------------------------------
+============================================================
+ORGAN CHIP SUITE - DRUG TOXICITY STUDY
+============================================================
+Simulating bolus dose of 300.0 mg for 72.0 hours
+Simulation complete: 721 time points
+
+============================================================
+TOXICITY ASSESSMENT
+============================================================
+Overall Score: 0.137
+Severity: None - Safe
+
+Liver: None
+  - ALT elevation: 0.5x
+  - Cell viability: 100.0%
+
+Cardiac: Mild
+  - QTc change: 0.0 ms
+  - Arrhythmia risk: Low-Moderate
+
+Inflammatory Index: 0.43
+============================================================
+Results exported to hepatotoxic_drug_results.json
+
+======================================================================
+COMPARATIVE TOXICITY SUMMARY
+======================================================================
+
+Scenario             Overall    Liver        Cardiac      Immune    
+----------------------------------------------------------------------
+Therapeutic Dose     0.137      None         Mild         0.43      
+High Dose            0.137      None         Mild         0.43      
+Cardiotoxic Drug     0.137      None         Mild         0.43      
+Hepatotoxic Drug     0.137      None         Mild         0.43      
+
+======================================================================
+DEMONSTRATION COMPLETE
+======================================================================
+
+Results exported to:
+  - therapeutic_dose_results.json
+  - high_dose_results.json
+  - cardiotoxic_drug_results.json
+  - hepatotoxic_drug_results.json
+
+
