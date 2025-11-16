@@ -1,0 +1,28 @@
+# MQTT Access Control List for Multi-Heart-Model
+
+# Admin user has full access
+user admin
+topic readwrite #
+
+# BCI user can publish to BCI topics
+user bci_publisher
+topic write bci/#
+topic read control/#
+
+# Simulation user can publish simulation data
+user simulation_publisher
+topic write simulation/#
+topic read control/#
+
+# Dashboard can read all data
+user dashboard
+topic read #
+topic write control/#
+
+# Device control topics
+user device_controller
+topic readwrite device/#
+topic readwrite control/#
+
+# Pattern for client-specific topics
+pattern readwrite client/%u/#
