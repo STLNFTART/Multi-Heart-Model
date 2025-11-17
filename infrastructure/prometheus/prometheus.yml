@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'multi-heart-model'
+
+scrape_configs:
+  # API Server metrics
+  - job_name: 'api-server'
+    static_configs:
+      - targets: ['api_server:3000']
+    metrics_path: '/metrics'
+
+  # FastAPI metrics
+  - job_name: 'fastapi'
+    static_configs:
+      - targets: ['fastapi_backend:8000']
+    metrics_path: '/metrics'
+
+  # Node exporter (if added)
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # PostgreSQL exporter (if added)
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+
+  # Redis exporter (if added)
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
