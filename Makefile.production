@@ -1,0 +1,132 @@
+# Multi-Heart-Model Production Infrastructure Makefile
+
+.PHONY: help setup start stop restart logs build clean test validate
+
+help:
+	@echo "Multi-Heart-Model Production Infrastructure"
+	@echo "==========================================="
+	@echo ""
+	@echo "Available commands:"
+	@echo "  make setup       - Initial setup (create .env, initialize database)"
+	@echo "  make build       - Build all Docker images"
+	@echo "  make start       - Start all services"
+	@echo "  make stop        - Stop all services"
+	@echo "  make restart     - Restart all services"
+	@echo "  make logs        - View logs from all services"
+	@echo "  make clean       - Clean up containers and volumes"
+	@echo "  make test        - Run integration tests"
+	@echo "  make validate    - Run all validation suites"
+	@echo "  make status      - Show service status"
+	@echo ""
+
+setup:
+	@echo "Setting up production environment..."
+	@if [ ! -f .env ]; then \
+		cp .env.example .env; \
+		echo "✓ Created .env file - PLEASE EDIT WITH SECURE PASSWORDS"; \
+	else \
+		echo "✓ .env file already exists"; \
+	fi
+	@mkdir -p data results logs
+	@echo "✓ Created data directories"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Edit .env with secure passwords"
+	@echo "  2. Run 'make build' to build images"
+	@echo "  3. Run 'make start' to start services"
+
+build:
+	@echo "Building Docker images..."
+	docker-compose build
+	@echo "✓ Build complete"
+
+start:
+	@echo "Starting all services..."
+	docker-compose up -d
+	@echo "✓ Services started"
+	@echo ""
+	@echo "Access points:"
+	@echo "  Dashboard:     http://localhost"
+	@echo "  API:           http://localhost/api"
+	@echo "  FastAPI:       http://localhost/fastapi"
+	@echo "  Node-RED:      http://localhost/nodered"
+	@echo "  Grafana:       http://localhost/grafana"
+	@echo "  Prometheus:    http://localhost:9090"
+
+stop:
+	@echo "Stopping all services..."
+	docker-compose down
+	@echo "✓ Services stopped"
+
+restart: stop start
+
+logs:
+	docker-compose logs -f
+
+logs-api:
+	docker-compose logs -f api_server
+
+logs-fastapi:
+	docker-compose logs -f fastapi_backend
+
+logs-postgres:
+	docker-compose logs -f postgres
+
+status:
+	@echo "Service Status:"
+	@docker-compose ps
+
+clean:
+	@echo "Cleaning up..."
+	docker-compose down -v
+	@echo "✓ Containers and volumes removed"
+
+test:
+	@echo "Running integration tests..."
+	python -m pytest tests/integration/test_production_infrastructure.py -v
+	@echo "✓ Tests complete"
+
+validate:
+	@echo "Running validation suites..."
+	@echo ""
+	@echo "1. SpaceX/Tesla/PX4/CARLA Validation"
+	python validation/spacex_tesla_px4_carla_tests.py
+	@echo ""
+	@echo "2. Lipschitz Stability Validation"
+	python validation/lipschitz_stability.py
+	@echo ""
+	@echo "3. Performance Monitoring Demo"
+	python monitoring/performance_monitor.py
+	@echo ""
+	@echo "✓ All validations complete"
+
+demo-tesla:
+	@echo "Running Tesla/Neuralink demo..."
+	python examples/tesla_neuralink_demo.py
+
+demo-starlink:
+	@echo "Running Starlink integration demo..."
+	python integration/starlink_network.py
+
+demo-nasa:
+	@echo "Running NASA POWER integration demo..."
+	python integration/nasa_power_environmental.py
+
+demo-opensim:
+	@echo "Running OpenSim integration demo..."
+	python integration/opensim_layer.py
+
+install-deps:
+	@echo "Installing Python dependencies..."
+	pip install -r requirements_web_panel.txt
+	pip install scipy psutil pytest
+	@echo "✓ Dependencies installed"
+
+db-shell:
+	docker-compose exec postgres psql -U mhm_user -d multi_heart_model
+
+redis-cli:
+	docker-compose exec redis redis-cli
+
+mqtt-sub:
+	docker-compose exec mqtt mosquitto_sub -t '#' -v

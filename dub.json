@@ -3,7 +3,19 @@
 		"dontelightfoot"
 	],
 	"copyright": "Copyright © 2025, dontelightfoot",
-	"description": "A minimal D application.",
-	"license": "proprietary",
-	"name": "apl"
+	"description": "Multi-Heart-Model: Heart-Brain Coupling and Organ-On-Chip Platform",
+	"license": "MIT",
+	"name": "primal_overlay",
+	"targetType": "executable",
+	"targetName": "primal_overlay",
+	"mainSourceFile": "source/app.d",
+	"sourcePaths": ["source"],
+	"importPaths": ["source"],
+	"dependencies": {},
+	"configurations": [
+		{
+			"name": "application",
+			"targetType": "executable"
+		}
+	]
 }

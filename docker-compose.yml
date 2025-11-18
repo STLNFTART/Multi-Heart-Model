@@ -1,5 +1,6 @@
 version: '3.8'
 
+ claude/explore-nodejs-nodered-integration-01Xd7TmAHYNxKkZ8EtqBH4Dh
 # Multi-Heart-Model Quick Start Docker Compose
 #
 # This is a simplified configuration for demos and development.
@@ -100,3 +101,227 @@ networks:
 #   API: http://localhost:8000
 #   API Docs: http://localhost:8000/docs
 #   Redis: localhost:6379
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: mhm_postgres
+    environment:
+      POSTGRES_DB: multi_heart_model
+      POSTGRES_USER: mhm_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mhm_secure_password}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infrastructure/database/init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - mhm_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mhm_user -d multi_heart_model"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching and session management
+  redis:
+    image: redis:7-alpine
+    container_name: mhm_redis
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_secure_password}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - mhm_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # MQTT Broker (Eclipse Mosquitto)
+  mqtt:
+    image: eclipse-mosquitto:2
+    container_name: mhm_mqtt
+    volumes:
+      - ./infrastructure/mqtt/config:/mosquitto/config
+      - ./infrastructure/mqtt/data:/mosquitto/data
+      - ./infrastructure/mqtt/log:/mosquitto/log
+    ports:
+      - "1883:1883"  # MQTT
+      - "9001:9001"  # WebSocket
+    networks:
+      - mhm_network
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -t '$$SYS/#' -C 1 | grep -v Error || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Node-RED for workflow orchestration
+  nodered:
+    image: nodered/node-red:latest
+    container_name: mhm_nodered
+    environment:
+      - TZ=UTC
+      - NODE_RED_CREDENTIAL_SECRET=${NODE_RED_SECRET:-nodered_secret_key}
+    volumes:
+      - nodered_data:/data
+      - ./infrastructure/nodered/flows:/data/flows
+    ports:
+      - "1880:1880"
+    networks:
+      - mhm_network
+    depends_on:
+      - mqtt
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1880/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Node.js API Server
+  api_server:
+    build:
+      context: ./infrastructure/api
+      dockerfile: Dockerfile
+    container_name: mhm_api
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://mhm_user:${POSTGRES_PASSWORD:-mhm_secure_password}@postgres:5432/multi_heart_model
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-redis_secure_password}@redis:6379
+      - MQTT_URL=mqtt://mqtt:1883
+      - JWT_SECRET=${JWT_SECRET:-jwt_super_secret_key}
+      - PORT=3000
+    volumes:
+      - ./infrastructure/api:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - mhm_network
+    depends_on:
+      - postgres
+      - redis
+      - mqtt
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Python FastAPI Backend
+  fastapi_backend:
+    build:
+      context: .
+      dockerfile: ./infrastructure/fastapi/Dockerfile
+    container_name: mhm_fastapi
+    environment:
+      - DATABASE_URL=postgresql://mhm_user:${POSTGRES_PASSWORD:-mhm_secure_password}@postgres:5432/multi_heart_model
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-redis_secure_password}@redis:6379
+      - MQTT_BROKER=mqtt
+      - MQTT_PORT=1883
+    volumes:
+      - .:/app
+      - ./data:/app/data
+      - ./results:/app/results
+    ports:
+      - "8000:8000"
+    networks:
+      - mhm_network
+    depends_on:
+      - postgres
+      - redis
+      - mqtt
+    command: uvicorn web_control_panel.backend.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Web Dashboard (React/Vue)
+  dashboard:
+    build:
+      context: ./infrastructure/dashboard
+      dockerfile: Dockerfile
+    container_name: mhm_dashboard
+    environment:
+      - REACT_APP_API_URL=http://localhost:3000
+      - REACT_APP_FASTAPI_URL=http://localhost:8000
+      - REACT_APP_WS_URL=ws://localhost:8000/ws
+      - REACT_APP_MQTT_WS_URL=ws://localhost:9001
+    volumes:
+      - ./infrastructure/dashboard:/app
+      - /app/node_modules
+    ports:
+      - "3001:3000"
+    networks:
+      - mhm_network
+    depends_on:
+      - api_server
+      - fastapi_backend
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: mhm_nginx
+    volumes:
+      - ./infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./infrastructure/nginx/ssl:/etc/nginx/ssl
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - mhm_network
+    depends_on:
+      - api_server
+      - fastapi_backend
+      - dashboard
+      - nodered
+
+  # Prometheus for metrics
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: mhm_prometheus
+    volumes:
+      - ./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "9090:9090"
+    networks:
+      - mhm_network
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: mhm_grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./infrastructure/grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3002:3000"
+    networks:
+      - mhm_network
+    depends_on:
+      - prometheus
+
+volumes:
+  postgres_data:
+  redis_data:
+  nodered_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  mhm_network:
+    driver: bridge
+    main
