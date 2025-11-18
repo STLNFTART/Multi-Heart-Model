@@ -56,6 +56,15 @@ This index provides a comprehensive guide to understanding the Multi-Heart-Model
    - MotorHandPro integration
    - Hardware deployment information
 
+8. **[NODERED_NODEJS_INTEGRATION.md](NODERED_NODEJS_INTEGRATION.md)** - Node-RED and Node.js integration architecture
+   - Node-RED orchestration patterns
+   - Node.js API gateway design
+   - OpenSim biomechanical integration
+   - WebSocket bridging and real-time data
+   - IoT device aggregation
+   - Implementation roadmap
+   - **Best for**: Developers adding web services, IoT integration, or OpenSim coupling
+
 ---
 
 ## How to Navigate This Documentation

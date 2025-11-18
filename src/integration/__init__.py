@@ -1,14 +1,28 @@
 """
-Microprocessor-Motor Integration Module
+Integration Module
 
-Bridges Primal Logic Processor with MotorHandPro QUANT control system.
+Bridges between different systems:
+- Primal Logic Processor with MotorHandPro QUANT control system
+- HBCM with OpenSim biomechanical simulation
 
 Author: Donte Lightfoot - Lightfoot Technology
 """
 
 from .motorhand_bridge import MotorHandBridge, QuantInterface
+from .opensim_hooks import (
+    OpenSimBridge,
+    CardiacForceExtractor,
+    OpenSimConfig,
+    BiomechanicalResults,
+    run_hbcm_opensim_integration
+)
 
 __all__ = [
     'MotorHandBridge',
-    'QuantInterface'
+    'QuantInterface',
+    'OpenSimBridge',
+    'CardiacForceExtractor',
+    'OpenSimConfig',
+    'BiomechanicalResults',
+    'run_hbcm_opensim_integration'
 ]

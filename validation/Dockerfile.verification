@@ -1,0 +1,48 @@
+# Independent Validation Container
+#
+# This container provides a reproducible environment for independent
+# verification of Multi-Heart-Model performance claims.
+#
+# Build:
+#   docker build -t multiheart-validation -f validation/Dockerfile.verification .
+#
+# Run:
+#   docker run --rm multiheart-validation
+
+FROM python:3.11-slim
+
+LABEL maintainer="Lightfoot Technology"
+LABEL description="Independent validation environment for Multi-Heart-Model"
+LABEL version="1.0"
+
+# Set working directory
+WORKDIR /validation
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --no-cache-dir \
+    numpy==1.24.3 \
+    scipy==1.10.1 \
+    matplotlib==3.7.1
+
+# Copy only necessary validation files
+COPY src/ ./src/
+COPY benchmarks/plp_vs_pid_validation.py ./benchmarks/
+COPY benchmarks/visualize_validation.py ./benchmarks/
+COPY validation/verify_results.py ./
+COPY validation/expected_results.json ./
+
+# Set environment variables for reproducibility
+ENV PYTHONHASHSEED=42
+ENV PYTHONUNBUFFERED=1
+
+# Create results directory
+RUN mkdir -p /validation/results
+
+# Run validation on container start
+CMD ["python", "verify_results.py", "--full-validation"]

@@ -1,0 +1,56 @@
+{
+  "total_tests": 6,
+  "passed": 6,
+  "failed": 0,
+  "tolerance": 0.05,
+  "results": [
+    {
+      "test_name": "Settling time improvement",
+      "passed": true,
+      "expected": 6.8,
+      "actual": 6.811036789297659,
+      "tolerance": 0.1,
+      "message": "Claimed: 6.8x, Actual: 6.8x"
+    },
+    {
+      "test_name": "Control effort reduction",
+      "passed": true,
+      "expected": 4.2,
+      "actual": 4.230744895413529,
+      "tolerance": 0.1,
+      "message": "Claimed: 4.2x, Actual: 4.2x"
+    },
+    {
+      "test_name": "Disturbance rejection speed",
+      "passed": true,
+      "expected": "<0.1s",
+      "actual": 0.001,
+      "tolerance": 0.0,
+      "message": "PLP: 0.001s, PID: 3.805s (PLP much faster)"
+    },
+    {
+      "test_name": "Real-time computation (<10\u03bcs)",
+      "passed": true,
+      "expected": "<10\u03bcs",
+      "actual": 6.768041399999999,
+      "tolerance": 0.0,
+      "message": "Actual: 6.77\u03bcs"
+    },
+    {
+      "test_name": "Numerical stability (no NaN/Inf)",
+      "passed": true,
+      "expected": "No NaN/Inf",
+      "actual": "Valid",
+      "tolerance": 0.0,
+      "message": "All values finite and well-defined"
+    },
+    {
+      "test_name": "Reproducibility (fixed random seed)",
+      "passed": true,
+      "expected": "Deterministic",
+      "actual": "Deterministic",
+      "tolerance": 0.0,
+      "message": "Fixed random seed ensures reproducibility"
+    }
+  ]
+}

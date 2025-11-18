@@ -337,6 +337,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include space integration routes
+try:
+    from web_control_panel.backend.space_routes import router as space_router
+    app.include_router(space_router)
+    print("Space integration routes loaded successfully")
+except ImportError as e:
+    print(f"Space integration routes not available: {e}")
+
 # Global state
 system_state = SystemState()
 connection_manager = ConnectionManager()
@@ -357,7 +365,14 @@ async def root():
             "config": "/api/config",
             "control": "/api/control",
             "data": "/api/data",
-            "websocket": "/ws/{client_id}"
+            "websocket": "/ws/{client_id}",
+            "space": "/api/space"
+        },
+        "space_integration": {
+            "env_context": "/api/space/env-context",
+            "comms_profile": "/api/space/comms-profile",
+            "scenario": "/api/space/scenario",
+            "health": "/api/space/health"
         }
     }
 

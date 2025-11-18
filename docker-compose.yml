@@ -1,5 +1,107 @@
 version: '3.8'
 
+ claude/explore-nodejs-nodered-integration-01Xd7TmAHYNxKkZ8EtqBH4Dh
+# Multi-Heart-Model Quick Start Docker Compose
+#
+# This is a simplified configuration for demos and development.
+# For production deployment, use deployment/docker-compose.production.yml
+#
+# Quick Start (5 minutes):
+#   1. docker-compose up -d
+#   2. Open http://localhost:1880 (Node-RED dashboard)
+#   3. Open http://localhost:8000/docs (API documentation)
+#   4. Run python examples/space_integration_demo.py
+#
+# Services included:
+# - HBCM FastAPI backend
+# - Node-RED dashboard
+# - Redis (caching)
+#
+# Security Note: This configuration uses development settings.
+# DO NOT use in production!
+
+services:
+
+  redis:
+    image: redis:7-alpine
+    container_name: multiheart-redis-dev
+    ports:
+      - "6379:6379"
+    networks:
+      - multiheart-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile.api
+    image: multiheart-api:dev
+    container_name: multiheart-api-dev
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+      - DEBUG=true
+      - REDIS_URL=redis://redis:6379/0
+      - RATE_LIMIT_ENABLED=false
+    volumes:
+      - ./src:/app/src
+      - ./config:/app/config
+      - ./web_control_panel:/app/web_control_panel
+    networks:
+      - multiheart-net
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: multiheart-nodered-dev
+    ports:
+      - "1880:1880"
+    environment:
+      - TZ=America/Chicago
+    volumes:
+      - ./nodered:/data
+    networks:
+      - multiheart-net
+    depends_on:
+      - api
+
+networks:
+  multiheart-net:
+    driver: bridge
+
+# Quick Commands:
+#
+# Start all services:
+#   docker-compose up -d
+#
+# View logs:
+#   docker-compose logs -f
+#
+# Stop all services:
+#   docker-compose down
+#
+# Rebuild and restart:
+#   docker-compose up -d --build
+#
+# Access services:
+#   Node-RED: http://localhost:1880
+#   API: http://localhost:8000
+#   API Docs: http://localhost:8000/docs
+#   Redis: localhost:6379
+
 services:
   # PostgreSQL Database
   postgres:
@@ -222,3 +324,4 @@ volumes:
 networks:
   mhm_network:
     driver: bridge
+    main
