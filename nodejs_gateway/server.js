@@ -34,10 +34,17 @@ const OpenSimBridge = require('./services/opensimBridge');
 const PORT = process.env.PORT || 3000;
 const FASTAPI_URL = process.env.FASTAPI_URL || 'http://localhost:8000';
 const FASTAPI_WS_URL = process.env.FASTAPI_WS_URL || 'ws://localhost:8000/ws/nodejs-bridge';
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/hbcm';
 const INFLUXDB_HOST = process.env.INFLUXDB_HOST || 'localhost';
 
+// Validate critical security configuration
+if (!JWT_SECRET) {
+    console.error('FATAL: JWT_SECRET environment variable not set. Refusing to start.');
+    console.error('Generate a strong random secret and set it:');
+    console.error('  JWT_SECRET=$(openssl rand -base64 64) npm start');
+    process.exit(1);
+}
 // Initialize Express app
 const app = express();
 const server = http.createServer(app);
