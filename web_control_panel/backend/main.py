@@ -339,7 +339,7 @@ app.add_middleware(
 
 # Include space integration routes
 try:
-    from space_routes import router as space_router
+    from web_control_panel.backend.space_routes import router as space_router
     app.include_router(space_router)
     print("Space integration routes loaded successfully")
 except ImportError as e:
