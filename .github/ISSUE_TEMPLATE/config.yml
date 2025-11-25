@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/STLNFTART/Multi-Heart-Model/discussions
+    about: For general questions, ideas, and community discussions
+  - name: Documentation
+    url: https://github.com/STLNFTART/Multi-Heart-Model/tree/main/docs
+    about: Comprehensive technical documentation and guides
+  - name: Security Vulnerability
+    url: https://github.com/STLNFTART/Multi-Heart-Model/security/advisories
+    about: Report security vulnerabilities privately
