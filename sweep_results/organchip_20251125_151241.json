@@ -1,0 +1,141 @@
+{
+  "timestamp": "2025-11-25T15:12:41.211755",
+  "model_name": "OrganChipSuite",
+  "parameter_space": {
+    "dose_mg": [
+      10.0,
+      50.0,
+      100.0,
+      200.0,
+      500.0
+    ],
+    "duration_hours": [
+      24.0,
+      48.0
+    ]
+  },
+  "results": [
+    {
+      "dose_mg": 10.0,
+      "duration_hours": 24.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 49
+    },
+    {
+      "dose_mg": 10.0,
+      "duration_hours": 48.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 97
+    },
+    {
+      "dose_mg": 50.0,
+      "duration_hours": 24.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 49
+    },
+    {
+      "dose_mg": 50.0,
+      "duration_hours": 48.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 97
+    },
+    {
+      "dose_mg": 100.0,
+      "duration_hours": 24.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 49
+    },
+    {
+      "dose_mg": 100.0,
+      "duration_hours": 48.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 97
+    },
+    {
+      "dose_mg": 200.0,
+      "duration_hours": 24.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 49
+    },
+    {
+      "dose_mg": 200.0,
+      "duration_hours": 48.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 97
+    },
+    {
+      "dose_mg": 500.0,
+      "duration_hours": 24.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 49
+    },
+    {
+      "dose_mg": 500.0,
+      "duration_hours": 48.0,
+      "overall_toxicity_score": 0.13714285714285715,
+      "overall_severity": "None - Safe",
+      "liver_severity": "None",
+      "cardiac_severity": "Mild",
+      "inflammatory_index": 0.0,
+      "stable": true,
+      "timesteps": 97
+    }
+  ],
+  "summary_stats": {
+    "total_combinations": 10,
+    "successful_runs": 10,
+    "failed_runs": 0,
+    "mean_toxicity_score": 0.13714285714285718,
+    "max_toxicity_score": 0.13714285714285715,
+    "execution_time_s": 0.006082296371459961
+  },
+  "total_combinations": 10,
+  "successful_runs": 10,
+  "failed_runs": 0,
+  "execution_time_s": 0.006082296371459961
+}

@@ -1,0 +1,157 @@
+{
+  "timestamp": "2025-11-25T14:54:34.374584",
+  "benchmark_suite": "HBCM Performance",
+  "results": [
+    {
+      "test_name": "HBCM Single Step",
+      "duration_s": 0.01442199200002392,
+      "iterations": 10000,
+      "mean_latency_ms": 0.0012409382,
+      "median_latency_ms": 0.00122,
+      "p95_latency_ms": 0.001327,
+      "p99_latency_ms": 0.001873,
+      "min_latency_ms": 0.001036,
+      "max_latency_ms": 0.014447,
+      "throughput_ops_per_sec": 693385.4907133088,
+      "memory_mb": 0.0,
+      "metadata": {
+        "dt": 0.001,
+        "state_size": 4
+      }
+    },
+    {
+      "test_name": "HBCM Short Simulation (100 steps)",
+      "duration_s": 0.017287748000000006,
+      "iterations": 100,
+      "mean_latency_ms": 0.17287748,
+      "median_latency_ms": 0.164737,
+      "p95_latency_ms": 0.197652,
+      "p99_latency_ms": 0.345699,
+      "min_latency_ms": 0.161277,
+      "max_latency_ms": 0.345699,
+      "throughput_ops_per_sec": 5784.4434104430475,
+      "memory_mb": 0.0,
+      "metadata": {
+        "steps": 100,
+        "simulated_time_s": 0.1
+      }
+    },
+    {
+      "test_name": "HBCM Long Simulation (10,000 steps)",
+      "duration_s": 0.21427981399999999,
+      "iterations": 10,
+      "mean_latency_ms": 21.4279814,
+      "median_latency_ms": 20.903914,
+      "p95_latency_ms": 26.940432,
+      "p99_latency_ms": 26.940432,
+      "min_latency_ms": 18.785698,
+      "max_latency_ms": 26.940432,
+      "throughput_ops_per_sec": 46.667951653159456,
+      "memory_mb": 0.0,
+      "metadata": {
+        "steps": 10000,
+        "simulated_time_s": 10.0
+      }
+    },
+    {
+      "test_name": "Real-Time Capability (1000 Hz)",
+      "duration_s": 0.015861716999978626,
+      "iterations": 10000,
+      "mean_latency_ms": 0.0013879299,
+      "median_latency_ms": 0.001358,
+      "p95_latency_ms": 0.001571,
+      "p99_latency_ms": 0.001757,
+      "min_latency_ms": 0.001097,
+      "max_latency_ms": 0.011467,
+      "throughput_ops_per_sec": 630448.7717195733,
+      "memory_mb": 0.0,
+      "metadata": {
+        "target_hz": 1000,
+        "target_dt_ms": 1.0,
+        "simulated_time_s": 10.0,
+        "realtime_factor": 630.4487717195733,
+        "can_run_realtime": true
+      }
+    },
+    {
+      "test_name": "Parameter Scaling (dt=0.0001s)",
+      "duration_s": 0.0012714360000000001,
+      "iterations": 1000,
+      "mean_latency_ms": 0.001271436,
+      "median_latency_ms": 0.001222,
+      "p95_latency_ms": 0.001351,
+      "p99_latency_ms": 0.001549,
+      "min_latency_ms": 0.001071,
+      "max_latency_ms": 0.021118,
+      "throughput_ops_per_sec": 786512.2585800622,
+      "memory_mb": 0.0,
+      "metadata": {
+        "dt": 0.0001
+      }
+    },
+    {
+      "test_name": "Parameter Scaling (dt=0.0005s)",
+      "duration_s": 0.0012715989999999985,
+      "iterations": 1000,
+      "mean_latency_ms": 0.001271599,
+      "median_latency_ms": 0.00124,
+      "p95_latency_ms": 0.001336,
+      "p99_latency_ms": 0.001403,
+      "min_latency_ms": 0.00114,
+      "max_latency_ms": 0.011554,
+      "throughput_ops_per_sec": 786411.4394553638,
+      "memory_mb": 0.0,
+      "metadata": {
+        "dt": 0.0005
+      }
+    },
+    {
+      "test_name": "Parameter Scaling (dt=0.001s)",
+      "duration_s": 0.0012477389999999994,
+      "iterations": 1000,
+      "mean_latency_ms": 0.001247739,
+      "median_latency_ms": 0.001241,
+      "p95_latency_ms": 0.001334,
+      "p99_latency_ms": 0.001412,
+      "min_latency_ms": 0.001076,
+      "max_latency_ms": 0.004644,
+      "throughput_ops_per_sec": 801449.6621488953,
+      "memory_mb": 0.0,
+      "metadata": {
+        "dt": 0.001
+      }
+    },
+    {
+      "test_name": "Parameter Scaling (dt=0.005s)",
+      "duration_s": 0.001226551999999999,
+      "iterations": 1000,
+      "mean_latency_ms": 0.001226552,
+      "median_latency_ms": 0.001217,
+      "p95_latency_ms": 0.001326,
+      "p99_latency_ms": 0.00145,
+      "min_latency_ms": 0.001063,
+      "max_latency_ms": 0.003936,
+      "throughput_ops_per_sec": 815293.6035325048,
+      "memory_mb": 0.0,
+      "metadata": {
+        "dt": 0.005
+      }
+    },
+    {
+      "test_name": "Parameter Scaling (dt=0.01s)",
+      "duration_s": 0.00127227,
+      "iterations": 1000,
+      "mean_latency_ms": 0.00127227,
+      "median_latency_ms": 0.001262,
+      "p95_latency_ms": 0.00137,
+      "p99_latency_ms": 0.001494,
+      "min_latency_ms": 0.001082,
+      "max_latency_ms": 0.008907,
+      "throughput_ops_per_sec": 785996.6830939973,
+      "memory_mb": 0.0,
+      "metadata": {
+        "dt": 0.01
+      }
+    }
+  ]
+}

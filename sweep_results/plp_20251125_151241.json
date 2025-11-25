@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-11-25T15:12:41.130665",
+  "model_name": "PrimalLogicProcessor",
+  "parameter_space": {
+    "K_gain": [
+      0.1,
+      0.575,
+      1.05,
+      1.525,
+      2.0
+    ],
+    "lambda_decay": [
+      0.5,
+      1.625,
+      2.75,
+      3.875,
+      5.0
+    ],
+    "dt": [
+      0.001,
+      0.01,
+      0.1
+    ]
+  },
+  "results": [
+    {
+      "K_gain": 0.1,
+      "lambda_decay": 0.5,
+      "dt": 0.001,
+      "settling_time": 5.0,
+      "overshoot": 25.864894947313125,
+      "steady_state_error": 25.864894947313125,
+      "control_effort": 4135.105052686775,
+      "stable": 

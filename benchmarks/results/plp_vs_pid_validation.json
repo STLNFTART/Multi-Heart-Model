@@ -50022,7 +50022,7 @@
       "disturbance_rejection_time": 0.0,
       "noise_amplification": 0.24693005316107844,
       "control_effort": 1.9646503563061755,
-      "computation_time_us": 6.768041399999999,
+      "computation_time_us": 6.8092844,
       "stability_margin": 0.20406070310891564,
       "max_control_value": 0.21381508940429902
     },
@@ -50034,7 +50034,7 @@
       "disturbance_rejection_time": 0.0,
       "noise_amplification": 0.37800948291826,
       "control_effort": 8.311934466214723,
-      "computation_time_us": 4.0539564,
+      "computation_time_us": 4.0034568,
       "stability_margin": 0.37160875122898035,
       "max_control_value": 1.0
     }
