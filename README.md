@@ -482,6 +482,12 @@ If you use this work in your research, please cite:
 - [x] 7 clinical education notebooks
 - [x] 100% test coverage
 - [x] Complete documentation
+- [x] Luo-Rudy Dynamic cardiac model
+- [x] Ten Tusscher-Panfilov 2006 human ventricular model
+- [x] O'Hara-Rudy 2011 (ORd) CiPA standard model
+- [x] Courtemanche human atrial model
+- [x] Windkessel arterial hemodynamics (2, 3, and 4-element)
+- [x] Surgical robotics integration (dVRK, CRTK, AMBF)
 
 ### In Progress 🚧
 - [ ] PhysioNet database integration
@@ -489,7 +495,8 @@ If you use this work in your research, please cite:
 - [ ] Real-time ECG processing
 
 ### Planned 📅
-- [ ] Luo-Rudy cardiac model
+- [ ] CellML model export/import
+- [ ] OpenCARP integration
 - [ ] Respiratory sinus arrhythmia
 - [ ] Clinical validation study
 - [ ] Web-based visualization interface
