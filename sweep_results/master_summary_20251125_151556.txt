@@ -1,0 +1,79 @@
+================================================================================
+COMPREHENSIVE PARAMETER SWEEP SUMMARY
+Generated: 2025-11-25T15:15:56.401081
+================================================================================
+
+
+--------------------------------------------------------------------------------
+Model: VanDerPolOscillator
+--------------------------------------------------------------------------------
+Total combinations tested: 1000
+Successful runs: 1000 (100.0%)
+Failed runs: 0
+Execution time: 2.85 seconds
+
+Summary Statistics:
+  total_combinations: 1000
+  successful_runs: 1000
+  failed_runs: 0
+  stability_rate: 1.0
+  mean_amplitude: 2.214572081827501
+  mean_frequency: 0.21625
+  execution_time_s: 2.84910249710083
+
+--------------------------------------------------------------------------------
+Model: HeartBrainCouplingModel
+--------------------------------------------------------------------------------
+Total combinations tested: 1000
+Successful runs: 1000 (100.0%)
+Failed runs: 0
+Execution time: 35.40 seconds
+
+Summary Statistics:
+  total_combinations: 1000
+  successful_runs: 1000
+  failed_runs: 0
+  mean_correlation: 0.3078094271421639
+  max_correlation: 0.3078094271421639
+  execution_time_s: 35.39752650260925
+
+--------------------------------------------------------------------------------
+Model: PrimalLogicProcessor
+--------------------------------------------------------------------------------
+Total combinations tested: 400
+Successful runs: 400 (100.0%)
+Failed runs: 0
+Execution time: 38.78 seconds
+
+Summary Statistics:
+  total_combinations: 400
+  successful_runs: 400
+  failed_runs: 0
+  mean_settling_time: 4.338918421052631
+  mean_steady_state_error: 0.8788628120838193
+  execution_time_s: 38.78464365005493
+
+--------------------------------------------------------------------------------
+Model: OrganChipSuite
+--------------------------------------------------------------------------------
+Total combinations tested: 28
+Successful runs: 28 (100.0%)
+Failed runs: 0
+Execution time: 0.02 seconds
+
+Summary Statistics:
+  total_combinations: 28
+  successful_runs: 28
+  failed_runs: 0
+  mean_toxicity_score: 0.13714285714285715
+  max_toxicity_score: 0.13714285714285715
+  execution_time_s: 0.018895626068115234
+
+================================================================================
+OVERALL TOTALS
+================================================================================
+Total parameter combinations: 2428
+Total successful runs: 2428 (100.0%)
+Total failed runs: 0
+Total execution time: 77.05 seconds (1.28 minutes)
+Average throughput: 31.51 combinations/second

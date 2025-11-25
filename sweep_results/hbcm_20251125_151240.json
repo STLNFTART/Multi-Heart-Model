@@ -1,0 +1,916 @@
+{
+  "timestamp": "2025-11-25T15:12:40.187857",
+  "model_name": "HeartBrainCouplingModel",
+  "parameter_space": {
+    "neural_to_cardiac_gain": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "cardiac_to_neural_gain": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "delay": [
+      0.05,
+      0.1125,
+      0.175,
+      0.2375,
+      0.3
+    ]
+  },
+  "results": [
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.25,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.5,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 0.75,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.25,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.5,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 0.75,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.05,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.1125,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.175,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.2375,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    },
+    {
+      "neural_to_cardiac_gain": 1.0,
+      "cardiac_to_neural_gain": 1.0,
+      "delay": 0.3,
+      "error": "cannot unpack non-iterable float object",
+      "stable": false
+    }
+  ],
+  "summary_stats": {
+    "total_combinations": 125,
+    "successful_runs": 0,
+    "failed_runs": 125,
+    "mean_correlation": 0,
+    "max_correlation": 0,
+    "execution_time_s": 2.8293468952178955
+  },
+  "total_combinations": 125,
+  "successful_runs": 0,
+  "failed_runs": 125,
+  "execution_time_s": 2.8293468952178955
+}

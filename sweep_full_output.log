@@ -1,0 +1,147 @@
+================================================================================
+MASTER PARAMETER SWEEP ORCHESTRATOR
+Comprehensive Multi-Domain Physiological Model Analysis
+================================================================================
+
+================================================================================
+SWEEP: Cardiac Models
+================================================================================
+
+[1/6] Van der Pol Oscillator...
+   Testing 1000 parameter combinations...
+   Progress: 0/1000 (0.0%)
+   Progress: 100/1000 (10.0%)
+   Progress: 200/1000 (20.0%)
+   Progress: 300/1000 (30.0%)
+   Progress: 400/1000 (40.0%)
+   Progress: 500/1000 (50.0%)
+   Progress: 600/1000 (60.0%)
+   Progress: 700/1000 (70.0%)
+   Progress: 800/1000 (80.0%)
+   Progress: 900/1000 (90.0%)
+   ✓ Van der Pol sweep: 1000/1000 successful (100.0%)
+   Mean amplitude: 2.215
+   Mean frequency: 0.216 Hz
+   Results saved to: sweep_results/cardiac_vanderpol_20251125_151442.json
+✓ Cardiac Models sweep completed successfully
+
+================================================================================
+SWEEP: Heart-Brain Coupling
+================================================================================
+
+[2/6] Heart-Brain Coupling Model...
+   Testing 1000 coupling configurations...
+   Progress: 0/1000 (0.0%)
+   Progress: 50/1000 (5.0%)
+   Progress: 100/1000 (10.0%)
+   Progress: 150/1000 (15.0%)
+   Progress: 200/1000 (20.0%)
+   Progress: 250/1000 (25.0%)
+   Progress: 300/1000 (30.0%)
+   Progress: 350/1000 (35.0%)
+   Progress: 400/1000 (40.0%)
+   Progress: 450/1000 (45.0%)
+   Progress: 500/1000 (50.0%)
+   Progress: 550/1000 (55.0%)
+   Progress: 600/1000 (60.0%)
+   Progress: 650/1000 (65.0%)
+   Progress: 700/1000 (70.0%)
+   Progress: 750/1000 (75.0%)
+   Progress: 800/1000 (80.0%)
+   Progress: 850/1000 (85.0%)
+   Progress: 900/1000 (90.0%)
+   Progress: 950/1000 (95.0%)
+   ✓ HBCM sweep: 1000/1000 successful (100.0%)
+   Mean neural-cardiac correlation: 0.308
+   Max correlation: 0.308
+   Results saved to: sweep_results/hbcm_20251125_151517.json
+✓ Heart-Brain Coupling sweep completed successfully
+
+================================================================================
+SWEEP: Primal Logic Processor
+================================================================================
+
+[3/6] Primal Logic Processor...
+   Testing 400 control configurations...
+   Progress: 0/400 (0.0%)
+   Progress: 20/400 (5.0%)
+   Progress: 40/400 (10.0%)
+   Progress: 60/400 (15.0%)
+   Progress: 80/400 (20.0%)
+   Progress: 100/400 (25.0%)
+   Progress: 120/400 (30.0%)
+   Progress: 140/400 (35.0%)
+   Progress: 160/400 (40.0%)
+   Progress: 180/400 (45.0%)
+   Progress: 200/400 (50.0%)
+   Progress: 220/400 (55.0%)
+   Progress: 240/400 (60.0%)
+   Progress: 260/400 (65.0%)
+   Progress: 280/400 (70.0%)
+   Progress: 300/400 (75.0%)
+   Progress: 320/400 (80.0%)
+   Progress: 340/400 (85.0%)
+   Progress: 360/400 (90.0%)
+   Progress: 380/400 (95.0%)
+   ✓ PLP sweep: 400/400 successful (100.0%)
+   Mean settling time: 4.339 s
+   Mean steady-state error: 0.879
+   Results saved to: sweep_results/plp_20251125_151556.json
+✓ Primal Logic Processor sweep completed successfully
+
+================================================================================
+SWEEP: Organ-On-Chip
+================================================================================
+
+[4/6] Organ-On-Chip Suite...
+   Testing 28 drug exposure scenarios...
+   Progress: 1/28 (3.6%) - Dose: 1.0 mg, Duration: 12.0 h
+   Progress: 2/28 (7.1%) - Dose: 1.0 mg, Duration: 24.0 h
+   Progress: 3/28 (10.7%) - Dose: 1.0 mg, Duration: 48.0 h
+   Progress: 4/28 (14.3%) - Dose: 1.0 mg, Duration: 72.0 h
+   Progress: 5/28 (17.9%) - Dose: 10.0 mg, Duration: 12.0 h
+   Progress: 6/28 (21.4%) - Dose: 10.0 mg, Duration: 24.0 h
+   Progress: 7/28 (25.0%) - Dose: 10.0 mg, Duration: 48.0 h
+   Progress: 8/28 (28.6%) - Dose: 10.0 mg, Duration: 72.0 h
+   Progress: 9/28 (32.1%) - Dose: 50.0 mg, Duration: 12.0 h
+   Progress: 10/28 (35.7%) - Dose: 50.0 mg, Duration: 24.0 h
+   Progress: 11/28 (39.3%) - Dose: 50.0 mg, Duration: 48.0 h
+   Progress: 12/28 (42.9%) - Dose: 50.0 mg, Duration: 72.0 h
+   Progress: 13/28 (46.4%) - Dose: 100.0 mg, Duration: 12.0 h
+   Progress: 14/28 (50.0%) - Dose: 100.0 mg, Duration: 24.0 h
+   Progress: 15/28 (53.6%) - Dose: 100.0 mg, Duration: 48.0 h
+   Progress: 16/28 (57.1%) - Dose: 100.0 mg, Duration: 72.0 h
+   Progress: 17/28 (60.7%) - Dose: 200.0 mg, Duration: 12.0 h
+   Progress: 18/28 (64.3%) - Dose: 200.0 mg, Duration: 24.0 h
+   Progress: 19/28 (67.9%) - Dose: 200.0 mg, Duration: 48.0 h
+   Progress: 20/28 (71.4%) - Dose: 200.0 mg, Duration: 72.0 h
+   Progress: 21/28 (75.0%) - Dose: 500.0 mg, Duration: 12.0 h
+   Progress: 22/28 (78.6%) - Dose: 500.0 mg, Duration: 24.0 h
+   Progress: 23/28 (82.1%) - Dose: 500.0 mg, Duration: 48.0 h
+   Progress: 24/28 (85.7%) - Dose: 500.0 mg, Duration: 72.0 h
+   Progress: 25/28 (89.3%) - Dose: 1000.0 mg, Duration: 12.0 h
+   Progress: 26/28 (92.9%) - Dose: 1000.0 mg, Duration: 24.0 h
+   Progress: 27/28 (96.4%) - Dose: 1000.0 mg, Duration: 48.0 h
+   Progress: 28/28 (100.0%) - Dose: 1000.0 mg, Duration: 72.0 h
+   ✓ Organ chip sweep: 28/28 successful (100.0%)
+   Mean toxicity score: 0.137
+   Max toxicity score: 0.137
+   Results saved to: sweep_results/organchip_20251125_151556.json
+✓ Organ-On-Chip sweep completed successfully
+
+================================================================================
+MASTER SUMMARY - ALL PARAMETER SWEEPS
+================================================================================
+
+✓ Master summary saved to: sweep_results/master_summary_20251125_151556.txt
+
+OVERALL STATISTICS:
+  Total combinations: 2428
+  Successful: 2428 (100.0%)
+  Failed: 0
+  Total time: 77.05 seconds (1.28 minutes)
+  Throughput: 31.51 combinations/second
+
+================================================================================
+✓ ALL PARAMETER SWEEPS COMPLETED
+================================================================================
