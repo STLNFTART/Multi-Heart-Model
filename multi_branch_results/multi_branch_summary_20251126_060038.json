@@ -1,0 +1,191 @@
+{
+  "claude/physiological-model-validation-01DN4AYiktu9BtLrrArKd7yD": {
+    "branch": "claude/physiological-model-validation-01DN4AYiktu9BtLrrArKd7yD",
+    "success": true,
+    "info": {
+      "branch": "claude/physiological-model-validation-01DN4AYiktu9BtLrrArKd7yD",
+      "commit": "1b6064cd",
+      "author": "Donte Lightfoot",
+      "date": "Sun Nov 16 19:11:26 2025 -0600",
+      "message": "Merge branch 'main' into claude/physiological-model-validation-01DN4AYiktu9BtLrrArKd7yD"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/physiological-model-validation-01DN4AYiktu9BtLrrArKd7yD",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:35.318040"
+    }
+  },
+  "claude/run-all-repos-01Y8GXtb7N61yLM5kBWAnVhV": {
+    "branch": "claude/run-all-repos-01Y8GXtb7N61yLM5kBWAnVhV",
+    "success": true,
+    "info": {
+      "branch": "claude/run-all-repos-01Y8GXtb7N61yLM5kBWAnVhV",
+      "commit": "69339096",
+      "author": "Claude",
+      "date": "Wed Nov 26 05:57:29 2025 +0000",
+      "message": "Add comprehensive server and MCP infrastructure documentation"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": true,
+      "run_tests_simple.py": true,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/run-all-repos-01Y8GXtb7N61yLM5kBWAnVhV",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 905
+        }
+      },
+      "timestamp": "2025-11-26T06:00:35.816722"
+    }
+  },
+  "claude/setup-production-infrastructure-01E4Z5hTygNUsU28vpAdo6xY": {
+    "branch": "claude/setup-production-infrastructure-01E4Z5hTygNUsU28vpAdo6xY",
+    "success": true,
+    "info": {
+      "branch": "claude/setup-production-infrastructure-01E4Z5hTygNUsU28vpAdo6xY",
+      "commit": "64572368",
+      "author": "Claude",
+      "date": "Sun Nov 16 04:28:06 2025 +0000",
+      "message": "Add comprehensive production infrastructure and validation suite"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/setup-production-infrastructure-01E4Z5hTygNUsU28vpAdo6xY",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:36.648780"
+    }
+  },
+  "claude/surgical-robotics-interface-01WNAtPL5TdBmssmPbZi9FxU": {
+    "branch": "claude/surgical-robotics-interface-01WNAtPL5TdBmssmPbZi9FxU",
+    "success": true,
+    "info": {
+      "branch": "claude/surgical-robotics-interface-01WNAtPL5TdBmssmPbZi9FxU",
+      "commit": "9613146d",
+      "author": "Claude",
+      "date": "Sun Nov 23 01:05:27 2025 +0000",
+      "message": "Add complete cardiac electrophysiology model suite and repository integrations"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/surgical-robotics-interface-01WNAtPL5TdBmssmPbZi9FxU",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:37.134423"
+    }
+  },
+  "main": {
+    "branch": "main",
+    "success": true,
+    "info": {
+      "branch": "main",
+      "commit": "6a72fcd7",
+      "author": "Donte Lightfoot",
+      "date": "Tue Nov 25 10:06:17 2025 -0600",
+      "message": "Run all repositories for maximum output (#25)"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": true,
+      "run_tests_simple.py": true,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "main",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 905
+        }
+      },
+      "timestamp": "2025-11-26T06:00:37.701231"
+    }
+  }
+}

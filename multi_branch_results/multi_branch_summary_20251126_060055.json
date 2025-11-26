@@ -1,0 +1,426 @@
+{
+  "main": {
+    "branch": "main",
+    "success": true,
+    "info": {
+      "branch": "main",
+      "commit": "6a72fcd7",
+      "author": "Donte Lightfoot",
+      "date": "Tue Nov 25 10:06:17 2025 -0600",
+      "message": "Run all repositories for maximum output (#25)"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": true,
+      "run_tests_simple.py": true,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "main",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 905
+        }
+      },
+      "timestamp": "2025-11-26T06:00:50.492255"
+    }
+  },
+  "claude/bci-neural-framework-integration-01Saf5AY93oS8bcFxbhutzo4": {
+    "branch": "claude/bci-neural-framework-integration-01Saf5AY93oS8bcFxbhutzo4",
+    "success": true,
+    "info": {
+      "branch": "claude/bci-neural-framework-integration-01Saf5AY93oS8bcFxbhutzo4",
+      "commit": "50578983",
+      "author": "Claude",
+      "date": "Sat Nov 15 23:28:40 2025 +0000",
+      "message": "Complete BCI validation framework with all 10 repository integrations"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/bci-neural-framework-integration-01Saf5AY93oS8bcFxbhutzo4",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:51.300492"
+    }
+  },
+  "claude/heart-liver-organ-chip-integration-011CV35ndwu7j1uB7Qw9hVS7": {
+    "branch": "claude/heart-liver-organ-chip-integration-011CV35ndwu7j1uB7Qw9hVS7",
+    "success": true,
+    "info": {
+      "branch": "claude/heart-liver-organ-chip-integration-011CV35ndwu7j1uB7Qw9hVS7",
+      "commit": "1b4a50fb",
+      "author": "Claude",
+      "date": "Wed Nov 12 01:13:05 2025 +0000",
+      "message": "Add Heart-Liver Organ-on-Chip Digital Twin Framework"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": false,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/heart-liver-organ-chip-integration-011CV35ndwu7j1uB7Qw9hVS7",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "not_found"
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:51.755761"
+    }
+  },
+  "claude/hepatocyte-toxicity-model-011CV38ULvpHPswNjbGc2N4c": {
+    "branch": "claude/hepatocyte-toxicity-model-011CV38ULvpHPswNjbGc2N4c",
+    "success": true,
+    "info": {
+      "branch": "claude/hepatocyte-toxicity-model-011CV38ULvpHPswNjbGc2N4c",
+      "commit": "85451580",
+      "author": "Claude",
+      "date": "Wed Nov 12 01:42:06 2025 +0000",
+      "message": "Add hepatocyte toxicity model for drug-induced liver injury"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": false,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/hepatocyte-toxicity-model-011CV38ULvpHPswNjbGc2N4c",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "not_found"
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:52.053769"
+    }
+  },
+  "claude/link-motor-hand-arduino-011CV1S7ybC72oNYYrspQgQv": {
+    "branch": "claude/link-motor-hand-arduino-011CV1S7ybC72oNYYrspQgQv",
+    "success": false,
+    "info": {
+      "branch": "claude/link-motor-hand-arduino-011CV1S7ybC72oNYYrspQgQv",
+      "commit": "8a3aed68",
+      "author": "Claude",
+      "date": "Tue Nov 11 04:11:18 2025 +0000",
+      "message": "Add Motor Hand Pro Arduino integration for HBCM physiological control"
+    },
+    "runnable_files": {
+      "validate_integration.py": false,
+      "validate_organchip.py": false,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": false
+    },
+    "validations": {}
+  },
+  "claude/link-neuro-openbci-01EbNpby4mTvE2TrwnSQsW6N": {
+    "branch": "claude/link-neuro-openbci-01EbNpby4mTvE2TrwnSQsW6N",
+    "success": true,
+    "info": {
+      "branch": "claude/link-neuro-openbci-01EbNpby4mTvE2TrwnSQsW6N",
+      "commit": "928faf72",
+      "author": "Claude",
+      "date": "Sat Nov 15 07:20:01 2025 +0000",
+      "message": "Add BCI integration (OpenBCI/Neuralink) and comprehensive adaptive control thesis"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/link-neuro-openbci-01EbNpby4mTvE2TrwnSQsW6N",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:52.444635"
+    }
+  },
+  "claude/setup-production-infrastructure-01E4Z5hTygNUsU28vpAdo6xY": {
+    "branch": "claude/setup-production-infrastructure-01E4Z5hTygNUsU28vpAdo6xY",
+    "success": true,
+    "info": {
+      "branch": "claude/setup-production-infrastructure-01E4Z5hTygNUsU28vpAdo6xY",
+      "commit": "64572368",
+      "author": "Claude",
+      "date": "Sun Nov 16 04:28:06 2025 +0000",
+      "message": "Add comprehensive production infrastructure and validation suite"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/setup-production-infrastructure-01E4Z5hTygNUsU28vpAdo6xY",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:52.914139"
+    }
+  },
+  "claude/claude-md-mhxv0p03m5wx83bf-01CJRjzkoXvFsZaF2vbbcoPJ": {
+    "branch": "claude/claude-md-mhxv0p03m5wx83bf-01CJRjzkoXvFsZaF2vbbcoPJ",
+    "success": true,
+    "info": {
+      "branch": "claude/claude-md-mhxv0p03m5wx83bf-01CJRjzkoXvFsZaF2vbbcoPJ",
+      "commit": "5ca0226e",
+      "author": "Claude",
+      "date": "Thu Nov 13 23:29:33 2025 +0000",
+      "message": "Fix test suite: achieve 100% pass rate (47/47 tests passing)"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/claude-md-mhxv0p03m5wx83bf-01CJRjzkoXvFsZaF2vbbcoPJ",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:53.345340"
+    }
+  },
+  "claude/fix-failed-jobs-011CV3ewct1GM1bKnqYTmXmX": {
+    "branch": "claude/fix-failed-jobs-011CV3ewct1GM1bKnqYTmXmX",
+    "success": true,
+    "info": {
+      "branch": "claude/fix-failed-jobs-011CV3ewct1GM1bKnqYTmXmX",
+      "commit": "34f2cd08",
+      "author": "Claude",
+      "date": "Wed Nov 12 08:20:20 2025 +0000",
+      "message": "Fix failed CI/CD jobs and add Python package configuration"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/fix-failed-jobs-011CV3ewct1GM1bKnqYTmXmX",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:53.778608"
+    }
+  },
+  "claude/fix-r-011CV35YJwGJGBrsuR1TCw9L": {
+    "branch": "claude/fix-r-011CV35YJwGJGBrsuR1TCw9L",
+    "success": true,
+    "info": {
+      "branch": "claude/fix-r-011CV35YJwGJGBrsuR1TCw9L",
+      "commit": "020a0dea",
+      "author": "Claude",
+      "date": "Wed Nov 12 00:59:00 2025 +0000",
+      "message": "Fix repository issues: exports, dependencies, documentation, and tests"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": false,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/fix-r-011CV35YJwGJGBrsuR1TCw9L",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "not_found"
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:54.209661"
+    }
+  },
+  "claude/run-all-repos-01Y8GXtb7N61yLM5kBWAnVhV": {
+    "branch": "claude/run-all-repos-01Y8GXtb7N61yLM5kBWAnVhV",
+    "success": true,
+    "info": {
+      "branch": "claude/run-all-repos-01Y8GXtb7N61yLM5kBWAnVhV",
+      "commit": "69339096",
+      "author": "Claude",
+      "date": "Wed Nov 26 05:57:29 2025 +0000",
+      "message": "Add comprehensive server and MCP infrastructure documentation"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": true,
+      "run_tests_simple.py": true,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/run-all-repos-01Y8GXtb7N61yLM5kBWAnVhV",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 905
+        }
+      },
+      "timestamp": "2025-11-26T06:00:54.624757"
+    }
+  },
+  "claude/run-regex-01LkZm17TJYgaS84Mcn29RXR": {
+    "branch": "claude/run-regex-01LkZm17TJYgaS84Mcn29RXR",
+    "success": true,
+    "info": {
+      "branch": "claude/run-regex-01LkZm17TJYgaS84Mcn29RXR",
+      "commit": "b48fd63f",
+      "author": "Claude",
+      "date": "Sun Nov 16 05:05:27 2025 +0000",
+      "message": "Execute Multi-Heart-Model repository at full scale"
+    },
+    "runnable_files": {
+      "validate_integration.py": true,
+      "validate_organchip.py": true,
+      "sweep_master.py": false,
+      "run_tests_simple.py": false,
+      "examples/microprocessor_motorhand_demo.py": true
+    },
+    "validations": {
+      "branch": "claude/run-regex-01LkZm17TJYgaS84Mcn29RXR",
+      "validations": {
+        "Integration Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 2257
+        },
+        "Organ Chip Validation": {
+          "status": "passed",
+          "returncode": 0,
+          "output_length": 1206
+        },
+        "Simple Test Suite": {
+          "status": "not_found"
+        }
+      },
+      "timestamp": "2025-11-26T06:00:55.489133"
+    }
+  }
+}
