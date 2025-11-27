@@ -32,7 +32,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install numpy
+        pip install numpy requests
 
     - name: Run quick parameter sweep
       if: github.event.inputs.mode != 'full'
@@ -52,6 +52,13 @@ jobs:
       if: success()
       run: |
         python sweep_motorhand_drive.py --export-best
+
+    - name: Publish to PrimalTechInvest.com
+      if: success()
+      run: |
+        python sweep_motorhand_drive.py --publish-web
+      env:
+        PRIMALTECH_API_KEY: ${{ secrets.PRIMALTECH_API_KEY }}
 
     - name: Upload results artifact
       if: always()

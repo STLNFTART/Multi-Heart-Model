@@ -1,0 +1,64 @@
+# PrimalTechInvest.com Configuration
+# Integration settings for MotorHandPro results publishing
+
+[api]
+# API endpoint (production)
+base_url = https://api.primaltechinvest.com/v1
+
+# API key (set via environment variable PRIMALTECH_API_KEY)
+# Get your API key from: https://www.primaltechinvest.com/account/api-keys
+# api_key = your_api_key_here
+
+[publishing]
+# Auto-publish results after sweeps (true/false)
+auto_publish = true
+
+# Publish best configuration
+publish_best_config = true
+
+# Update leaderboards
+update_leaderboards = true
+
+# Send webhook notifications
+send_webhooks = true
+
+[firmware]
+# Firmware version format
+version_format = v{major}.{minor}.{patch}
+
+# Auto-increment version
+auto_increment = true
+
+# Firmware distribution channel (stable, beta, experimental)
+channel = stable
+
+[leaderboard]
+# Number of top results to display
+top_results = 10
+
+# Leaderboard categories
+categories = control_parameters,emergency_scenarios,closed_loop
+
+# Ranking criteria (comfort, speed, balanced)
+ranking_mode = balanced
+
+# Composite score weights (comfort_weight, speed_weight)
+comfort_weight = 0.7
+speed_weight = 0.3
+
+[webhooks]
+# Webhook events to send
+events = sweep_complete,best_config_updated,firmware_published
+
+# Webhook recipients (comma-separated URLs)
+# recipients = https://hooks.slack.com/your-webhook,https://discord.com/your-webhook
+
+[dashboard]
+# Upload interactive dashboard
+upload_dashboard = true
+
+# Dashboard update frequency (always, daily, weekly)
+update_frequency = always
+
+# Dashboard title
+title = MotorHandPro Live Performance Dashboard

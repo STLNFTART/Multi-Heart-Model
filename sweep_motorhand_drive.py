@@ -769,6 +769,8 @@ def main():
     parser.add_argument('--quick', action='store_true', help='Run quick mode with fewer combinations')
     parser.add_argument('--upload-only', action='store_true', help='Upload existing local runs to Drive (no new sweeps)')
     parser.add_argument('--export-best', action='store_true', help='Export best configuration to motorhand_best_params.json')
+    parser.add_argument('--publish-web', action='store_true', help='Publish results to PrimalTechInvest.com')
+    parser.add_argument('--no-web', action='store_true', help='Skip automatic website integration')
     args = parser.parse_args()
 
     # Handle upload-only mode
@@ -779,6 +781,22 @@ def main():
     if args.export_best:
         export_best_config()
         return 0
+
+    # Handle publish-web mode
+    if args.publish_web:
+        from primaltechinvest_integration import integrate_with_website
+        from framework import BASE_RESULTS_DIR, LOCAL_FALLBACK_DIR
+
+        results_dir = os.path.expanduser(BASE_RESULTS_DIR)
+        if not os.path.exists(results_dir):
+            results_dir = os.path.expanduser(LOCAL_FALLBACK_DIR)
+
+        result = integrate_with_website(
+            results_dir=results_dir,
+            publish_config=True,
+            update_leaderboard=True
+        )
+        return 0 if result['success'] else 1
 
     print("=" * 80)
     print("MOTORHANDPRO PARAMETER SWEEP ORCHESTRATOR")
@@ -857,6 +875,28 @@ def main():
         except Exception as e:
             print(f"\n⚠ Could not export best config: {e}")
             print("  Run with --export-best to retry")
+
+        # Auto-integrate with PrimalTechInvest.com (unless --no-web)
+        if not args.no_web:
+            try:
+                from primaltechinvest_integration import integrate_with_website
+                from framework import BASE_RESULTS_DIR, LOCAL_FALLBACK_DIR
+
+                results_dir = os.path.expanduser(BASE_RESULTS_DIR)
+                if not os.path.exists(results_dir):
+                    results_dir = os.path.expanduser(LOCAL_FALLBACK_DIR)
+
+                integrate_with_website(
+                    results_dir=results_dir,
+                    publish_config=True,
+                    update_leaderboard=True
+                )
+            except ImportError:
+                print("\n⚠ PrimalTechInvest integration not available")
+                print("  Install requests: pip install requests")
+            except Exception as e:
+                print(f"\n⚠ Website integration failed: {e}")
+                print("  Run: python primaltechinvest_integration.py")
 
     except KeyboardInterrupt:
         print("\n\nSweep interrupted by user")
