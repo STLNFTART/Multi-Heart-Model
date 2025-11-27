@@ -77,8 +77,8 @@ The Multi-Heart-Model repository implements the **Heart-Brain Coupling Model (HB
 git clone https://github.com/STLNFTART/Multi-Heart-Model.git
 cd Multi-Heart-Model
 
-# No external dependencies required for core models!
-# (Optional: pip install matplotlib numpy for visualizations)
+# Install minimal Python dependencies for simulations and tests
+python3 -m pip install -r requirements.txt
 ```
 
 ### Basic Example: Heart-Brain Coupling

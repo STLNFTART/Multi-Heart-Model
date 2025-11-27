@@ -8,7 +8,7 @@ Bridges between different systems:
 Author: Donte Lightfoot - Lightfoot Technology
 """
 
-from .motorhand_bridge import MotorHandBridge, QuantInterface
+from .motorhand_bridge import MotorHandBridge, QuantInterface, QuantParameters
 from .opensim_hooks import (
     OpenSimBridge,
     CardiacForceExtractor,
@@ -20,6 +20,7 @@ from .opensim_hooks import (
 __all__ = [
     'MotorHandBridge',
     'QuantInterface',
+    'QuantParameters',
     'OpenSimBridge',
     'CardiacForceExtractor',
     'OpenSimConfig',
