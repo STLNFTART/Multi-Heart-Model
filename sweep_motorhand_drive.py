@@ -595,13 +595,190 @@ class MotorHandSweepOrchestrator:
         return successful, len(scenarios)
 
 
+def upload_existing_runs():
+    """Upload existing local runs to Google Drive"""
+    import shutil
+    from framework import BASE_RESULTS_DIR, LOCAL_FALLBACK_DIR
+
+    print("\n" + "=" * 80)
+    print("UPLOADING EXISTING RUNS TO GOOGLE DRIVE")
+    print("=" * 80)
+
+    local_dir = os.path.expanduser(LOCAL_FALLBACK_DIR)
+    drive_dir = os.path.expanduser(BASE_RESULTS_DIR)
+
+    if not os.path.exists(local_dir):
+        print(f"\n✗ No local results found at: {local_dir}")
+        return 0
+
+    # Check Drive accessibility
+    if not os.path.exists(os.path.dirname(drive_dir)):
+        print(f"\n✗ Google Drive not accessible at: {drive_dir}")
+        print("  Results remain in local storage")
+        return 1
+
+    # Find motorhand runs
+    motorhand_dirs = [d for d in os.listdir(local_dir) if d.startswith('motorhand_')]
+
+    if not motorhand_dirs:
+        print(f"\n✗ No MotorHandPro runs found in: {local_dir}")
+        return 0
+
+    print(f"\nFound {len(motorhand_dirs)} MotorHandPro result directories")
+
+    uploaded = 0
+    for motorhand_dir in motorhand_dirs:
+        src = os.path.join(local_dir, motorhand_dir)
+        dst = os.path.join(drive_dir, motorhand_dir)
+
+        if os.path.exists(dst):
+            print(f"  ⊙ Skipping {motorhand_dir} (already on Drive)")
+            continue
+
+        try:
+            print(f"  ↑ Uploading {motorhand_dir}...", end='', flush=True)
+            shutil.copytree(src, dst)
+            print(" ✓")
+            uploaded += 1
+        except Exception as e:
+            print(f" ✗ Error: {e}")
+
+    print(f"\n✓ Uploaded {uploaded} result directories to Google Drive")
+    print(f"  Location: {drive_dir}")
+    print("=" * 80)
+
+    return 0
+
+
+def export_best_config(results_dir: str = None):
+    """Export best performing configuration for firmware flashing"""
+    import json
+    import csv
+    from framework import BASE_RESULTS_DIR, LOCAL_FALLBACK_DIR
+
+    print("\n" + "=" * 80)
+    print("EXPORTING BEST CONFIGURATION")
+    print("=" * 80)
+
+    # Determine results directory
+    if results_dir is None:
+        drive_dir = os.path.expanduser(BASE_RESULTS_DIR)
+        local_dir = os.path.expanduser(LOCAL_FALLBACK_DIR)
+        results_dir = drive_dir if os.path.exists(drive_dir) else local_dir
+
+    # Load control parameters results
+    control_params_dir = os.path.join(results_dir, 'motorhand_control_params')
+
+    if not os.path.exists(control_params_dir):
+        print(f"\n✗ No control parameters results found")
+        return None
+
+    # Find latest run
+    runs = sorted([d for d in os.listdir(control_params_dir) if os.path.isdir(os.path.join(control_params_dir, d))])
+    if not runs:
+        print(f"\n✗ No parameter sweep runs found")
+        return None
+
+    latest_run = runs[-1]
+    csv_path = os.path.join(control_params_dir, latest_run, 'summary', 'summary.csv')
+
+    if not os.path.exists(csv_path):
+        print(f"\n✗ No summary CSV found in latest run")
+        return None
+
+    # Load results using CSV module
+    results = []
+    with open(csv_path, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            # Convert string values to appropriate types
+            row['K_gain'] = float(row['K_gain'])
+            row['lambda_decay'] = float(row['lambda_decay'])
+            row['num_ipus'] = int(row['num_ipus'])
+            row['comfort_index'] = float(row['comfort_index'])
+            row['settling_time'] = float(row['settling_time'])
+            row['rms_jerk'] = float(row['rms_jerk'])
+            row['smoothness'] = float(row['smoothness'])
+            row['stable'] = row['stable'].lower() == 'true'
+            results.append(row)
+
+    # Filter stable configurations
+    stable_results = [r for r in results if r['stable']]
+
+    if len(stable_results) == 0:
+        print(f"\n✗ No stable configurations found")
+        return None
+
+    # Find best configuration (optimize for comfort and settling time)
+    # Composite score: 70% comfort, 30% speed (lower settling time)
+    for r in stable_results:
+        r['score'] = (r['comfort_index'] * 0.7) - (r['settling_time'] * 3.0)
+
+    best = max(stable_results, key=lambda x: x['score'])
+
+    # Extract best parameters
+    best_config = {
+        "firmware_config": {
+            "K_gain": float(best['K_gain']),
+            "lambda_decay": float(best['lambda_decay']),
+            "num_integral_units": int(best['num_ipus']),
+            "dt_ms": 10,  # 10ms = 100Hz
+            "control_bounds": [-10.0, 10.0]
+        },
+        "performance_metrics": {
+            "comfort_index": float(best['comfort_index']),
+            "settling_time_s": float(best['settling_time']),
+            "rms_jerk": float(best['rms_jerk']),
+            "smoothness": float(best['smoothness']),
+            "stability": "STABLE"
+        },
+        "metadata": {
+            "optimization_target": "balanced_comfort_speed",
+            "source_run": latest_run,
+            "total_configurations_tested": len(results),
+            "stable_configurations": len(stable_results),
+            "selection_criteria": "70% comfort + 30% speed"
+        }
+    }
+
+    # Save to file
+    output_file = 'motorhand_best_params.json'
+    with open(output_file, 'w') as f:
+        json.dump(best_config, f, indent=2)
+
+    print(f"\n✓ Best configuration exported to: {output_file}")
+    print(f"\nOptimal Parameters:")
+    print(f"  K_gain: {best_config['firmware_config']['K_gain']:.3f}")
+    print(f"  lambda_decay: {best_config['firmware_config']['lambda_decay']:.3f}")
+    print(f"  num_IPUs: {best_config['firmware_config']['num_integral_units']}")
+    print(f"\nPerformance:")
+    print(f"  Comfort Index: {best_config['performance_metrics']['comfort_index']:.1f}/100")
+    print(f"  Settling Time: {best_config['performance_metrics']['settling_time_s']:.2f}s")
+    print(f"  RMS Jerk: {best_config['performance_metrics']['rms_jerk']:.3f}")
+    print(f"\nFlash this to firmware with: motorhand_best_params.json")
+    print("=" * 80)
+
+    return best_config
+
+
 def main():
     """Main execution function"""
     import argparse
 
     parser = argparse.ArgumentParser(description='MotorHandPro Parameter Sweep with Drive Integration')
     parser.add_argument('--quick', action='store_true', help='Run quick mode with fewer combinations')
+    parser.add_argument('--upload-only', action='store_true', help='Upload existing local runs to Drive (no new sweeps)')
+    parser.add_argument('--export-best', action='store_true', help='Export best configuration to motorhand_best_params.json')
     args = parser.parse_args()
+
+    # Handle upload-only mode
+    if args.upload_only:
+        return upload_existing_runs()
+
+    # Handle export-best mode
+    if args.export_best:
+        export_best_config()
+        return 0
 
     print("=" * 80)
     print("MOTORHANDPRO PARAMETER SWEEP ORCHESTRATOR")
@@ -673,6 +850,13 @@ def main():
 
         print("\nAll results saved to Google Drive!")
         print("=" * 80)
+
+        # Auto-export best configuration
+        try:
+            export_best_config()
+        except Exception as e:
+            print(f"\n⚠ Could not export best config: {e}")
+            print("  Run with --export-best to retry")
 
     except KeyboardInterrupt:
         print("\n\nSweep interrupted by user")

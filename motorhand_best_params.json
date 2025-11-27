@@ -1,0 +1,26 @@
+{
+  "firmware_config": {
+    "K_gain": 1.05,
+    "lambda_decay": 3.875,
+    "num_integral_units": 4,
+    "dt_ms": 10,
+    "control_bounds": [
+      -10.0,
+      10.0
+    ]
+  },
+  "performance_metrics": {
+    "comfort_index": 8.563241023231887,
+    "settling_time_s": 0.0,
+    "rms_jerk": 3.5104143631278406,
+    "smoothness": 0.21216322989950342,
+    "stability": "STABLE"
+  },
+  "metadata": {
+    "optimization_target": "balanced_comfort_speed",
+    "source_run": "20251126_205232_param_sweep",
+    "total_configurations_tested": 75,
+    "stable_configurations": 48,
+    "selection_criteria": "70% comfort + 30% speed"
+  }
+}
