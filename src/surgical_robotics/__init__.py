@@ -18,6 +18,8 @@ from .dvrk_interface import (
     DVRKConfiguration,
     DVRKCartesianCommand,
     DVRKJointCommand,
+    DVRKArmType,
+    DVRKOperatingState,
 )
 from .crtk_interface import (
     CRTKInterface,
@@ -38,6 +40,8 @@ from .physio_controller import (
     PhysiologicalController,
     SurgicalFeedbackState,
     PhysiologicalConstraints,
+    SurgicalPhase,
+    PhysiologicalAlertLevel,
 )
 
 __all__ = [
@@ -46,6 +50,8 @@ __all__ = [
     "DVRKConfiguration",
     "DVRKCartesianCommand",
     "DVRKJointCommand",
+    "DVRKArmType",
+    "DVRKOperatingState",
     # CRTK
     "CRTKInterface",
     "CRTKOperatingState",
@@ -62,6 +68,8 @@ __all__ = [
     "PhysiologicalController",
     "SurgicalFeedbackState",
     "PhysiologicalConstraints",
+    "SurgicalPhase",
+    "PhysiologicalAlertLevel",
 ]
 
 __version__ = "1.0.0"
