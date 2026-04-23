@@ -35,7 +35,7 @@
     "dotenv": "^16.3.1",
     "ws": "^8.16.0",
     "axios": "^1.6.5",
-    "uuid": "^9.0.1",
+    "uuid": "^14.0.0",
     "prom-client": "^15.1.0"
   },
   "devDependencies": {
