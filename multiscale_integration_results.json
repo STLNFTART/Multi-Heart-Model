@@ -1,0 +1,509 @@
+{
+  "config": {
+    "include_molecular": true,
+    "include_immune": true,
+    "include_liver": true,
+    "include_heart": true,
+    "include_pk": true,
+    "drug_name": "Unknown"
+  },
+  "results": {
+    "time": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0,
+      7.0,
+      8.0,
+      9.0,
+      10.0,
+      11.0,
+      12.0,
+      13.0,
+      14.0,
+      15.0,
+      16.0,
+      17.0,
+      18.0,
+      19.0,
+      20.0,
+      21.0,
+      22.0,
+      23.0
+    ],
+    "molecular": [
+      {
+        "L": 0.6160143076952487,
+        "R": 9460.13097129486,
+        "LR": 549.3541151618842,
+        "R_int": 0.029364138983911024,
+        "occupancy": 0.05488335418024484,
+        "total_receptors": 10009.514450595729,
+        "Kd": 1.0
+      },
+      {
+        "L": 369353.8172791435,
+        "R": 0.0,
+        "LR": 12813.187806705135,
+        "R_int": 15.138464472400454,
+        "occupancy": 1.0,
+        "total_receptors": 12828.326271177535,
+        "Kd": 1.0
+      },
+      {
+        "L": 0.0,
+        "R": 0.0,
+        "LR": 163341917.1078322,
+        "R_int": 40813.82079894663,
+        "occupancy": 1.0,
+        "total_receptors": 163382730.92863113,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      },
+      {
+        "L": NaN,
+        "R": NaN,
+        "LR": NaN,
+        "R_int": NaN,
+        "occupancy": 0.0,
+        "total_receptors": NaN,
+        "Kd": 1.0
+      }
+    ],
+    "immune": [
+      {
+        "IL6": 0.0,
+        "TNFa": 0.0,
+        "IL10": 0.0,
+        "M0": 1000.25,
+        "M1": 0.0,
+        "M2": 0.0,
+        "inflammatory_index": 0.0,
+        "M1_M2_ratio": 0.0
+      },
+      {
+        "IL6": 2868.316222408718,
+        "TNFa": 10997.028465691421,
+        "IL10": 0.0,
+        "M0": 14.412859210425289,
+        "M1": 989.3676968314878,
+        "M2": 0.0,
+        "inflammatory_index": 13865344688.100142,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 12157.55674882401,
+        "TNFa": 31866.027265786037,
+        "IL10": 0.0,
+        "M0": 0.22689175694633318,
+        "M1": 1003.5225252206642,
+        "M2": 0.0,
+        "inflammatory_index": 44023584014.61005,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 20570.645778316666,
+        "TNFa": 44457.39044291515,
+        "IL10": 0.0,
+        "M0": 0.15451149188459273,
+        "M1": 1003.558508305092,
+        "M2": 0.0,
+        "inflammatory_index": 65028036221.23182,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 28199.498334426862,
+        "TNFa": 52079.96879778347,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1009.1318139090239,
+        "M2": 0.0,
+        "inflammatory_index": 80279467132.21033,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 35191.32945326356,
+        "TNFa": 56827.84433798413,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1020.5804243600334,
+        "M2": 0.0,
+        "inflammatory_index": 92019173791.24768,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 41638.21862054425,
+        "TNFa": 59893.9584996003,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1034.5655778044022,
+        "M2": 0.0,
+        "inflammatory_index": 101532177120.14456,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 47613.84106723038,
+        "TNFa": 61982.38013291112,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1050.6030857016785,
+        "M2": 0.0,
+        "inflammatory_index": 109596221200.14151,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 53181.07069680519,
+        "TNFa": 63511.242315182055,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1068.3706861327287,
+        "M2": 0.0,
+        "inflammatory_index": 116692313011.98726,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 58394.23551847044,
+        "TNFa": 64728.35676634663,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1087.647075084473,
+        "M2": 0.0,
+        "inflammatory_index": 123122592284.81708,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 63300.702902553305,
+        "TNFa": 65780.14796681212,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1108.2750555957311,
+        "M2": 0.0,
+        "inflammatory_index": 129080850869.36542,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 67942.0378524485,
+        "TNFa": 66752.74714914538,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1130.1391276845031,
+        "M2": 0.0,
+        "inflammatory_index": 134694785001.59389,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 72354.88244584812,
+        "TNFa": 67696.48328422065,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1153.1517407555136,
+        "M2": 0.0,
+        "inflammatory_index": 140051365730.06876,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 76571.64755745989,
+        "TNFa": 68640.47328707903,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1177.2447563755843,
+        "M2": 0.0,
+        "inflammatory_index": 145212120844.5389,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 80621.07364101517,
+        "TNFa": 69601.30880723381,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1202.364057421645,
+        "M2": 0.0,
+        "inflammatory_index": 150222382448.249,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 84528.69659276954,
+        "TNFa": 70588.2236505092,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1228.4660681271416,
+        "M2": 0.0,
+        "inflammatory_index": 155116920243.27875,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 88317.24209374873,
+        "TNFa": 71606.16362259338,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1255.5154442317926,
+        "M2": 0.0,
+        "inflammatory_index": 159923405716.3421,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 92006.9640805131,
+        "TNFa": 72657.60665775771,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1283.4834879382017,
+        "M2": 0.0,
+        "inflammatory_index": 164664570738.2708,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 95615.93818063385,
+        "TNFa": 73743.63879111016,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1312.3470190236105,
+        "M2": 0.0,
+        "inflammatory_index": 169359576971.74402,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 99160.31790733208,
+        "TNFa": 74864.58737890123,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1342.087539163577,
+        "M2": 0.0,
+        "inflammatory_index": 174024905286.2333,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 102654.55944220949,
+        "TNFa": 76020.39121747478,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1372.6905898827272,
+        "M2": 0.0,
+        "inflammatory_index": 178674950659.68427,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 106111.61952858721,
+        "TNFa": 77210.81460413823,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1404.1452426108863,
+        "M2": 0.0,
+        "inflammatory_index": 183322434132.72543,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 109543.1300999244,
+        "TNFa": 78435.56908838038,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1436.4436822675007,
+        "M2": 0.0,
+        "inflammatory_index": 187978699188.30478,
+        "M1_M2_ratio": Infinity
+      },
+      {
+        "IL6": 112959.5526268198,
+        "TNFa": 79694.38084936146,
+        "IL10": 0.0,
+        "M0": 0.5,
+        "M1": 1469.5808596968013,
+        "M2": 0.0,
+        "inflammatory_index": 192653933476.18127,
+        "M1_M2_ratio": Infinity
+      }
+    ],
+    "liver": [
+      {
+        "D": 0.0,
+        "M": 0.0,
+        "M_conj": 0.0,
+        "GSH": 10.27,
+        "GSSG": 0.4775,
+        "ROS": 0.07500000000000001,
+        "ATP": 5.35,
+        "Damage": 0.0005000000000000001,
+        "viability": 0.9995,
+        "GSH_GSSG_ratio": 21.50785340314136,
+        "is_alive": 
